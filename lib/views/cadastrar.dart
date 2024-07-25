@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -17,7 +19,7 @@ class _CadastroState extends State<Cadastro> {
     return Scaffold(
       appBar: AppBar(
         actions: [],
-        title: Text("IBE"),
+        title: Text("IBE - Portal Candidato", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.blue[900],
       ),
@@ -34,42 +36,50 @@ class _CadastroState extends State<Cadastro> {
           ),
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(2),
+            padding: EdgeInsets.all(20),
             child: TextFormField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("NOME:"),
+                icon: Icon(Icons.people, color: Colors.blue[900]),
+                  hintText: "Escreva seu Nome",
               ),
             ),
           ),
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(2),
+            padding: EdgeInsets.all(20),
             child: TextFormField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("APELIDO:"),
+                icon: Icon(Icons.people, color: Colors.blue[900]),
+                  hintText: "Escreva o email",
               ),
             ),
           ),
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(2),
+            padding: EdgeInsets.all(20),
             child: TextFormField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("BI:"),
+                icon: Icon(Icons.people, color: Colors.blue[900]),
+                  hintText: "Numero de BI",
               ),
             ),
           ),
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(2),
+            padding: EdgeInsets.all(20),
             child: TextFormField(
               controller: _dobController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("DATA DE NASCIMENTO:"),
+                icon: Icon(Icons.mail, color: Colors.blue[900]),
+                  hintText: "data dd/mm/aaaa",
               ),
               readOnly: true,
               onTap: () async {
@@ -91,7 +101,7 @@ class _CadastroState extends State<Cadastro> {
           ),
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(2),
+            padding: EdgeInsets.all(40),
             child: DropdownButtonFormField<String>(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -111,14 +121,39 @@ class _CadastroState extends State<Cadastro> {
               },
             ),
           ),
+           Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(20),
+            child: TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                label: Text("TELEFONE:"),
+                icon: Icon(Icons.phone_android, color: Colors.blue[900]),
+                  hintText: "+258 000000",
+              ),
+            ),
+          ),
+           Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(20),
+            child: TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                label: Text("CELULAR:"),
+                icon: Icon(Icons.phone, color: Colors.blue[900]),
+                  hintText: "+258 000000",
+              ),
+            ),
+          ),
           Container(
+            padding: EdgeInsets.all(20),
             child: ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, "/cadastro");
               },
-              child: Text("Cadastrar"),
+              child: Text("Submeter", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue[900],
+                backgroundColor: Colors.blue[900],
               ),
             ),
           ),
