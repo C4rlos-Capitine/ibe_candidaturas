@@ -3,6 +3,8 @@ import 'package:ibe_candidaturas/views/cadastrar.dart';
 import 'package:ibe_candidaturas/views/login.dart';
 import 'package:ibe_candidaturas/views/home.dart';
 import 'package:ibe_candidaturas/views/principal.dart';
+import 'package:ibe_candidaturas/views/estado_candidatura.dart';
+
 
 void main() {
   runApp(MaterialApp(
@@ -11,7 +13,8 @@ void main() {
       '/cadastro': (context) => Cadastro(),
       '/login': (context) => Login(),
       '/home': (context) => MyHomePage(title: "IBE - Candidaturas"),
-      '/principal': (context) => Principal()
+      '/principal': (context) => Principal(),
+      '/estado': (context) => EstadoCandidatura()
     },
   ));
 }

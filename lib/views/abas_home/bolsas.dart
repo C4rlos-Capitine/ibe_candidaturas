@@ -18,7 +18,7 @@ class _BolsasState extends State<Bolsas> {
             Card(
               child: ListTile(
                 title: Text("Bolsa para China"),
-                subtitle: Text("Edital: AAAA/2023"),
+                subtitle: Text("Edital: AAAA/2023 (clique aqui para baixar editar)"),
                 onTap: () {
                   /*Fluttertoast.showToast(
                     msg: "Edital Baizado com Sucesso",

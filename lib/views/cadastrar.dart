@@ -145,6 +145,18 @@ class _CadastroState extends State<Cadastro> {
               ),
             ),
           ),
+           Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(20),
+            child: TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                label: Text("EMAIL:"),
+                icon: Icon(Icons.email, color: Colors.blue[900]),
+                  hintText: "email@domain",
+              ),
+            ),
+          ),
           Container(
             padding: EdgeInsets.all(20),
             child: ElevatedButton(
