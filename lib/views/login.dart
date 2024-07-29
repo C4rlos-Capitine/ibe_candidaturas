@@ -71,7 +71,7 @@ class _LoginState extends State<Login> {
           Container(
             child: ElevatedButton(
               onPressed: () {
-                login(_email, _senha);
+                login(_email.text, _senha.text);
                 Navigator.pushNamed(context, "/home");
               },
               child: Text(
