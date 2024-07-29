@@ -8,7 +8,7 @@ import 'abas_home/perfil.dart';
 import 'bemvindo.dart';
 import 'Notification.dart';
 
-import 'package:ibe_candidaturas/controllers/candidato.dart';
+import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});

@@ -20,7 +20,7 @@ class _BolsasState extends State<Bolsas> {
                 title: Text("Bolsa para China"),
                 subtitle: Text("Edital: AAAA/2023 (clique aqui para baixar editar)"),
                 onTap: () {
-                  /*Fluttertoast.showToast(
+                  Fluttertoast.showToast(
                     msg: "Edital Baizado com Sucesso",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.CENTER,
@@ -28,7 +28,7 @@ class _BolsasState extends State<Bolsas> {
                     backgroundColor: Color.fromARGB(255, 3, 235, 34),
                     textColor: Colors.white,
                     fontSize: 16.0
-                );*/
+                );
                 },
               ),
             ),

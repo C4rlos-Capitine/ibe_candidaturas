@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -12,7 +13,17 @@ class Cadastro extends StatefulWidget {
 
 class _CadastroState extends State<Cadastro> {
   TextEditingController _dobController = TextEditingController();
+  TextEditingController _nomeController = TextEditingController();
+  TextEditingController _apelidoController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _telefoneController = TextEditingController();
+  TextEditingController _telemovelController = TextEditingController();
+  //TextEditingController _generoController = TextEditingController();
+  TextEditingController _docController = TextEditingController();
+  
   String? _selectedGender;
+  String? _selectetTipo;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +57,7 @@ class _CadastroState extends State<Cadastro> {
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
             child: TextFormField(
+              controller: _nomeController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("NOME:"),
@@ -59,6 +71,7 @@ class _CadastroState extends State<Cadastro> {
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
             child: TextFormField(
+              controller: _apelidoController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("APELIDO:"),
@@ -71,7 +84,33 @@ class _CadastroState extends State<Cadastro> {
           Container(
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
+            child: DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                icon: Icon(Icons.document_scanner, color: Colors.blue[900]),
+                labelText: "TIPO DOC.",
+              ),
+              value: _selectetTipo,
+              items: ["BI", "PASSAPORTE"]
+                  .map((label) => DropdownMenuItem(
+                        child: Text(label),
+                        value: label,
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectetTipo = value;
+                  print(_selectetTipo);
+                });
+              },
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(20),
             child: TextFormField(
+              controller: _docController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("BI:"),
@@ -130,6 +169,7 @@ class _CadastroState extends State<Cadastro> {
               onChanged: (value) {
                 setState(() {
                   _selectedGender = value;
+                  print(_selectedGender);
                 });
               },
             ),
@@ -138,6 +178,7 @@ class _CadastroState extends State<Cadastro> {
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
             child: TextFormField(
+              controller: _telemovelController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("CELULAR:"),
@@ -150,6 +191,7 @@ class _CadastroState extends State<Cadastro> {
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
             child: TextFormField(
+              controller: _telefoneController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("TELEFONE:"),
@@ -158,11 +200,25 @@ class _CadastroState extends State<Cadastro> {
               ),
             ),
           ),
+           Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(20),
+            child: TextFormField(
+              controller: _emailController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                label: Text("EMAIL:"),
+                icon: Icon(Icons.phone, color: Colors.blue[900]),
+                hintText: "+email_nome@domain",
+              ),
+            ),
+          ),
           Container(
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
             child: TextFormField(
               obscureText: true,
+            
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("SENHA:"),
@@ -176,6 +232,7 @@ class _CadastroState extends State<Cadastro> {
             padding: EdgeInsets.all(20),
             child: TextFormField(
               obscureText: true,
+              controller: _passwordController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("CONFIRMAR:"),
@@ -185,9 +242,12 @@ class _CadastroState extends State<Cadastro> {
             ),
           ),
           Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(20),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, "/cadastro");
+                registar(_nomeController.text, _apelidoController.text, _emailController.text, _passwordController.text, _telemovelController.text, _telefoneController.text, _docController.text, 1, _selectedGender);
+                //Navigator.pushNamed(context, "/cadastro");
               },
               child: Text(
                 "Submeter",
