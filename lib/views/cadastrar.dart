@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -248,6 +249,27 @@ class _CadastroState extends State<Cadastro> {
               onPressed: () {
                 registar(_nomeController.text, _apelidoController.text, _emailController.text, _passwordController.text, _telemovelController.text, _telefoneController.text, _docController.text, 1, _selectedGender);
                 //Navigator.pushNamed(context, "/cadastro");
+                /*if(done == true){
+                    Fluttertoast.showToast(
+                      msg: "Utilizador registado com sucesso",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Color.fromARGB(255, 3, 235, 34),
+                      textColor: Colors.white,
+                      fontSize: 16.0
+                    );
+                }else{
+                   Fluttertoast.showToast(
+                      msg: "Falha",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Color.fromARGB(255, 3, 235, 34),
+                      textColor: Colors.white,
+                      fontSize: 16.0
+                    );
+                }*/
               },
               child: Text(
                 "Submeter",
