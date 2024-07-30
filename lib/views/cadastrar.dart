@@ -22,7 +22,7 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController _telemovelController = TextEditingController();
   //TextEditingController _generoController = TextEditingController();
   TextEditingController _docController = TextEditingController();
-  
+
   String? _selectedGender;
   String? _selectetTipo;
   @override
@@ -62,7 +62,7 @@ class _CadastroState extends State<Cadastro> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("NOME:"),
-                icon: Icon(Icons.people, color: Colors.blue[900]),
+                icon: Icon(Icons.person, color: Colors.blue[900]),
                 hintText: "Escreva seu Nome",
               ),
             ),
@@ -76,7 +76,7 @@ class _CadastroState extends State<Cadastro> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("APELIDO:"),
-                icon: Icon(Icons.people, color: Colors.blue[900]),
+                icon: Icon(Icons.person, color: Colors.blue[900]),
                 hintText: "Escreva o email",
               ),
             ),
@@ -115,7 +115,7 @@ class _CadastroState extends State<Cadastro> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("BI:"),
-                icon: Icon(Icons.people, color: Colors.blue[900]),
+                icon: Icon(Icons.perm_identity, color: Colors.blue[900]),
                 hintText: "Numero de BI",
               ),
             ),
@@ -201,7 +201,7 @@ class _CadastroState extends State<Cadastro> {
               ),
             ),
           ),
-           Container(
+          Container(
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
             child: TextFormField(
@@ -219,7 +219,6 @@ class _CadastroState extends State<Cadastro> {
             padding: EdgeInsets.all(20),
             child: TextFormField(
               obscureText: true,
-            
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("SENHA:"),
@@ -247,7 +246,16 @@ class _CadastroState extends State<Cadastro> {
             padding: EdgeInsets.all(20),
             child: ElevatedButton(
               onPressed: () {
-                registar(_nomeController.text, _apelidoController.text, _emailController.text, _passwordController.text, _telemovelController.text, _telefoneController.text, _docController.text, 1, _selectedGender);
+                registar(
+                    _nomeController.text,
+                    _apelidoController.text,
+                    _emailController.text,
+                    _passwordController.text,
+                    _telemovelController.text,
+                    _telefoneController.text,
+                    _docController.text,
+                    1,
+                    _selectedGender);
                 //Navigator.pushNamed(context, "/cadastro");
                 /*if(done == true){
                     Fluttertoast.showToast(
