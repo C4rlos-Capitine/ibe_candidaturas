@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:path/path.dart';
-import 'package:file_picker/file_picker.dart';
+import 'dart:io'; // Update the import statement
 
+import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart';
+import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 class Documentos extends StatefulWidget {
-  const Documentos({super.key});
+  const Documentos({super.key, required this.candidato});
+  final Candidato candidato;
 
   @override
   State<Documentos> createState() => _DocumentosState();
@@ -12,6 +18,83 @@ class Documentos extends StatefulWidget {
 
 class _DocumentosState extends State<Documentos> {
   var _selectedType;
+  late File selectedfilePath = File('');
+  late Response response;
+  String progress = "";
+  var fileName = "";
+  Dio dio = Dio();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.candidato);
+  }
+
+  void selectFile() async {
+    String nomeFicheiro = "";
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'docx'],
+    );
+    print(result);
+    if (result != null) {
+      setState(() {
+        selectedfilePath = File(result.files.single.path!);
+        print(selectedfilePath);
+        setState(() {
+          fileName = selectedfilePath.path;
+        });
+      });
+    }
+  }
+
+  
+
+  void uploadFile() async {
+    String uploadurl = "http://localhost:5284/api/Doc/upload";
+    FormData formdata = FormData.fromMap({
+      "file": await MultipartFile.fromFile(
+          selectedfilePath.path,
+          filename: basename(selectedfilePath.path)
+        //show only filename from path
+      ),
+      //
+    });
+
+    response = await dio.post(uploadurl,
+      data: formdata,
+      onSendProgress: (int sent, int total) {
+        String percentage = (sent/total*100).toStringAsFixed(2);
+
+        setState(() {
+          progress = "$sent" + " Bytes of " "$total Bytes - " +  percentage + " % uploaded";
+          //update the progress
+        });
+      },);
+
+
+
+    if(response.statusCode == 200){
+      print(response.toString());
+      ScaffoldMessenger.of(this.context).showSnackBar(
+      SnackBar(
+          content: Text('Documento enviado com sucesso'),
+          backgroundColor: Color.fromARGB(255, 8, 224, 134),
+        ),
+      );
+      //print response from server
+    }else{
+      print("Erro de conexao.");
+      ScaffoldMessenger.of(this.context).showSnackBar(
+      SnackBar(
+        content: Text('Erro ao enviar'),
+        backgroundColor: Color.fromARGB(255, 235, 77, 3),
+      ),
+    );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,8 +108,9 @@ class _DocumentosState extends State<Documentos> {
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 3, 55, 226),
                       fontSize: 16)),
-              Text("Selecione o tipo de documento",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              
+              Text("Selecione o tipo de documento", style: TextStyle(fontWeight: FontWeight.bold)),
+              Text("$fileName", style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 3, 55, 226), fontSize: 16)),
               Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.all(40),
@@ -53,13 +137,13 @@ class _DocumentosState extends State<Documentos> {
               ),
               SizedBox(height: 20),
               Row(
+                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton.icon(
                     icon: const Icon(EvaIcons.fileAdd,
                         color: Color.fromARGB(255, 34, 37, 199)),
                     onPressed: () {
-                      // Define the action to be performed on button press
-                      print('Carregar ficheiro pressed');
+                      selectFile();
                     },
                     label: Text("Selecionar ficheiro"),
                   ),
@@ -69,7 +153,7 @@ class _DocumentosState extends State<Documentos> {
                         color: Color.fromARGB(255, 34, 37, 199)),
                     onPressed: () {
                       // Define the action to be performed on button press
-                      print('Carregar ficheiro pressed');
+                      uploadFile();
                     },
                     label: Text("Enviar"),
                   ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ibe_candidaturas/model/Candidato.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,6 +16,7 @@ class _LoginState extends State<Login> {
   @override
   TextEditingController _senha = TextEditingController();
   TextEditingController _email = TextEditingController();
+  late Candidato candidato;
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +40,8 @@ class _LoginState extends State<Login> {
               style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue[900])),
+                  color: Colors.blue[900])
+                ),
           Container(
             alignment: Alignment.center,
             padding: EdgeInsets.all(30),
@@ -70,10 +74,23 @@ class _LoginState extends State<Login> {
           ),
           Container(
             child: ElevatedButton(
-              onPressed: () {
-                login(_email.text, _senha.text);
-                Navigator.pushNamed(context, "/home");
-              },
+              onPressed: () async {
+                  bool resp = await login(_email.text, _senha.text);
+                  print('Login response: $resp'); // Debug print
+                  if (!resp) {
+                    print('Displaying SnackBar'); // Debug print
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Dados incorrectos'),
+                        backgroundColor: Color.fromARGB(255, 235, 77, 3),
+                      ),
+                    );
+                  }else{
+                    candidato = await getData(_email.text, _senha.text);
+                    Navigator.pushNamed(context, "/home", arguments: candidato);
+                  }
+                },
+
               child: Text(
                 "Autenticar",
                 style:

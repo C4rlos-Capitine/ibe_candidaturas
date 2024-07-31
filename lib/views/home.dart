@@ -9,35 +9,45 @@ import 'abas_home/perfil.dart';
 import 'bemvindo.dart';
 import 'Notification.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
+import 'package:ibe_candidaturas/model/Candidato.dart';
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
+  
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
-
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
+  Candidato? _candidato;
+  bool _isCandidatoInitialized = false;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Bemvindo(),
-    Perfil(),
-    Bolsas(),
-    Candidaturas(),
-    Documentos(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      final candidato = ModalRoute.of(context)!.settings.arguments as Candidato;
+      setState(() {
+        _candidato = candidato;
+        _isCandidatoInitialized = true;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!_isCandidatoInitialized || _candidato == null) {
+      return MaterialApp(
+        home: Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        ),
+      );
+    }
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'IBE - Portal Candidatos',
@@ -75,7 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
           iconTheme: IconThemeData(color: Colors.blue[900]),
         ),
-        body: _widgetOptions.elementAt(_selectedIndex),
+        body: _widgetOptions.isNotEmpty
+            ? _widgetOptions.elementAt(_selectedIndex)
+            : Center(child: Text('No content available')), // Default widget
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -83,13 +95,11 @@ class _MyHomePageState extends State<MyHomePage> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon:
-                  Icon(EvaIcons.person, color: Color.fromARGB(255, 2, 33, 232)),
+              icon: Icon(EvaIcons.person, color: Color.fromARGB(255, 2, 33, 232)),
               label: 'Perfil',
             ),
             BottomNavigationBarItem(
-              icon: Icon(EvaIcons.listOutline,
-                  color: Color.fromARGB(255, 2, 33, 232)),
+              icon: Icon(EvaIcons.listOutline, color: Color.fromARGB(255, 2, 33, 232)),
               label: 'Bolsas',
             ),
             BottomNavigationBarItem(
@@ -107,5 +117,24 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  List<Widget> get _widgetOptions {
+    if (_candidato == null) {
+      return []; // Return an empty list if candidato is not yet initialized
+    }
+    return [
+      Bemvindo(),
+      Perfil(candidato: _candidato!),
+      Bolsas(),
+      Candidaturas(candidato: _candidato!),
+      Documentos(candidato: _candidato!),
+    ];
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }

@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/views/estado_candidatura.dart';
 
 class Candidaturas extends StatefulWidget {
-  const Candidaturas({super.key});
+  final Candidato candidato;
+  const Candidaturas({super.key, required this.candidato});
 
   @override
   State<Candidaturas> createState() => _CandidaturasState();
 }
 
 class _CandidaturasState extends State<Candidaturas> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.candidato);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
