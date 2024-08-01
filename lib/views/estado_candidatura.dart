@@ -13,7 +13,7 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
     return Scaffold(
       appBar: AppBar(
           actions: [],
-          title: Text("IBE - Portal Candidato", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+          title: Text("IBE - Portal do Candidato", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
           iconTheme: IconThemeData(color: Colors.white),
           backgroundColor: Colors.blue[900],
         ),

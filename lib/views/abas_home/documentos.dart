@@ -19,10 +19,10 @@ class Documentos extends StatefulWidget {
 class _DocumentosState extends State<Documentos> {
   var _selectedType;
   late File selectedfilePath = File('');
-  late Response response;
   String progress = "";
   var fileName = "";
   Dio dio = Dio();
+  late var response;
 
   @override
   void initState() {
@@ -51,18 +51,21 @@ class _DocumentosState extends State<Documentos> {
 
   
 
-  void uploadFile() async {
-    String uploadurl = "http://localhost:5284/api/Doc/upload";
+  void uploadFile(codigo) async {
+    String uploadurl = 'http://localhost:5284/api/Doc/upload?id=$codigo';
     FormData formdata = FormData.fromMap({
       "file": await MultipartFile.fromFile(
           selectedfilePath.path,
-          filename: basename(selectedfilePath.path)
+          filename: basename(selectedfilePath.path),
+          
         //show only filename from path
       ),
+      "codcandi": codigo
       //
     });
 
-    response = await dio.post(uploadurl,
+    try{
+      response = await dio.post(uploadurl,
       data: formdata,
       onSendProgress: (int sent, int total) {
         String percentage = (sent/total*100).toStringAsFixed(2);
@@ -71,11 +74,9 @@ class _DocumentosState extends State<Documentos> {
           progress = "$sent" + " Bytes of " "$total Bytes - " +  percentage + " % uploaded";
           //update the progress
         });
-      },);
+      });
 
-
-
-    if(response.statusCode == 200){
+      if(response.statusCode == 200 || response.statusCode == 201){
       print(response.toString());
       ScaffoldMessenger.of(this.context).showSnackBar(
       SnackBar(
@@ -88,7 +89,15 @@ class _DocumentosState extends State<Documentos> {
       print("Erro de conexao.");
       ScaffoldMessenger.of(this.context).showSnackBar(
       SnackBar(
-        content: Text('Erro ao enviar'),
+        content: Text('Erro: ${response.statusMessage}'),
+        backgroundColor: Color.fromARGB(255, 235, 77, 3),
+      ),
+    );
+    }
+    }catch(e){
+      ScaffoldMessenger.of(this.context).showSnackBar(
+      SnackBar(
+        content: Text('Erro: ${response.statusMessage}'),
         backgroundColor: Color.fromARGB(255, 235, 77, 3),
       ),
     );
@@ -97,6 +106,7 @@ class _DocumentosState extends State<Documentos> {
 
   @override
   Widget build(BuildContext context) {
+    final candidato = widget.candidato;
     return Scaffold(
       body: Center(
         child: Padding(
@@ -122,7 +132,7 @@ class _DocumentosState extends State<Documentos> {
                     labelText: "Tipo de documento",
                   ),
                   value: _selectedType,
-                  items: ["Certificado", "BI", "NUIT", "Declaração"]
+                  items: ["Certificado", "BI", "NUIT"]
                       .map((label) => DropdownMenuItem(
                             child: Text(label),
                             value: label,
@@ -153,7 +163,7 @@ class _DocumentosState extends State<Documentos> {
                         color: Color.fromARGB(255, 34, 37, 199)),
                     onPressed: () {
                       // Define the action to be performed on button press
-                      uploadFile();
+                      uploadFile(candidato.codigo);
                     },
                     label: Text("Enviar"),
                   ),

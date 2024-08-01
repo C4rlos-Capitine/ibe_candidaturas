@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ibe_candidaturas/controllers/editalController.dart';
+import 'package:ibe_candidaturas/model/Edital.dart';
 
 class Bolsas extends StatefulWidget {
   const Bolsas({super.key});
@@ -9,98 +11,53 @@ class Bolsas extends StatefulWidget {
 }
 
 class _BolsasState extends State<Bolsas> {
+  List <Edital>? _edital;
+  @override
+  void initState() {
+    super.initState();
+    _loadEditais(); // Call the async method to load data
+  }
+
+  // Asynchronous method to load data
+  Future<void> _loadEditais() async {
+    try {
+      List<Edital> editais = await getEditais();
+      setState(() {
+        _edital = editais; // Update the state with the fetched data
+      });
+    } catch (e) {
+      // Handle errors here
+      print('Error loading editais: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: ListView(
-          children: [
-            Card(
-              child: ListTile(
-                title: Text("Bolsa para China"),
-                subtitle: Text("Edital: AAAA/2023 (clique aqui para baixar editar)"),
-                onTap: () {
-                  Fluttertoast.showToast(
-                    msg: "Edital Baizado com Sucesso",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Color.fromARGB(255, 3, 235, 34),
-                    textColor: Colors.white,
-                    fontSize: 16.0
+      appBar: AppBar(
+        title: Text("Novos editais de bolsas", style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 3, 55, 226),fontSize: 16)),
+      ),
+      body:  _edital == null 
+      ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: _edital!.length,
+              itemBuilder: (context, index) {
+                final edital = _edital![index];
+                return Card(
+                  child: ListTile(
+                  title: Text(edital.nome),
+                  subtitle: Text('Ano: ${edital.ano}, Número: ${edital.numero}'),
+                  onTap: () {
+                    ScaffoldMessenger.of(this.context).showSnackBar(
+                      SnackBar(
+                          content: Text('Edital Baixado para o celular'),
+                          backgroundColor: Color.fromARGB(255, 8, 224, 134),
+                        ),
+                      );
+                  },
+                ),
                 );
-                },
-              ),
+              },
             ),
-            Card(
-              child: ListTile(
-                title: Text("Bolsa para China"),
-                subtitle: Text("Edital: AAAA/2024 (clique aqui para baixar editar)"),
-                onTap: () {
-                  
-                },
-              ),
-              
-            ),
-             Card(
-              child: ListTile(
-                title: Text("Bolsa para China"),
-                subtitle: Text("Edital: AAAA/2023 (clique aqui para baixar editar)"),
-                onTap: () {
-                  
-                },
-              ),
-            ),
-            Card(
-              child: ListTile(
-                title: Text("Bolsa para China"),
-                subtitle: Text("Edital: AAAA/2024 (clique aqui para baixar editar)"),
-                onTap: () {
-                  
-                },
-              ),
-              
-            ), Card(
-              child: ListTile(
-                title: Text("Bolsa para China"),
-                subtitle: Text("Edital: AAAA/2023 (clique aqui para baixar editar)"),
-                onTap: () {
-                  
-                },
-              ),
-            ),
-            Card(
-              child: ListTile(
-                title: Text("Bolsa para China"),
-                subtitle: Text("Edital: AAAA/2024 (clique aqui para baixar editar)"),
-                onTap: () {
-                  
-                },
-              ),
-              
-            ),
-             Card(
-              child: ListTile(
-                title: Text("Bolsa para China"),
-                subtitle: Text("Edital: AAAA/2023 (clique aqui para baixar editar)"),
-                onTap: () {
-                  
-                },
-              ),
-            ),
-            Card(
-              child: ListTile(
-                title: Text("Bolsa para China"),
-                subtitle: Text("Edital: AAAA/2024 (clique aqui para baixar editar)"),
-                onTap: () {
-                  
-                },
-              ),
-              
-            )
-          ],
-        ),
-      )
     );
   }
 }

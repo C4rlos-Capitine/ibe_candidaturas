@@ -6,6 +6,8 @@ class Candidato{
   late String email;
   late int codigo;
   late bool isEmpty;
+  late int idade;
+  late int identificacao;
   Candidato({
       required this.nome,
       required this.apelido,
@@ -13,7 +15,9 @@ class Candidato{
       required this.telefone,
       required this.telemovel,
       required this.email,
-      required this.isEmpty
+      required this.isEmpty,
+      required this.idade,
+      required this.identificacao
   }) {
 
 

@@ -42,14 +42,14 @@ class _PerfilState extends State<Perfil> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("BI:", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("candidato.bi", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("${candidato.identificacao}", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("DATA DE NASCIMENTO:", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("IDADE:", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("${candidato.idade}", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ],

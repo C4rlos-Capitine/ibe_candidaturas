@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'IBE - Portal Candidatos',
+      title: 'IBE - Portal do Candidatos',
       routes: {
         '/estado': (context) => EstadoCandidatura(),
       },
@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(EvaIcons.listOutline, color: Color.fromARGB(255, 2, 33, 232)),
-              label: 'Bolsas',
+              label: 'Novas Bolsas',
             ),
             BottomNavigationBarItem(
               icon: Icon(EvaIcons.list, color: Color.fromARGB(255, 2, 33, 232)),

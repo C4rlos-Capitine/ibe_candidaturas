@@ -41,7 +41,7 @@ Future<bool> login(email, senha) async {
 
 
 Future<Candidato> getData(String email, String senha) async {
-  Candidato candidato_inExistente = new Candidato(nome: "", apelido: "", codigo: 0, telefone: 0, telemovel: 0, email: "email", isEmpty: true);
+  Candidato candidato_inExistente = new Candidato(nome: "", apelido: "", codigo: 0, telefone: 0, telemovel: 0, email: "email", isEmpty: true, idade: 0, identificacao: 0);
   try {
     // Define the URL with query parameters
     var url = Uri.http('localhost:5284', '/api/Candidato/search', {
@@ -65,7 +65,7 @@ Future<Candidato> getData(String email, String senha) async {
       // Check if the response contains the FindTrue field
       if (responseBody['findTrue'] == true) {
         print("FOUND-2");
-        return new Candidato(nome: responseBody["nome"], apelido: responseBody["apelido"], codigo: responseBody["codcandi"], telefone: responseBody["telefone"], telemovel: responseBody["telemovel"], email: responseBody["email"], isEmpty: false);
+        return new Candidato(nome: responseBody["nome"], apelido: responseBody["apelido"], codigo: responseBody["codcandi"], telefone: responseBody["telefone"], telemovel: responseBody["telemovel"], email: responseBody["email"], isEmpty: false, idade: responseBody["idade"], identificacao: responseBody["num_ident"]);
        
       } 
     } else {
@@ -80,12 +80,12 @@ Future<Candidato> getData(String email, String senha) async {
   return candidato_inExistente;
 }
 
-Future<void> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo_doc, genero)async {
-
+Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo_doc, genero, dataNaci, dia, mes, ano)async {
+  bool resp = false;
   try {
     var gender = "M";
     if (genero != "Masculino") gender = "F";
-
+    var idade = DateTime.now().year - ano;
     // Criar o corpo da requisição em formato JSON
     var requestBody = jsonEncode({
       'codcandi': 23, // Ajustar se necessário
@@ -96,9 +96,15 @@ Future<void> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo
       'telemovel': telemovel,
       'email': email,
       'password': senha,
-      'genero': gender
+      'genero': gender,
+      'num_ident': id,
+      'dataNasc': dataNaci,
+      'dia': dia,
+      'mes': mes,
+      'ano': ano,
+      'idade': idade
     });
-
+    
     var url = Uri.http('localhost:5284', '/api/Candidato');
 
     // Enviar a requisição POST com o corpo JSON
@@ -110,10 +116,13 @@ Future<void> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo
 
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
-      print(response.body[0]);
-      if (response.statusCode == 200) {
+    
+      if (response.statusCode == 200 || response.statusCode == 201) {
         var responseBody = jsonDecode(response.body);
         print(responseBody);
+        if(responseBody['success']==true){
+          resp = true;
+        }
       } else {
         print('Request failed with status: ${response.statusCode}');
       }  
@@ -121,4 +130,5 @@ Future<void> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo
     // Exception occurred during HTTP request
     print('Error during HTTP request: $e');
   }
+  return resp;
 }

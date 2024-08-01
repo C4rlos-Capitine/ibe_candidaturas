@@ -23,7 +23,7 @@ class _LoginState extends State<Login> {
         appBar: AppBar(
           actions: [],
           title: Text(
-            "IBE - Portal Candidato",
+            "IBE - Portal do Candidato",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           iconTheme: IconThemeData(color: Colors.white),

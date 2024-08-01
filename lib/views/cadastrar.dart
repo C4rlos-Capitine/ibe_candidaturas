@@ -22,16 +22,21 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController _telemovelController = TextEditingController();
   //TextEditingController _generoController = TextEditingController();
   TextEditingController _docController = TextEditingController();
+  TextEditingController _dataController = TextEditingController();
+  
 
   String? _selectedGender;
   String? _selectetTipo;
+  late int dia;
+  late int mes;
+  late int ano;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [],
         title: Text(
-          "IBE - Portal Candidato",
+          "IBE - Portal do Candidato",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         iconTheme: IconThemeData(color: Colors.white),
@@ -125,7 +130,7 @@ class _CadastroState extends State<Cadastro> {
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
             child: TextFormField(
-              controller: _dobController,
+              controller: _dataController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("DATA DE NASCIMENTO:"),
@@ -143,8 +148,9 @@ class _CadastroState extends State<Cadastro> {
 
                 if (pickedDate != null) {
                   setState(() {
-                    _dobController.text =
+                    _dataController.text =
                         "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+                        dia = pickedDate.day; mes = pickedDate.month; ano = pickedDate.year;
                   });
                 }
               },
@@ -245,39 +251,26 @@ class _CadastroState extends State<Cadastro> {
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
             child: ElevatedButton(
-              onPressed: () {
-                registar(
-                    _nomeController.text,
-                    _apelidoController.text,
-                    _emailController.text,
-                    _passwordController.text,
-                    _telemovelController.text,
-                    _telefoneController.text,
-                    _docController.text,
-                    1,
-                    _selectedGender);
-                //Navigator.pushNamed(context, "/cadastro");
-                /*if(done == true){
-                    Fluttertoast.showToast(
-                      msg: "Utilizador registado com sucesso",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Color.fromARGB(255, 3, 235, 34),
-                      textColor: Colors.white,
-                      fontSize: 16.0
-                    );
+              onPressed: () async{
+                bool resp = await registar(_nomeController.text, _apelidoController.text,_emailController.text,_passwordController.text,_telemovelController.text, _telefoneController.text,_docController.text,1, _selectedGender, _dataController.text, dia, mes, ano);
+               if(resp){
+                print(resp.toString());
+                  ScaffoldMessenger.of(this.context).showSnackBar(
+                  SnackBar(
+                      content: Text('Registado com sucesso'),
+                      backgroundColor: Color.fromARGB(255, 8, 224, 134),
+                    ),
+                  );
+                  //print response from server
                 }else{
-                   Fluttertoast.showToast(
-                      msg: "Falha",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Color.fromARGB(255, 3, 235, 34),
-                      textColor: Colors.white,
-                      fontSize: 16.0
-                    );
-                }*/
+                  print("Erro de conexao.");
+                  ScaffoldMessenger.of(this.context).showSnackBar(
+                  SnackBar(
+                    content: Text('Erro ao enviar os dados'),
+                    backgroundColor: Color.fromARGB(255, 235, 77, 3),
+                  ),
+                 );
+                }
               },
               child: Text(
                 "Submeter",
