@@ -14,6 +14,7 @@ dependencies:
   fluttertoast: ^8.2.5
   file_picker: ^8.0.6
   dio: ^5.5.0+1
+  menu_bar: ^0.5.3
     
 
 dev_dependencies:

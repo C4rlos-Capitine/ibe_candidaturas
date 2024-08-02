@@ -57,13 +57,13 @@ class _MyHomePageState extends State<MyHomePage> {
       home: Scaffold(
         appBar: AppBar(
           title: Text(
-            "IBE - Portal Candidatos",
+            "IBE - Portal do Candidatos",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Color.fromARGB(255, 46, 44, 190),
+          backgroundColor: Color.fromARGB(255, 34, 88, 236),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.notifications),
+              icon: Icon(Icons.notifications, color: Colors.white),
               onPressed: () => showDialog<String>(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
@@ -89,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ? _widgetOptions.elementAt(_selectedIndex)
             : Center(child: Text('No content available')), // Default widget
         bottomNavigationBar: BottomNavigationBar(
+          elevation: 5,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(EvaIcons.home, color: Color.fromARGB(255, 2, 33, 232)),
@@ -99,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
               label: 'Perfil',
             ),
             BottomNavigationBarItem(
-              icon: Icon(EvaIcons.listOutline, color: Color.fromARGB(255, 2, 33, 232)),
+              icon: Icon(EvaIcons.plus, color: Color.fromARGB(255, 2, 33, 232)),
               label: 'Novas Bolsas',
             ),
             BottomNavigationBarItem(

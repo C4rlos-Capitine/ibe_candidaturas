@@ -4,6 +4,7 @@ import 'package:ibe_candidaturas/views/login.dart';
 import 'package:ibe_candidaturas/views/home.dart';
 import 'package:ibe_candidaturas/views/principal.dart';
 import 'package:ibe_candidaturas/views/estado_candidatura.dart';
+import 'package:ibe_candidaturas/views/nova_candidatura.dart';
 
 void main() {
   runApp(
@@ -15,6 +16,7 @@ void main() {
         '/login': (context) => Login(),
         '/home': (context) => MyHomePage(title: "IBE - Candidaturas"),
         '/principal': (context) => Principal(),
+        //'/nova_candidatura': (context) => NovaCandidatura(codedita: null),
         '/estado': (context) => EstadoCandidatura()
       },
     ),

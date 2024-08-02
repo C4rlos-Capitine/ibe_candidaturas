@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ibe_candidaturas/controllers/editalController.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
+import 'package:ibe_candidaturas/views/estado_candidatura.dart';
+import 'package:ibe_candidaturas/views/nova_candidatura.dart';
 
 class Bolsas extends StatefulWidget {
   const Bolsas({super.key});
@@ -47,11 +49,11 @@ class _BolsasState extends State<Bolsas> {
                   title: Text(edital.nome),
                   subtitle: Text('Ano: ${edital.ano}, Número: ${edital.numero}'),
                   onTap: () {
-                    ScaffoldMessenger.of(this.context).showSnackBar(
-                      SnackBar(
-                          content: Text('Edital Baixado para o celular'),
-                          backgroundColor: Color.fromARGB(255, 8, 224, 134),
-                        ),
+                    
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => NovaCandidatura(codedita: edital.codedita, ano: edital.ano, numero: edital.numero, nome: edital.nome))
+                        
                       );
                   },
                 ),

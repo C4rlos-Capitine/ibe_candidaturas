@@ -29,3 +29,7 @@ Future<List<Edital>> getEditais() async {
   }
   return editais;
 }
+
+Future <Edital>? getEdital(int codedita){
+  return null;
+}
