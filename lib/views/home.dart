@@ -82,6 +82,26 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            IconButton(
+              icon: Icon(Icons.logout, color: Colors.white),
+              onPressed: () => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Sair'),
+                  content: const Text('Tem a certeza que pretende sair?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'OK'),
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
           iconTheme: IconThemeData(color: Colors.blue[900]),
         ),
@@ -105,10 +125,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(EvaIcons.list, color: Color.fromARGB(255, 2, 33, 232)),
-              label: 'Candidaturas',
+              label: 'Histórico',
             ),
             BottomNavigationBarItem(
-              icon: Icon(EvaIcons.file, color: Color.fromARGB(255, 2, 33, 232)),
+              icon: Icon(EvaIcons.fileAdd, color: Color.fromARGB(255, 2, 33, 232)),
               label: 'Documentos',
             ),
           ],
