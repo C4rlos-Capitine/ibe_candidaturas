@@ -19,17 +19,10 @@ class _LoginState extends State<Login> {
   late Candidato candidato;
 
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          actions: [],
-          title: Text(
-            "IBE - Portal do Candidato",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: Colors.blue[900],
-        ),
-        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+    return  Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
           Container(
             child: Container(
               padding: EdgeInsets.all(50), // Adiciona padding ao Container
@@ -117,6 +110,6 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-        ]));
+        ]);
   }
 }

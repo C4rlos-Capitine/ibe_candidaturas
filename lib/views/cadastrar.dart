@@ -30,19 +30,20 @@ class _CadastroState extends State<Cadastro> {
   late int dia;
   late int mes;
   late int ano;
+
+  void showErro(String descricao) {
+    Fluttertoast.showToast(
+      msg: descricao,
+      backgroundColor: const Color.fromARGB(255, 231, 3, 3),
+      fontSize: 25,
+      gravity: ToastGravity.TOP,
+      timeInSecForIosWeb: 5
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [],
-        title: Text(
-          "IBE - Portal do Candidato",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        iconTheme: IconThemeData(color: Colors.white),
-        backgroundColor: Colors.blue[900],
-      ),
-      body: ListView(
+    return  ListView(
         children: [
           SizedBox(height: 10),
           Container(
@@ -64,12 +65,16 @@ class _CadastroState extends State<Cadastro> {
             padding: EdgeInsets.all(20),
             child: TextFormField(
               controller: _nomeController,
+              maxLength: 50,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("NOME:"),
                 icon: Icon(Icons.person, color: Colors.blue[900]),
                 hintText: "Escreva seu Nome",
               ),
+              onChanged: (value) {
+                print("onChanged");
+              },
             ),
           ),
           SizedBox(height: 10),
@@ -78,6 +83,7 @@ class _CadastroState extends State<Cadastro> {
             padding: EdgeInsets.all(20),
             child: TextFormField(
               controller: _apelidoController,
+              maxLength: 25,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("APELIDO:"),
@@ -117,6 +123,8 @@ class _CadastroState extends State<Cadastro> {
             padding: EdgeInsets.all(20),
             child: TextFormField(
               controller: _docController,
+              keyboardType: TextInputType.number,
+              maxLength: 13,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("BI:"),
@@ -186,6 +194,8 @@ class _CadastroState extends State<Cadastro> {
             padding: EdgeInsets.all(20),
             child: TextFormField(
               controller: _telemovelController,
+              keyboardType: TextInputType.number,
+              maxLength: 9,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("CELULAR:"),
@@ -199,6 +209,8 @@ class _CadastroState extends State<Cadastro> {
             padding: EdgeInsets.all(20),
             child: TextFormField(
               controller: _telefoneController,
+              keyboardType: TextInputType.number,
+              maxLength: 9,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text("TELEFONE:"),
@@ -252,25 +264,47 @@ class _CadastroState extends State<Cadastro> {
             padding: EdgeInsets.all(20),
             child: ElevatedButton(
               onPressed: () async{
-                bool resp = await registar(_nomeController.text, _apelidoController.text,_emailController.text,_passwordController.text,_telemovelController.text, _telefoneController.text,_docController.text,1, _selectedGender, _dataController.text, dia, mes, ano);
-               if(resp){
-                print(resp.toString());
-                  ScaffoldMessenger.of(this.context).showSnackBar(
-                  SnackBar(
-                      content: Text('Registado com sucesso'),
-                      backgroundColor: Color.fromARGB(255, 8, 224, 134),
-                    ),
-                  );
-                  //print response from server
-                }else{
-                  print("Erro de conexao.");
-                  ScaffoldMessenger.of(this.context).showSnackBar(
-                  SnackBar(
-                    content: Text('Erro ao enviar os dados'),
-                    backgroundColor: Color.fromARGB(255, 235, 77, 3),
-                  ),
-                 );
+                bool erro_validacao = false; 
+                if(_nomeController.text.isEmpty){
+                  showErro("Campo nome Vazio");
+                  erro_validacao = true;
                 }
+                if(_apelidoController.text.isEmpty){
+                  showErro("Campo apelido Vazio");
+                  erro_validacao = true;
+                }
+                if(_dobController.text.isEmpty){
+                  showErro("Campo BI/Passaporte Vazio");
+                  erro_validacao = true;
+                }
+                if(_passwordController.text.isEmpty){
+                  showErro("Campo da senha Vazio");
+                  erro_validacao = true;
+                }
+              
+                if(erro_validacao){
+                  bool resp = await registar(_nomeController.text, _apelidoController.text,_emailController.text,_passwordController.text,_telemovelController.text, _telefoneController.text,_docController.text,1, _selectedGender, _dataController.text, dia, mes, ano);
+                  if(resp){
+                    print(resp.toString());
+                      ScaffoldMessenger.of(this.context).showSnackBar(
+                      SnackBar(
+                          content: Text('Registado com sucesso'),
+                          backgroundColor: Color.fromARGB(255, 8, 224, 134),
+                        ),
+                      );
+                      //print response from server
+                    }else{
+                      print("Erro de conexao.");
+                      ScaffoldMessenger.of(this.context).showSnackBar(
+                      SnackBar(
+                        content: Text('Erro ao enviar os dados'),
+                        backgroundColor: Color.fromARGB(255, 235, 77, 3),
+                      ),
+                    );
+                    }
+                }
+
+                
               },
               child: Text(
                 "Submeter",
@@ -283,7 +317,6 @@ class _CadastroState extends State<Cadastro> {
             ),
           ),
         ],
-      ),
-    );
+      );
   }
 }

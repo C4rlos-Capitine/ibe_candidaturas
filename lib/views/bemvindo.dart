@@ -29,8 +29,22 @@ class _BemvindoState extends State<Bemvindo> {
                 padding: EdgeInsets.all(50),
                 child: Column(
                   children: [
-                    Text("INSTITUTO DE BOLSAS DE ESTUDO", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 16)),
-                    Text("BEM VINDO AO PORTAL DO CANDIDATO", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 16)),
+                    Text("BEM VINDO AO PORTAL DO CANDIDATO", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 12)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          Container(
+            alignment: Alignment.topCenter,
+            child: Card(
+              child: Padding(
+                padding: EdgeInsets.all(50),
+                child: Column(
+                  children: [
+                    Text("O IBE é uma instituição pública de âmbito nacional com autonomia administrativa, tutelado por Ministro que superintende a área do Enisno Superior. Criado por Decreto 30/2007 de 10 de Agosto e revisto pelo Decreto nº 24/2017 de 10 de Junho.", style: TextStyle( fontSize: 12)),
+                    
                   ],
                 ),
               ),
