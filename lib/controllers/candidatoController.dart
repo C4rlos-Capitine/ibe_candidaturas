@@ -41,7 +41,7 @@ Future<bool> login(email, senha) async {
 
 
 Future<Candidato> getData(String email, String senha) async {
-  Candidato candidato_inExistente = new Candidato(nome: "", apelido: "", codigo: 0, telefone: 0, telemovel: 0, email: "email", isEmpty: true, idade: 0, identificacao: 0);
+  Candidato candidato_inExistente = new Candidato(nome: "", apelido: "", codigo: 0, telefone: "", telemovel: "", email: "email", isEmpty: true, idade: 0, identificacao: 0);
   try {
     // Define the URL with query parameters
     var url = Uri.http('localhost:5284', '/api/Candidato/search', {

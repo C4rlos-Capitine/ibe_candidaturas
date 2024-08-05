@@ -4,13 +4,15 @@ import 'package:flutter/widgets.dart';
 import 'package:ibe_candidaturas/views/abas_home/bolsas.dart';
 import 'package:ibe_candidaturas/views/abas_home/candidaturas.dart';
 import 'package:ibe_candidaturas/views/abas_home/documentos.dart';
+import 'package:ibe_candidaturas/views/help_center.dart';
+import 'package:ibe_candidaturas/views/notificacoes.dart';
 import 'estado_candidatura.dart';
 import 'abas_home/perfil.dart';
 import 'bemvindo.dart';
 import 'Notification.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
-
+//import 'package:ibe_candidaturas/views/notificacoes.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -63,45 +65,30 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Color.fromARGB(255, 34, 88, 236),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.notifications, color: Colors.white),
               onPressed: () => showDialog<String>(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Novas Bolsas'),
-                  content: const Text('Nenhuma bolsa lançada recentemente'),
+                  title: const Text('Ajuda e Suporte'),
+                  content: const Text('Seção com perguntas frequentes e respostas, e Informações de contato para suporte técnico e administrativo. Clique OK para continuar'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'Cancel'),
                       child: const Text('Cancel'),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
-                      child: const Text('OK'),
-                    ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Help_center()),
+                          );
+                        },
+                        child: const Text('OK'),
+                      ),
+
                   ],
                 ),
               ),
-            ),
-            IconButton(
-              icon: Icon(Icons.logout, color: Colors.white),
-              onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Sair'),
-                  content: const Text('Tem a certeza que pretende sair?'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'Cancel'),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
-                      child: const Text('OK'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+              icon: Icon(Icons.help, color: Colors.white))
           ],
           iconTheme: IconThemeData(color: Colors.blue[900]),
         ),
@@ -112,8 +99,8 @@ class _MyHomePageState extends State<MyHomePage> {
           elevation: 5,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(EvaIcons.home, color: Color.fromARGB(255, 2, 33, 232)),
-              label: 'Home',
+              icon: Icon(Icons.notifications, color: Color.fromARGB(255, 2, 33, 232)),
+              label: 'Notificações',
             ),
             BottomNavigationBarItem(
               icon: Icon(EvaIcons.person, color: Color.fromARGB(255, 2, 33, 232)),
@@ -145,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
       return []; // Return an empty list if candidato is not yet initialized
     }
     return [
-      Bemvindo(),
+      Notificacoes(),
       Perfil(candidato: _candidato!),
       Bolsas(),
       Candidaturas(candidato: _candidato!),

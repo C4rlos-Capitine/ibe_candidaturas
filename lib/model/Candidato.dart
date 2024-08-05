@@ -1,8 +1,8 @@
 class Candidato{
   late String nome;
   late String apelido;
-  late int telemovel;
-  late int telefone;
+  late String telemovel;
+  late String telefone;
   late String email;
   late int codigo;
   late bool isEmpty;

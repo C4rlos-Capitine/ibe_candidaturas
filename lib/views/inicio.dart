@@ -44,6 +44,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
           labelColor: Colors.blue[900],
           indicatorColor: Colors.blue[900],
           isScrollable: true,
+         // padding: EdgeInsetsGeometry.infinity,
           tabs: [
             Tab(
               icon: Icon(EvaIcons.home, color: Colors.blue[900],),
