@@ -8,7 +8,7 @@ Future<List<Edital>> getEditais() async {
     // Use the correct IP address for localhost
     var url = Uri.http('localhost:5284', '/api/Edital');
 
-    var response = await http.get(url);
+    var response = await http.get(url).timeout(const Duration(seconds: 30));
 
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -30,6 +30,6 @@ Future<List<Edital>> getEditais() async {
   return editais;
 }
 
-Future <Edital>? getEdital(int codedita){
+Future<Edital>? getEdital(int codedita) {
   return null;
 }
