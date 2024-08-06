@@ -20,7 +20,7 @@ void main() {
         '/home': (context) => MyHomePage(title: "IBE - Candidaturas"),
         '/principal': (context) => Principal(),
         //'/nova_candidatura': (context) => NovaCandidatura(codedita: null),
-        '/estado': (context) => EstadoCandidatura(),
+        //'/estado': (context) => EstadoCandidatura(),
         '/inicio': (context) => Inicio()
       },
     ),

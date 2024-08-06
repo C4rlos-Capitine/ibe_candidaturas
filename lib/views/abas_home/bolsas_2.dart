@@ -7,9 +7,9 @@ import 'package:ibe_candidaturas/views/estado_candidatura.dart';
 import 'package:ibe_candidaturas/views/nova_candidatura.dart';
 
 class Bolsas extends StatefulWidget {
-  final Candidato candidato;
 
-  const Bolsas({super.key, required this.candidato});
+
+  const Bolsas({super.key});
 
   @override
   State<Bolsas> createState() => _BolsasState();
@@ -21,7 +21,6 @@ class _BolsasState extends State<Bolsas> {
   @override
   void initState() {
     super.initState();
-    print(widget.candidato.codigo);
     _loadEditais(); // Call the async method to load data
   }
 
@@ -54,10 +53,12 @@ class _BolsasState extends State<Bolsas> {
                   title: Text(edital.nome),
                   subtitle: Text('Ano: ${edital.ano}, Número: ${edital.numero}'),
                   onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => NovaCandidatura(codedita: edital.codedita, ano: edital.ano, numero: edital.numero, nome: edital.nome, candidato: widget.candidato)) 
-                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Faça o auto - registo na aba de inscrições para se candidatar'),
+                        backgroundColor: Color.fromARGB(255, 235, 77, 3),
+                      ),
+                    );
                   },
                   ),
                 );

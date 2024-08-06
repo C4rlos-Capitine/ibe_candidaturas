@@ -1,8 +1,9 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/views/cadastrar.dart';
 import 'package:ibe_candidaturas/views/login.dart';
-import 'package:ibe_candidaturas/views/abas_home/bolsas.dart';
+import 'package:ibe_candidaturas/views/abas_home/bolsas_2.dart';
 import 'package:ibe_candidaturas/views/bemvindo.dart';
 import 'package:ibe_candidaturas/views/sobre.dart';
 
@@ -15,7 +16,7 @@ class Inicio extends StatefulWidget {
 
 class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
+  Candidato? _candidato;
   @override
   void initState() {
     super.initState();

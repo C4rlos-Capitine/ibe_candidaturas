@@ -20,7 +20,7 @@ Future <List<Provincia>> getProvincias() async{
         // Map each item to Edital instance
         provincia = responseBody.map((data) => Provincia.fromJson(data)).toList();
 
-        print("Editais fetched: ${provincia.length}");
+        print("Editais fetched: ${provincia}");
       } else {
         print('Request failed with status: ${response.statusCode}');
       }

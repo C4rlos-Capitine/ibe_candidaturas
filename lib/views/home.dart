@@ -53,9 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'IBE - Portal do Candidatos',
-      routes: {
-        '/estado': (context) => EstadoCandidatura(),
-      },
       home: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -134,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return [
       Notificacoes(),
       Perfil(candidato: _candidato!),
-      Bolsas(),
+      Bolsas(candidato: _candidato!),
       Candidaturas(candidato: _candidato!),
       Documentos(candidato: _candidato!),
     ];

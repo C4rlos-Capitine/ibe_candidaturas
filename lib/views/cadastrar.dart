@@ -27,15 +27,17 @@ class _CadastroState extends State<Cadastro> {
   //TextEditingController _generoController = TextEditingController();
   TextEditingController _docController = TextEditingController();
   TextEditingController _dataController = TextEditingController();
-  List<Provincia>? _provincias;
-  List<String>? lista_prov;
+  //List<Provincia>? _provincias;
+  List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
 
   String? _selectedGender;
   String? _selectetTipo;
+  String? _selectedProvince;
   late int dia;
   late int mes;
   late int ano;
-
+  late int selectedIndex;
+/*
   @override
   void initState() {
     // TODO: implement initState
@@ -51,7 +53,7 @@ class _CadastroState extends State<Cadastro> {
       print(lista_prov);
     });
   }
-
+*/
   void showErro(String descricao) {
     Fluttertoast.showToast(
       msg: descricao,
@@ -239,6 +241,37 @@ class _CadastroState extends State<Cadastro> {
             Container(
               alignment: Alignment.center,
               padding: EdgeInsets.all(20),
+              child: DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  icon: Icon(Icons.place, color: Colors.blue[900]),
+                  labelText: "PROVINCIA",
+                ),
+                value: _selectedProvince,
+                items: lista_prov
+                    .asMap()
+                      .map((index, label) => MapEntry(
+                            index,
+                            DropdownMenuItem(
+                              child: Text(label),
+                              value: label,
+                            ),
+                          ))
+                      .values
+                      .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedProvince = value;
+                    print(_selectedProvince);
+                    selectedIndex = lista_prov.indexOf(_selectedProvince!);
+                    print("Selected item: $_selectedProvince, Index: $selectedIndex");
+                  });
+                },
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(20),
               child: TextFormField(
                 controller: _telemovelController,
                 keyboardType: TextInputType.number,
@@ -342,7 +375,7 @@ class _CadastroState extends State<Cadastro> {
                     erro_validacao = true;
                   }
                   if(erro_validacao==false){
-                    bool resp = await registar(_nomeController.text, _apelidoController.text,_emailController.text,_passwordController.text,_telemovelController.text, _telefoneController.text,_docController.text,1, _selectedGender, _dataController.text, dia, mes, ano);
+                    bool resp = await registar(_nomeController.text, _apelidoController.text,_emailController.text,_passwordController.text,_telemovelController.text, _telefoneController.text,_docController.text,1, _selectedGender, _dataController.text, dia, mes, ano, selectedIndex);
                     if(resp){
                       print(resp.toString());
                         ScaffoldMessenger.of(this.context).showSnackBar(

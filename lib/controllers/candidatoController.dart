@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:ibe_candidaturas/model/Candidato.dart';
+import 'package:ibe_candidaturas/model/Candidatura.dart';
 
 Future<bool> login(email, senha) async {
 
@@ -80,7 +81,7 @@ Future<Candidato> getData(String email, String senha) async {
   return candidato_inExistente;
 }
 
-Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo_doc, genero, dataNaci, dia, mes, ano)async {
+Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc)async {
   bool resp = false;
   try {
     var gender = "M";
@@ -102,7 +103,8 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo
       'dia': dia,
       'mes': mes,
       'ano': ano,
-      'idade': idade
+      'idade': idade,
+      'codprovi': cod_provinc
     });
     
     var url = Uri.http('localhost:5284', '/api/Candidato');
@@ -132,3 +134,32 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo
   }
   return resp;
 }
+
+
+Future <List<Candidatura>> getCandidaturas(int codcandi) async{
+  List <Candidatura> candidaturas = [];
+  try{
+     var url = Uri.http('localhost:5284', '/api/Candidatura/$codcandi');
+
+      var response = await http.get(url);
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        // Decode response as List of dynamic
+        List<dynamic> responseBody = jsonDecode(response.body);
+
+        // Map each item to Edital instance
+        candidaturas = responseBody.map((data) => Candidatura.fromJson(data)).toList();
+        
+        print("Candidaturas fetched: ${candidaturas.length}");
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error during HTTP request: $e');
+    }
+  return candidaturas;
+}
+

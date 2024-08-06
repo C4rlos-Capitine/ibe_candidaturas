@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/controllers/cursoController.dart';
+import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/model/Curso.dart';
 
 class NovaCandidatura extends StatefulWidget {
-  const NovaCandidatura({super.key, required this.codedita, required this.ano, required this.numero, required this.nome});
+  const NovaCandidatura({super.key, required this.codedita, required this.ano, required this.numero, required this.nome, required this.candidato});
   final int codedita;
   final int ano;
   final int numero;
   final String nome;
+  final Candidato candidato;
   
   @override
   State<NovaCandidatura> createState() => _NovaCandidaturaState();
@@ -15,13 +17,15 @@ class NovaCandidatura extends StatefulWidget {
 
 class _NovaCandidaturaState extends State<NovaCandidatura> {
   List<Curso>? _cursos;
-  String? nome_curso; // Ensure nome_curso is nullable
-  List<String>? lista_cursos;
+  String? nome_curso;
+  int? codprovinc;
+  List<DropdownMenuItem<String>>? _dropdownMenuItems;
 
   @override
   void initState() {
     super.initState();
     _fetchCursos();
+    print(widget.candidato.apelido);
   }
 
   Future<void> _fetchCursos() async {
@@ -29,12 +33,17 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
       List<Curso>? cursos = await getCursos();
       setState(() {
         _cursos = cursos;
-        lista_cursos = cursos?.map((curso) => curso.nome).toList(); // Update lista_cursos here
-        print(lista_cursos);
+        _dropdownMenuItems = cursos?.map((curso) => DropdownMenuItem<String>(
+          child: Text(curso.nome),
+
+          value: curso.codcurso.toString(),
+        )).toList();
+        if (_dropdownMenuItems != null && _dropdownMenuItems!.isNotEmpty) {
+          nome_curso = _dropdownMenuItems!.first.value; // Set a default value if there are courses
+        }
       });
     } catch (e) {
-      // Handle errors here
-      print('Error loading editais: $e');
+      print('Error loading cursos: $e');
     }
   }
 
@@ -92,7 +101,7 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
               ),
             ),
           ),
-           Card(
+          Card(
             child: Padding(
               padding: EdgeInsets.all(20),
               child: Row(
@@ -102,20 +111,19 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
                   Text("Baixar Edital: ", style: TextStyle(fontWeight: FontWeight.bold)),
                   IconButton(
                     onPressed: (){
-                      ScaffoldMessenger.of(this.context).showSnackBar(
-                      SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
                           content: Text('Edital Baixado para o celular'),
                           backgroundColor: Color.fromARGB(255, 8, 224, 134),
                         ),
                       );
                     }, 
-                    icon: Icon(Icons.file_download)
+                    icon: Icon(Icons.file_download),
                   ),
                 ],
               ),
             ),
           ),
-          
           Card(
             child: Padding(
               padding: EdgeInsets.all(20),
@@ -139,48 +147,31 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
                 labelText: "Curso",
               ),
               value: nome_curso,
-              items: (lista_cursos ?? []).map((label) => DropdownMenuItem<String>(
-                child: Text(label),
-                value: label,
-              )).toList(),
+              items: _dropdownMenuItems,
               onChanged: (value) {
                 setState(() {
-                  nome_curso = value;
-                  print(nome_curso);
+                  try{
+                    nome_curso = value;
+                    codprovinc = _cursos?.firstWhere((curso) => curso.nome == value).codcurso;
+                    print('Nome do Curso: $nome_curso, Código: $codprovinc');
+                  }catch(e){
+                    print(e);
+                  }
+                  
                 });
               },
             ),
           ),
-
-           Container(
+          Container(
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
             child: ElevatedButton(
-              onPressed: () async{
-                //bool resp = await registar(_nomeController.text, _apelidoController.text,_emailController.text,_passwordController.text,_telemovelController.text, _telefoneController.text,_docController.text,1, _selectedGender, _dataController.text, dia, mes, ano);
-              /* if(resp){
-                print(resp.toString());
-                  ScaffoldMessenger.of(this.context).showSnackBar(
-                  SnackBar(
-                      content: Text('Registado com sucesso'),
-                      backgroundColor: Color.fromARGB(255, 8, 224, 134),
-                    ),
-                  );
-                  //print response from server
-                }else{
-                  print("Erro de conexao.");
-                  ScaffoldMessenger.of(this.context).showSnackBar(
-                  SnackBar(
-                    content: Text('Erro ao enviar os dados'),
-                    backgroundColor: Color.fromARGB(255, 235, 77, 3),
-                  ),
-                 );
-                }*/
+              onPressed: () async {
+                // Your button action here
               },
               child: Text(
                 "Enviar Candidatura",
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[900],
