@@ -19,13 +19,15 @@ class _LoginState extends State<Login> {
   late Candidato candidato;
 
   Widget build(BuildContext context) {
-    return  Column(
+    return Scaffold(
+      body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
           Container(
+            //padding: EdgeInsets.all(5),
             child: Container(
-              padding: EdgeInsets.all(50), // Adiciona padding ao Container
+              padding: EdgeInsets.all(40), // Adiciona padding ao Container
               child: Image.asset('assets/images/ibe_moz.png'),
             ),
           ),
@@ -110,6 +112,7 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-        ]);
+        ]),
+    );
   }
 }

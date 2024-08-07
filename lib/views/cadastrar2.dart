@@ -7,7 +7,6 @@ import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ibe_candidaturas/controllers/provinciaController.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
-import 'package:ibe_candidaturas/sqlite_connection/CRUD_Candidatos.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -70,29 +69,6 @@ class _CadastroState extends State<Cadastro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(
-            "IBE - Portal do Candidatos",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: Color.fromARGB(255, 34, 88, 236),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Ajuda e Suporte'),
-                  content: const Text('Seção com perguntas frequentes e respostas, e Informações de contato para suporte técnico e administrativo. Clique OK para continuar'),
-                  actions: <Widget>[
-                    
-
-                  ],
-                ),
-              ),
-              icon: Icon(Icons.help, color: Colors.white))
-          ],
-          iconTheme: IconThemeData(color: Colors.blue[900]),
-        ),
       body: ListView(
           children: [
             SizedBox(height: 10),
@@ -380,34 +356,20 @@ class _CadastroState extends State<Cadastro> {
                     if(resp){
                       print(resp.toString());
                         ScaffoldMessenger.of(this.context).showSnackBar(
-                          SnackBar(
-                              content: Text('Registado com sucesso'),
-                              backgroundColor: Color.fromARGB(255, 8, 224, 134),
-                            ),
+                        SnackBar(
+                            content: Text('Registado com sucesso'),
+                            backgroundColor: Color.fromARGB(255, 8, 224, 134),
+                          ),
                         );
                         //print response from server
                       }else{
                         print("Erro de conexao.");
                         ScaffoldMessenger.of(this.context).showSnackBar(
-                          SnackBar(
-                            content: Text('Erro ao enviar os dados'),
-                            backgroundColor: Color.fromARGB(255, 235, 77, 3),
-                          ),
-                        );
-                        /*await DatabaseHelper.insertCandidato({
-                          'id': null,
-                          'nome': _nomeController.text,
-                          'apelido': _apelidoController.text,
-                          'email': _emailController.text,
-                          'senha': _passwordController.text,
-                          'telefone': _telemovelController.text,
-                          'telemovel': _telefoneController.text,
-                          'genero': 'M',
-                          'dia': dia,
-                          'mes': mes,
-                          'ano': ano,
-                          'codprovi': selectedIndex,
-                        });*/
+                        SnackBar(
+                          content: Text('Erro ao enviar os dados'),
+                          backgroundColor: Color.fromARGB(255, 235, 77, 3),
+                        ),
+                      );
                       }
                   }
 

@@ -14,7 +14,7 @@ Future<bool> login(email, senha) async {
       // Add more parameters as needed
     });
 
-    var response = await http.get(url);
+    var response = await http.get(url).timeout(Duration(seconds: 10));
 
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -51,7 +51,7 @@ Future<Candidato> getData(String email, String senha) async {
     });
 
     // Make the HTTP GET request
-    var response = await http.get(url, headers: {'Content-Type': 'application/json'},);
+    var response = await http.get(url, headers: {'Content-Type': 'application/json'},).timeout(Duration(seconds: 10));
 
     // Print status and body for debugging
     print('Response status: ${response.statusCode}');
@@ -114,7 +114,7 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo
       url,
       headers: {'Content-Type': 'application/json'},
       body: requestBody
-    );
+    ).timeout(Duration(seconds: 10));
 
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
@@ -141,7 +141,7 @@ Future <List<Candidatura>> getCandidaturas(int codcandi) async{
   try{
      var url = Uri.http('localhost:5284', '/api/Candidatura/$codcandi');
 
-      var response = await http.get(url);
+      var response = await http.get(url).timeout(Duration(seconds: 10));
 
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
@@ -161,5 +161,45 @@ Future <List<Candidatura>> getCandidaturas(int codcandi) async{
       print('Error during HTTP request: $e');
     }
   return candidaturas;
+}
+
+Future <bool> saveCandidatura(codcandi, cod_edital, cod_curso) async{
+   var requestBody = jsonEncode({
+      'codcandi': codcandi,
+      'cod_edital': cod_edital,
+      'codecurso': cod_curso,
+      'dia_submissao': DateTime.now().day,
+      'mes_submissao': DateTime.now().month,
+      'ano_submissao': DateTime.now().year,
+   });
+   print(requestBody);
+    bool resp = false;
+    try{
+    var url = Uri.http('localhost:5284', '/api/Candidatura');
+
+    // Enviar a requisição POST com o corpo JSON
+    var response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: requestBody
+    ).timeout(Duration(seconds: 10));
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var responseBody = jsonDecode(response.body);
+        print(responseBody);
+        if(responseBody['success']==true){
+          resp = true;
+        }
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }  
+    } catch (e) {
+    // Exception occurred during HTTP request
+    print('Error during HTTP request: $e');
+    }
+  return resp;
 }
 

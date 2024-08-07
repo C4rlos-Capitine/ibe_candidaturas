@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/controllers/cursoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/model/Curso.dart';
@@ -18,7 +19,7 @@ class NovaCandidatura extends StatefulWidget {
 class _NovaCandidaturaState extends State<NovaCandidatura> {
   List<Curso>? _cursos;
   String? nome_curso;
-  int? codprovinc;
+  int? cod_curso;
   List<DropdownMenuItem<String>>? _dropdownMenuItems;
 
   @override
@@ -151,9 +152,12 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
               onChanged: (value) {
                 setState(() {
                   try{
+                    print(value);
                     nome_curso = value;
-                    codprovinc = _cursos?.firstWhere((curso) => curso.nome == value).codcurso;
-                    print('Nome do Curso: $nome_curso, Código: $codprovinc');
+                    print(nome_curso);
+                    //cod_curso = value;//_cursos?.firstWhere((curso) => curso.nome == value).codcurso;
+                    //print(_cursos?.firstWhere((curso) => curso.nome == value).codcurso);
+                  
                   }catch(e){
                     print(e);
                   }
@@ -168,6 +172,22 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
             child: ElevatedButton(
               onPressed: () async {
                 // Your button action here
+                bool saved = await saveCandidatura(widget.candidato.codigo, widget.codedita, nome_curso);
+                if(saved==true){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Candidatura submetida com sucesso'),
+                        backgroundColor: Color.fromARGB(255, 5, 228, 42),
+                      ),
+                    );
+                }else{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Falha na submissão'),
+                        backgroundColor: Color.fromARGB(255, 235, 77, 3),
+                      ),
+                    );
+                }
               },
               child: Text(
                 "Enviar Candidatura",

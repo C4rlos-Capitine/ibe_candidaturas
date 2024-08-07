@@ -43,7 +43,8 @@ class _BemvindoState extends State<Bemvindo> {
                 padding: EdgeInsets.all(50),
                 child: Column(
                   children: [
-                    Text("O IBE é uma instituição pública de âmbito nacional com autonomia administrativa, tutelado por Ministro que superintende a área do Enisno Superior. Criado por Decreto 30/2007 de 10 de Agosto e revisto pelo Decreto nº 24/2017 de 10 de Junho.", style: TextStyle( fontSize: 12)),
+                    Text("O IBE é uma instituição pública de âmbito nacional com autonomia administrativa, tutelado por Ministro que superintende a área do Enisno Superior. Criado por Decreto 30/2007 de 10 de Agosto e revisto pelo Decreto nº 24/2017 de 10 de Junho.",
+                    style: TextStyle( fontSize: 13), textAlign: TextAlign.justify,),
                     
                   ],
                 ),

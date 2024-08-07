@@ -1,11 +1,12 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
-import 'package:ibe_candidaturas/views/cadastrar.dart';
+import 'package:ibe_candidaturas/views/cadastrar2.dart';
 import 'package:ibe_candidaturas/views/login.dart';
 import 'package:ibe_candidaturas/views/abas_home/bolsas_2.dart';
 import 'package:ibe_candidaturas/views/bemvindo.dart';
 import 'package:ibe_candidaturas/views/sobre.dart';
+import 'package:ibe_candidaturas/sqlite_connection/CRUD_Candidatos.dart';
 
 class Inicio extends StatefulWidget {
   const Inicio({super.key});
@@ -19,8 +20,37 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
   Candidato? _candidato;
   @override
   void initState() {
+    //_addCandidato();
+    //_loadCandidatos();
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
+  }
+
+
+  Future<void> _addCandidato() async {
+    await DatabaseHelper.insertCandidato({
+      'id': null,
+      'nome': 'John Doe',
+      'apelido': 'Doe',
+      'email': 'john.doe@example.com',
+      'senha': '1234',
+      'telefone': '123456789',
+      'telemovel': '987654321',
+      'genero': 'M',
+      'dia': 1,
+      'mes': 1,
+      'ano': 1990,
+      'codprovi': 1,
+    });
+    //_loadCandidatos();
+  }
+
+  Future<void> _loadCandidatos() async {
+    final sqlite_candidatos = await DatabaseHelper.getCandidatos();
+    print(sqlite_candidatos);
+    setState(() {
+      //Cand_ = candidatos;
+    });
   }
 
   @override
@@ -33,10 +63,12 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        
         actions: [],
         title: Text(
           "IBE - Portal do Candidato",
           style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
         ),
         iconTheme: IconThemeData(color: Colors.white),
        // backgroundColor: Colors.blue[900],
