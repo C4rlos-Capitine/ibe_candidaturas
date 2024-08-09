@@ -59,6 +59,14 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text("Edital", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text('${widget.edital}', style: TextStyle(fontWeight: FontWeight.bold))
+                    ],
+                  ),
+                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("Codigo do edital:", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text('${widget.cod_edital}', style: TextStyle(fontWeight: FontWeight.bold))
                     ],
                   ),

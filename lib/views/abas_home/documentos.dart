@@ -22,7 +22,7 @@ class _DocumentosState extends State<Documentos> {
   String progress = "";
   var fileName = "";
   Dio dio = Dio();
-  late var response;
+ // late var response;
 
   @override
   void initState() {
@@ -52,7 +52,8 @@ class _DocumentosState extends State<Documentos> {
   
 
   void uploadFile(codigo) async {
-    String uploadurl = 'http://localhost:5284/api/Doc/upload?id=$codigo';
+    var response;
+    String uploadurl = 'http://192.168.10.162:5284/api/Doc/upload';
     FormData formdata = FormData.fromMap({
       "file": await MultipartFile.fromFile(
           selectedfilePath.path,
@@ -72,6 +73,8 @@ class _DocumentosState extends State<Documentos> {
 
         setState(() {
           progress = "$sent" + " Bytes of " "$total Bytes - " +  percentage + " % uploaded";
+          progress = "progrsso: " +  percentage + " % uploaded";
+          print("progrsso: $progress");
           //update the progress
         });
       });
@@ -95,9 +98,10 @@ class _DocumentosState extends State<Documentos> {
     );
     }
     }catch(e){
+      print(e);
       ScaffoldMessenger.of(this.context).showSnackBar(
       SnackBar(
-        content: Text('Erro: ${response.statusMessage}'),
+        content: Text('Erro'),
         backgroundColor: Color.fromARGB(255, 235, 77, 3),
       ),
     );
@@ -121,6 +125,7 @@ class _DocumentosState extends State<Documentos> {
               
               Text("Selecione o tipo de documento", style: TextStyle(fontWeight: FontWeight.bold)),
               Text("$fileName", style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 3, 55, 226), fontSize: 16)),
+              Text("$progress", style: TextStyle(fontWeight: FontWeight.bold)),
               Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.all(40),

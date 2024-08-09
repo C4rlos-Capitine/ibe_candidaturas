@@ -7,7 +7,7 @@ import 'package:ibe_candidaturas/model/Curso.dart';
 Future <List<Curso>>? getCursos() async{
   List <Curso> cursos = [];
   try{
-     var url = Uri.http('localhost:5284', '/api/Curso');
+     var url = Uri.http('192.168.10.162:5284', '/api/Curso');
 
       var response = await http.get(url);
 

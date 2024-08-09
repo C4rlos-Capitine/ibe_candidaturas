@@ -8,7 +8,7 @@ Future<bool> login(email, senha) async {
 
   bool resp = false;
   try {
-    var url = Uri.http('localhost:5284', '/api/Candidato/search', {
+    var url = Uri.http('192.168.10.162:5284', '/api/Candidato/search', {
       'email': email,
       'password': senha,
       // Add more parameters as needed
@@ -45,7 +45,7 @@ Future<Candidato> getData(String email, String senha) async {
   Candidato candidato_inExistente = new Candidato(nome: "", apelido: "", codigo: 0, telefone: "", telemovel: "", email: "email", isEmpty: true, idade: 0, identificacao: 0);
   try {
     // Define the URL with query parameters
-    var url = Uri.http('localhost:5284', '/api/Candidato/search', {
+    var url = Uri.http('192.168.10.162:5284', '/api/Candidato/search', {
       'email': email,
       'password': senha,
     });
@@ -107,7 +107,7 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo
       'codprovi': cod_provinc
     });
     
-    var url = Uri.http('localhost:5284', '/api/Candidato');
+    var url = Uri.http('192.168.10.162:5284', '/api/Candidato');
 
     // Enviar a requisição POST com o corpo JSON
     var response = await http.post(
@@ -139,7 +139,7 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id, tipo
 Future <List<Candidatura>> getCandidaturas(int codcandi) async{
   List <Candidatura> candidaturas = [];
   try{
-     var url = Uri.http('localhost:5284', '/api/Candidatura/$codcandi');
+     var url = Uri.http('192.168.10.162:5284', '/api/Candidatura/$codcandi');
 
       var response = await http.get(url).timeout(Duration(seconds: 10));
 
@@ -175,7 +175,7 @@ Future <bool> saveCandidatura(codcandi, cod_edital, cod_curso) async{
    print(requestBody);
     bool resp = false;
     try{
-    var url = Uri.http('localhost:5284', '/api/Candidatura');
+    var url = Uri.http('192.168.10.162:5284', '/api/Candidatura');
 
     // Enviar a requisição POST com o corpo JSON
     var response = await http.post(

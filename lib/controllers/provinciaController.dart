@@ -6,7 +6,7 @@ import 'package:ibe_candidaturas/model/provincia.dart';
 Future <List<Provincia>> getProvincias() async{
   List <Provincia> provincia = [];
   try{
-     var url = Uri.http('localhost:5284', '/api/Provincia');
+     var url = Uri.http('192.168.10.162:5284', '/api/Provincia');
 
       var response = await http.get(url);
 
