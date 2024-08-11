@@ -7,7 +7,6 @@ import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ibe_candidaturas/controllers/provinciaController.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
-import 'package:ibe_candidaturas/sqlite_connection/CRUD_Candidatos.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -29,7 +28,7 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController _docController = TextEditingController();
   TextEditingController _dataController = TextEditingController();
   //List<Provincia>? _provincias;
-  List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
+  List<String> lista_prov = ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
 
   String? _selectedGender;
   String? _selectetTipo;
@@ -57,20 +56,17 @@ class _CadastroState extends State<Cadastro> {
 */
   void showErro(String descricao) {
     Fluttertoast.showToast(
-      msg: descricao,
-      backgroundColor: const Color.fromARGB(255, 231, 3, 3),
-      fontSize: 25,
-      gravity: ToastGravity.TOP,
-      timeInSecForIosWeb: 5
-    );
+        msg: descricao,
+        backgroundColor: const Color.fromARGB(255, 231, 3, 3),
+        fontSize: 25,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 5);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
           title: Text(
             "IBE - Portal do Candidatos",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -78,22 +74,20 @@ class _CadastroState extends State<Cadastro> {
           backgroundColor: Color.fromARGB(255, 34, 88, 236),
           actions: <Widget>[
             IconButton(
-              onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Ajuda e Suporte'),
-                  content: const Text('Seção com perguntas frequentes e respostas, e Informações de contato para suporte técnico e administrativo. Clique OK para continuar'),
-                  actions: <Widget>[
-                    
-
-                  ],
-                ),
-              ),
-              icon: Icon(Icons.help, color: Colors.white))
+                onPressed: () => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Ajuda e Suporte'),
+                        content: const Text(
+                            'Seção com perguntas frequentes e respostas, e Informações de contato para suporte técnico e administrativo. Clique OK para continuar'),
+                        actions: <Widget>[],
+                      ),
+                    ),
+                icon: Icon(Icons.help, color: Colors.white))
           ],
           iconTheme: IconThemeData(color: Colors.blue[900]),
         ),
-      body: ListView(
+        body: ListView(
           children: [
             SizedBox(height: 10),
             Container(
@@ -208,7 +202,9 @@ class _CadastroState extends State<Cadastro> {
                     setState(() {
                       _dataController.text =
                           "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                          dia = pickedDate.day; mes = pickedDate.month; ano = pickedDate.year;
+                      dia = pickedDate.day;
+                      mes = pickedDate.month;
+                      ano = pickedDate.year;
                     });
                   }
                 },
@@ -251,21 +247,22 @@ class _CadastroState extends State<Cadastro> {
                 value: _selectedProvince,
                 items: lista_prov
                     .asMap()
-                      .map((index, label) => MapEntry(
-                            index,
-                            DropdownMenuItem(
-                              child: Text(label),
-                              value: label,
-                            ),
-                          ))
-                      .values
-                      .toList(),
+                    .map((index, label) => MapEntry(
+                          index,
+                          DropdownMenuItem(
+                            child: Text(label),
+                            value: label,
+                          ),
+                        ))
+                    .values
+                    .toList(),
                 onChanged: (value) {
                   setState(() {
                     _selectedProvince = value;
                     print(_selectedProvince);
                     selectedIndex = lista_prov.indexOf(_selectedProvince!);
-                    print("Selected item: $_selectedProvince, Index: $selectedIndex");
+                    print(
+                        "Selected item: $_selectedProvince, Index: $selectedIndex");
                   });
                 },
               ),
@@ -345,56 +342,72 @@ class _CadastroState extends State<Cadastro> {
               alignment: Alignment.center,
               padding: EdgeInsets.all(20),
               child: ElevatedButton(
-                onPressed: () async{
-                  bool erro_validacao = false; 
-                  if(_nomeController.text.isEmpty){
+                onPressed: () async {
+                  bool erro_validacao = false;
+                  if (_nomeController.text.isEmpty) {
                     showErro("Campo nome Vazio");
                     erro_validacao = true;
                   }
-                  if(_apelidoController.text.isEmpty){
+                  if (_apelidoController.text.isEmpty) {
                     showErro("Campo apelido Vazio");
                     erro_validacao = true;
                   }
-                  if(_docController.text.isEmpty){
+                  if (_docController.text.isEmpty) {
                     showErro("Campo BI/Passaporte Vazio");
                     erro_validacao = true;
                   }
-                  if(_passwordController.text.isEmpty){
+                  if (_passwordController.text.isEmpty) {
                     showErro("Campo da senha Vazio");
                     erro_validacao = true;
                   }
-                  if(_passwordControllerConfirm.text.isEmpty){
+                  if (_passwordControllerConfirm.text.isEmpty) {
                     showErro("Campo confirmar a senha Vazio");
                     erro_validacao = true;
                   }
-                  if(_passwordController.text != _passwordControllerConfirm.text){
-                    showErro("A senha informada não é igual a do campo confirmar");
+                  if (_passwordController.text !=
+                      _passwordControllerConfirm.text) {
+                    showErro(
+                        "A senha informada não é igual a do campo confirmar");
                     erro_validacao = true;
                   }
-                  if(_dataController.text.isEmpty){
+                  if (_dataController.text.isEmpty) {
                     showErro("Data de nascimento não informada");
                     erro_validacao = true;
                   }
-                  if(erro_validacao==false){
-                    bool resp = await registar(_nomeController.text, _apelidoController.text,_emailController.text,_passwordController.text,_telemovelController.text, _telefoneController.text,_docController.text,1, _selectedGender, _dataController.text, dia, mes, ano, selectedIndex);
-                    if(resp){
+                  if (erro_validacao == false) {
+                    bool resp = await registar(
+                        _nomeController.text,
+                        _apelidoController.text,
+                        _emailController.text,
+                        _passwordController.text,
+                        _telemovelController.text,
+                        _telefoneController.text,
+                        _docController.text,
+                        1,
+                        _selectedGender,
+                        _dataController.text,
+                        dia,
+                        mes,
+                        ano,
+                        selectedIndex);
+                    if (resp) {
                       print(resp.toString());
-                        ScaffoldMessenger.of(this.context).showSnackBar(
-                          SnackBar(
-                              content: Text('Registado com sucesso'),
-                              backgroundColor: Color.fromARGB(255, 8, 224, 134),
-                            ),
-                        );
-                        //print response from server
-                      }else{
-                        print("Erro de conexao.");
-                        ScaffoldMessenger.of(this.context).showSnackBar(
-                          SnackBar(
-                            content: Text('Erro ao enviar os dados'),
-                            backgroundColor: Color.fromARGB(255, 235, 77, 3),
-                          ),
-                        );
-                        /*await DatabaseHelper.insertCandidato({
+                      ScaffoldMessenger.of(this.context).showSnackBar(
+                        SnackBar(
+                          content: Text('Registado com sucesso'),
+                          backgroundColor: Color.fromARGB(255, 8, 224, 134),
+                        ),
+                      );
+                      //print response from server
+                    } else {
+                      print("Erro de conexao.");
+                      ScaffoldMessenger.of(this.context).showSnackBar(
+                        SnackBar(
+                          content: Text('Erro ao enviar os dados'),
+                          backgroundColor: Color.fromARGB(255, 235, 77, 3),
+                        ),
+                      );
+                      /*await DatabaseHelper.insertCandidato({
                           'id': null,
                           'nome': _nomeController.text,
                           'apelido': _apelidoController.text,
@@ -408,15 +421,13 @@ class _CadastroState extends State<Cadastro> {
                           'ano': ano,
                           'codprovi': selectedIndex,
                         });*/
-                      }
+                    }
                   }
-
-                  
                 },
                 child: Text(
                   "Submeter",
-                  style:
-                      TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[900],
@@ -424,7 +435,6 @@ class _CadastroState extends State<Cadastro> {
               ),
             ),
           ],
-        )
-    );
+        ));
   }
 }

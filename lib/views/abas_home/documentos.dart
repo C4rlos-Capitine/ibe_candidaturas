@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:path/path.dart';
-import 'dart:io'; // Update the import statement
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:path/path.dart';
 import 'package:dio/dio.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_uploader/flutter_uploader.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+
 class Documentos extends StatefulWidget {
   const Documentos({super.key, required this.candidato});
   final Candidato candidato;
@@ -17,94 +20,98 @@ class Documentos extends StatefulWidget {
 }
 
 class _DocumentosState extends State<Documentos> {
-  var _selectedType;
-  late File selectedfilePath = File('');
+  String? _selectedType;
+  late File selectedfilePath;
   String progress = "";
-  var fileName = "";
+  String fileName = "";
   Dio dio = Dio();
- // late var response;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print(widget.candidato);
+    selectedfilePath = File('');
   }
 
   void selectFile() async {
-    String nomeFicheiro = "";
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf', 'docx'],
     );
-    print(result);
+
     if (result != null) {
       setState(() {
         selectedfilePath = File(result.files.single.path!);
-        print(selectedfilePath);
-        setState(() {
-          fileName = selectedfilePath.path;
-        });
+        fileName = basename(selectedfilePath.path);
+        print("Selected file: $fileName");
       });
     }
   }
 
-  
-
-  void uploadFile(codigo) async {
-    var response;
-    String uploadurl = 'http://192.168.10.162:5284/api/Doc/upload';
-    FormData formdata = FormData.fromMap({
-      "file": await MultipartFile.fromFile(
-          selectedfilePath.path,
-          filename: basename(selectedfilePath.path),
-          
-        //show only filename from path
-      ),
-      "codcandi": codigo
-      //
-    });
-
-    try{
-      response = await dio.post(uploadurl,
-      data: formdata,
-      onSendProgress: (int sent, int total) {
-        String percentage = (sent/total*100).toStringAsFixed(2);
-
-        setState(() {
-          progress = "$sent" + " Bytes of " "$total Bytes - " +  percentage + " % uploaded";
-          progress = "progrsso: " +  percentage + " % uploaded";
-          print("progrsso: $progress");
-          //update the progress
-        });
-      });
-
-      if(response.statusCode == 200 || response.statusCode == 201){
-      print(response.toString());
+  void uploadFile(int codigo) async {
+    if (selectedfilePath.path.isEmpty) {
       ScaffoldMessenger.of(this.context).showSnackBar(
-      SnackBar(
-          content: Text('Documento enviado com sucesso'),
-          backgroundColor: Color.fromARGB(255, 8, 224, 134),
+        SnackBar(
+          content: Text('Nenhum ficheiro selecionado.'),
+          backgroundColor: Colors.red,
         ),
       );
-      //print response from server
-    }else{
-      print("Erro de conexao.");
-      ScaffoldMessenger.of(this.context).showSnackBar(
-      SnackBar(
-        content: Text('Erro: ${response.statusMessage}'),
-        backgroundColor: Color.fromARGB(255, 235, 77, 3),
-      ),
-    );
+      return;
     }
-    }catch(e){
-      print(e);
+
+    print("Uploading file: $fileName");
+    print("File path: ${selectedfilePath.path}");
+
+    // Adicionando o id como query string na URL
+    String uploadurl = 'http://$IP/api/Doc/upload?id=$codigo';
+
+    var request = http.MultipartRequest('POST', Uri.parse(uploadurl));
+
+    // Adicionando o arquivo ao pedido
+    request.files.add(await http.MultipartFile.fromPath(
+      'file', // Certifique-se de que o nome 'file' é o esperado pela API
+      selectedfilePath.path,
+      filename: fileName,
+    ));
+
+    // Verificando o conteúdo da solicitação antes de enviá-la
+    print("Request URL: $uploadurl");
+    print(
+        "Request files: ${request.files.map((file) => file.filename).join(', ')}");
+
+    try {
+      var response = await request.send();
+
+      // Obtendo a resposta completa para depuração
+      var responseData = await http.Response.fromStream(response);
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${responseData.body}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print("Upload successful!");
+        ScaffoldMessenger.of(this.context).showSnackBar(
+          SnackBar(
+            content: Text('Documento enviado com sucesso'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        print("Erro de conexão: ${response.statusCode}");
+        ScaffoldMessenger.of(this.context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao enviar: ${response.statusCode}'),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+    } catch (e) {
+      print("Erro: $e");
       ScaffoldMessenger.of(this.context).showSnackBar(
-      SnackBar(
-        content: Text('Erro'),
-        backgroundColor: Color.fromARGB(255, 235, 77, 3),
-      ),
-    );
+        SnackBar(
+          content: Text('Erro ao enviar o documento'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -122,9 +129,13 @@ class _DocumentosState extends State<Documentos> {
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 3, 55, 226),
                       fontSize: 16)),
-              
-              Text("Selecione o tipo de documento", style: TextStyle(fontWeight: FontWeight.bold)),
-              Text("$fileName", style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 3, 55, 226), fontSize: 16)),
+              Text("Selecione o tipo de documento",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              Text("$fileName",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 3, 55, 226),
+                      fontSize: 16)),
               Text("$progress", style: TextStyle(fontWeight: FontWeight.bold)),
               Container(
                 alignment: Alignment.center,
@@ -152,24 +163,19 @@ class _DocumentosState extends State<Documentos> {
               ),
               SizedBox(height: 20),
               Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton.icon(
                     icon: const Icon(EvaIcons.fileAdd,
                         color: Color.fromARGB(255, 34, 37, 199)),
-                    onPressed: () {
-                      selectFile();
-                    },
+                    onPressed: selectFile,
                     label: Text("Selecionar ficheiro"),
                   ),
                   SizedBox(width: 5),
                   ElevatedButton.icon(
                     icon: const Icon(EvaIcons.upload,
                         color: Color.fromARGB(255, 34, 37, 199)),
-                    onPressed: () {
-                      // Define the action to be performed on button press
-                      uploadFile(candidato.codigo);
-                    },
+                    onPressed: () => uploadFile(widget.candidato.codigo),
                     label: Text("Enviar"),
                   ),
                 ],

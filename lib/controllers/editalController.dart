@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
 
 Future<List<Edital>> getEditais() async {
   List<Edital> editais = [];
   try {
     // Use the correct IP address for localhost
-    var url = Uri.http('192.168.10.162:5284', '/api/Edital');
+    var url = Uri.http(IP, '/api/Edital');
 
     var response = await http.get(url).timeout(const Duration(seconds: 30));
 
