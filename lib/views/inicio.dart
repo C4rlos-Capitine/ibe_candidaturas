@@ -6,6 +6,8 @@ import 'package:ibe_candidaturas/views/login.dart';
 import 'package:ibe_candidaturas/views/abas_home/bolsas_2.dart';
 import 'package:ibe_candidaturas/views/bemvindo.dart';
 import 'package:ibe_candidaturas/views/sobre.dart';
+import 'package:ibe_candidaturas/config.dart';
+
 //import 'package:ibe_candidaturas/sqlite_connection/CRUD_Candidatos.dart';
 
 class Inicio extends StatefulWidget {
@@ -18,13 +20,26 @@ class Inicio extends StatefulWidget {
 class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   Candidato? _candidato;
+  bool? connectado;
+  late Future<NetworkCheckResponse> _networkCheckResponse;
   @override
   void initState() {
     //_addCandidato();
     //_loadCandidatos();
+    var _networkCheckResponse = isConnected();
+    print(_networkCheckResponse);
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
+  _checkNetworkStatus();
+  
   }
+  Future<void> _checkNetworkStatus() async {
+    NetworkCheckResponse response = await isConnected();
+    print(response.mesg);
+    print(response.state);
+  }
+
+  
 
   @override
   void dispose() {

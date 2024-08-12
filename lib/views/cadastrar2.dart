@@ -27,6 +27,8 @@ class _CadastroState extends State<Cadastro> {
   //TextEditingController _generoController = TextEditingController();
   TextEditingController _docController = TextEditingController();
   TextEditingController _dataController = TextEditingController();
+    TextEditingController _dataEmissaoController = TextEditingController();
+  TextEditingController _dataValidadeController = TextEditingController();
   //List<Provincia>? _provincias;
   List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
 
@@ -157,6 +159,71 @@ class _CadastroState extends State<Cadastro> {
                   icon: Icon(Icons.perm_identity, color: Colors.blue[900]),
                   hintText: "Numero de BI",
                 ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(20),
+              child: TextFormField(
+                controller: _dataEmissaoController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  label: Text("DATA DE EMISSÃO:"),
+                  icon: Icon(Icons.date_range, color: Colors.blue[900]),
+                  hintText: "data dd/mm/aaaa",
+                ),
+                readOnly: true,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime(2100),
+                  );
+
+                  if (pickedDate != null) {
+                    setState(() {
+                      _dataController.text =
+                          "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+                      dia = pickedDate.day;
+                      mes = pickedDate.month;
+                      ano = pickedDate.year;
+                    });
+                  }
+                },
+              ),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(20),
+              child: TextFormField(
+                controller: _dataValidadeController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  label: Text("VALIDO ATÉ:"),
+                  icon: Icon(Icons.date_range, color: Colors.blue[900]),
+                  hintText: "data dd/mm/aaaa",
+                ),
+                readOnly: true,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime(2100),
+                  );
+
+                  if (pickedDate != null) {
+                    setState(() {
+                      _dataController.text =
+                          "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+                      dia = pickedDate.day;
+                      mes = pickedDate.month;
+                      ano = pickedDate.year;
+                    });
+                  }
+                },
               ),
             ),
             SizedBox(height: 10),

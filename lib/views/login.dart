@@ -21,10 +21,12 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+      
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
           Container(
+           
             //padding: EdgeInsets.all(5),
             child: Container(
               padding: EdgeInsets.all(40), // Adiciona padding ao Container

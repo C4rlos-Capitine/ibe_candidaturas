@@ -18,6 +18,7 @@ dependencies:
   #sqflite: ^2.3.3+1
   path: ^1.9.0
   flutter_uploader: ^3.0.0-beta.4
+  connectivity_plus: ^6.0.5
   #sqflite_common_ffi: ^2.3.3
   #path_provider: ^2.1.4
   #http_client: ^1.5.3
