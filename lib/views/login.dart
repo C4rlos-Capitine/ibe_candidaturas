@@ -20,6 +20,7 @@ class _LoginState extends State<Login> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
       
       mainAxisAlignment: MainAxisAlignment.center,
@@ -37,7 +38,7 @@ class _LoginState extends State<Login> {
               style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue[900])
+                  color: Colors.blue[900], decorationColor: Colors.blue[900])
                 ),
           Container(
             alignment: Alignment.center,
@@ -46,10 +47,18 @@ class _LoginState extends State<Login> {
               keyboardType: TextInputType.emailAddress,
               controller: _email,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                hoverColor: Colors.blue[900],
+                fillColor: Colors.blue[900],
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue), 
+                  
+                ),
                 label: Text("Email"),
                 icon: Icon(Icons.mail, color: Colors.blue[900]),
                 hintText: "Escreva o email",
+                labelStyle: new TextStyle(
+                    color: Colors.blue[900],decorationColor: Colors.blue[900]
+                )
                 // labelText: "Email"
               ),
             ),
@@ -61,10 +70,16 @@ class _LoginState extends State<Login> {
               controller: _senha,
               obscureText: true,
               decoration: InputDecoration(
+                hoverColor: Colors.blue[900],
+                fillColor: Colors.blue[900],
+                focusColor: Colors.blue[900],
                 border: OutlineInputBorder(),
                 label: Text("Senha"),
                 icon: Icon(Icons.password, color: Colors.blue[900]),
                 hintText: "Escreva a senha",
+                labelStyle: new TextStyle(
+                    color: Colors.blue[900], decorationColor: Colors.blue[900]
+                )
                 //labelText: "Senha"
               ),
             ),

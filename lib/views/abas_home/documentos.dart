@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:ibe_candidaturas/config.dart';
+import 'package:ibe_candidaturas/config.dart'; // Certifique-se de que esta configuração está correta
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:path/path.dart';
 import 'dart:io';
@@ -57,7 +57,7 @@ class _DocumentosState extends State<Documentos> {
     print("Uploading file: $fileName");
     print("File path: ${selectedfilePath.path}");
 
-    String uploadurl = 'http://$IP/api/Doc/upload?id=$codigo';
+    String uploadurl = 'http://$IP/api/FileUpload/upload?id=$codigo'; // Verifique se o IP e endpoint estão corretos FileUpload/
 
     try {
       FormData formData = FormData.fromMap({
@@ -65,27 +65,41 @@ class _DocumentosState extends State<Documentos> {
           selectedfilePath.path,
           filename: fileName,
         ),
+        //'id': codigo
       });
 
-      await dio.post(
+      final response = await dio.post(
         uploadurl,
         data: formData,
         onSendProgress: (int sent, int total) {
           setState(() {
             progress = "${(sent / total * 100).toStringAsFixed(2)}%";
+            print(progress);
           });
         },
       );
 
-      ScaffoldMessenger.of(this.context).showSnackBar(
-        SnackBar(
-          content: Text('Documento enviado com sucesso'),
-          backgroundColor: Colors.green,
-        ),
-      );
-      setState(() {
-        progress = "Upload complete";
-      });
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(this.context).showSnackBar(
+          SnackBar(
+            content: Text('Documento enviado com sucesso'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        setState(() {
+          progress = "Upload complete";
+        });
+      } else {
+        ScaffoldMessenger.of(this.context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao enviar o documento: ${response.statusMessage}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        setState(() {
+          progress = "Upload failed";
+        });
+      }
     } catch (e) {
       print("Upload error: $e");
       ScaffoldMessenger.of(this.context).showSnackBar(
@@ -104,85 +118,74 @@ class _DocumentosState extends State<Documentos> {
   Widget build(BuildContext context) {
     final candidato = widget.candidato;
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(40),
-          child: Column(
-            children: [
-              Text(
-                "Documentos",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 3, 55, 226),
-                  fontSize: 16,
-                ),
+      backgroundColor: Colors.white,
+      body: ListView(
+        
+        children: [
+           Text(
+              "Documentos",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 3, 55, 226),
+                fontSize: 16,
               ),
-              Text(
-                "Selecione o tipo de documento",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "$fileName",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 3, 55, 226),
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                "$progress",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(40),
-                child: DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusColor: Colors.blue[900],
-                    hintText: "Selecione o tipo",
-                    labelText: "Tipo de documento",
-                  ),
-                  value: _selectedType,
-                  items: ["Certificado", "BI", "NUIT"]
-                      .map((label) => DropdownMenuItem(
-                            child: Text(label),
-                            value: label,
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedType = value;
-                    });
-                  },
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            ),
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Card(
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(
                 children: [
-                  ElevatedButton.icon(
-                    icon: const Icon(
-                      EvaIcons.fileAdd,
-                      color: Color.fromARGB(255, 34, 37, 199),
-                    ),
-                    onPressed: selectFile,
-                    label: Text("Selecionar ficheiro"),
+                 
+                  Text(
+                    "Certificado",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(width: 5),
-                  ElevatedButton.icon(
-                    icon: const Icon(
-                      EvaIcons.upload,
-                      color: Color.fromARGB(255, 34, 37, 199),
+                  Text(
+                    "$fileName",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 3, 55, 226),
+                      fontSize: 16,
                     ),
-                    onPressed: () => uploadFile(widget.candidato.codigo),
-                    label: Text("Enviar"),
+                  ),
+                  Text(
+                    "$progress",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton.icon(
+                        icon: const Icon(
+                          EvaIcons.fileAdd,
+                          color: Color.fromARGB(255, 34, 37, 199),
+                        ),
+                        onPressed: selectFile,
+                        label: Text("Selecionar ficheiro"),
+                      ),
+                      SizedBox(width: 5),
+                      ElevatedButton.icon(
+                        icon: const Icon(
+                          EvaIcons.upload,
+                          color: Color.fromARGB(255, 34, 37, 199),
+                        ),
+                        onPressed: () => uploadFile(widget.candidato.codigo),
+                        label: Text("Enviar"),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+              )
+            ),
           ),
-        ),
+          Card(
+            child: Padding(padding: EdgeInsets.all(10), child:  Text("Documentos carregados",style: TextStyle(fontWeight: FontWeight.bold,color: Color.fromARGB(255, 3, 55, 226), fontSize: 16,),),)
+          )
+        ],
       ),
     );
   }

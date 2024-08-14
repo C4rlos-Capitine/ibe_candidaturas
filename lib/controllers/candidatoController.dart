@@ -47,7 +47,9 @@ Future<Candidato> getData(String email, String senha) async {
       email: "email",
       isEmpty: true,
       idade: 0,
-      identificacao: 0);
+      identificacao: 0,
+      naturalidade: ""
+      );
   try {
     // Define the URL with query parameters
     var url = Uri.http(IP, '/api/Candidato/search', {
@@ -83,7 +85,9 @@ Future<Candidato> getData(String email, String senha) async {
             email: responseBody["email"],
             isEmpty: false,
             idade: responseBody["idade"],
-            identificacao: responseBody["num_ident"]);
+            identificacao: responseBody["num_ident"],
+            naturalidade: responseBody["naturalidade"]
+            );
       }
     } else {
       print('Request failed with status: ${response.statusCode}');
@@ -98,7 +102,7 @@ Future<Candidato> getData(String email, String senha) async {
 }
 
 Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id,
-    tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc) async {
+    tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc, naturalidade, rua, ocupacao) async {
   bool resp = false;
   try {
     var gender = "M";
@@ -121,8 +125,13 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id,
       'mes': mes,
       'ano': ano,
       'idade': idade,
-      'codprovi': cod_provinc
+      'codprovi': cod_provinc,
+      'naturalidade':naturalidade,
+      "rua":rua,
+      'ocupacao':ocupacao
     });
+
+    print(requestBody);
 
     var url = Uri.http(IP, '/api/Candidato');
 

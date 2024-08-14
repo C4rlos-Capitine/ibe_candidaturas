@@ -51,6 +51,7 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           "IBE - Portal do Candidatos",

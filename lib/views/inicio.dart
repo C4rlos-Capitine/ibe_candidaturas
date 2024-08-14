@@ -51,6 +51,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         actions: [],
         title: Text(
           "IBE - Portal do Candidato",

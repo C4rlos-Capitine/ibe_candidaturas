@@ -11,71 +11,74 @@ class SobreNos extends StatefulWidget {
 class _SobreNosState extends State<SobreNos> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 30,),
-         Container(
-            alignment: Alignment.topCenter,
-            child: Card(
-              child: Padding(
-                padding: EdgeInsets.all(30),
-                child: Column(
-                  children: [
-                    Text("Quem somo nós", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 12)),
-                    Text("O IBE é uma instituição pública de âmbito nacional com autonomia administrativa, tutelado por Ministro que superintende a área do Enisno Superior. Criado por Decreto 30/2007 de 10 de Agosto e revisto pelo Decreto nº 24/2017 de 10 de Junho.", 
-                    style: TextStyle(fontSize: 13), textAlign: TextAlign.justify,),
-                    
-                  ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          SizedBox(height: 30,),
+          Container(
+              alignment: Alignment.topCenter,
+              child: Card(
+                child: Padding(
+                  padding: EdgeInsets.all(30),
+                  child: Column(
+                    children: [
+                      Text("Quem somo nós", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 12)),
+                      Text("O IBE é uma instituição pública de âmbito nacional com autonomia administrativa, tutelado por Ministro que superintende a área do Enisno Superior. Criado por Decreto 30/2007 de 10 de Agosto e revisto pelo Decreto nº 24/2017 de 10 de Junho.", 
+                      style: TextStyle(fontSize: 13), textAlign: TextAlign.justify,),
+                      
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        Container(
-        padding: EdgeInsets.all(20),
-        child: Card( 
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [ 
-                  Text("Nossos contactos", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 12)),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Icon(Icons.email, color: Colors.blue[900],),
-                  Text("secretaria@ibe.gov.mz")
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Icon(Icons.phone, color: Colors.blue[900],),
-                  Text("(+258) 21488826")
-                ],
-              ),
-            ],
-          )
-        ),
-      ),
-      Container(
+          Container(
           padding: EdgeInsets.all(20),
-          child: Card(
-            
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: Card( 
+            child: Column(
               children: [
-                Icon(Icons.place, color: Colors.blue[900],),
-                Text("Av. Mártires da Machava nº 231, Maputo")
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [ 
+                    Text("Nossos contactos", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 12)),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Icon(Icons.email, color: Colors.blue[900],),
+                    Text("secretaria@ibe.gov.mz")
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Icon(Icons.phone, color: Colors.blue[900],),
+                    Text("(+258) 21488826")
+                  ],
+                ),
               ],
+            )
+          ),
+        ),
+        Container(
+            padding: EdgeInsets.all(20),
+            child: Card(
+              
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Icon(Icons.place, color: Colors.blue[900],),
+                  Text("Av. Mártires da Machava nº 231, Maputo")
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

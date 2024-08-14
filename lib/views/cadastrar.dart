@@ -29,6 +29,9 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController _dataController = TextEditingController();
   TextEditingController _dataEmissaoController = TextEditingController();
   TextEditingController _dataValidadeController = TextEditingController();
+  TextEditingController _naturalidadeController = TextEditingController();
+  TextEditingController _ruaController = TextEditingController();
+  TextEditingController _ocupacaoController = TextEditingController();
   //List<Provincia>? _provincias;
   List<String> lista_prov = ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
 
@@ -52,6 +55,7 @@ class _CadastroState extends State<Cadastro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             "IBE - Portal do Candidatos",
@@ -118,7 +122,7 @@ class _CadastroState extends State<Cadastro> {
                   border: OutlineInputBorder(),
                   label: Text("APELIDO:"),
                   icon: Icon(Icons.person, color: Colors.blue[900]),
-                  hintText: "Escreva o email",
+                  hintText: "Seu apelido",
                 ),
               ),
             ),
@@ -186,7 +190,7 @@ class _CadastroState extends State<Cadastro> {
 
                   if (pickedDate != null) {
                     setState(() {
-                      _dataController.text =
+                      _dataEmissaoController.text =
                           "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
                       dia = pickedDate.day;
                       mes = pickedDate.month;
@@ -219,7 +223,7 @@ class _CadastroState extends State<Cadastro> {
 
                   if (pickedDate != null) {
                     setState(() {
-                      _dataController.text =
+                      _dataValidadeController.text =
                           "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
                       dia = pickedDate.day;
                       mes = pickedDate.month;
@@ -323,6 +327,51 @@ class _CadastroState extends State<Cadastro> {
               alignment: Alignment.center,
               padding: EdgeInsets.all(20),
               child: TextFormField(
+                controller: _naturalidadeController,
+                keyboardType: TextInputType.number,
+                maxLength: 25,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  label: Text("NATURALIDADE:"),
+                  icon: Icon(Icons.location_city, color: Colors.blue[900]),
+                  hintText: "Natural de...",
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(20),
+              child: TextFormField(
+                controller: _ruaController,
+                keyboardType: TextInputType.number,
+                maxLength: 25,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  label: Text("RUA:"),
+                  icon: Icon(Icons.streetview, color: Colors.blue[900]),
+                  hintText: "Rua",
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(20),
+              child: TextFormField(
+                controller: _ocupacaoController,
+                keyboardType: TextInputType.number,
+                maxLength: 25,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  label: Text("OCUPAÇÃO:"),
+                  icon: Icon(Icons.task, color: Colors.blue[900]),
+                  hintText: "Sua ocupação",
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(20),
+              child: TextFormField(
                 controller: _telemovelController,
                 keyboardType: TextInputType.number,
                 maxLength: 9,
@@ -357,8 +406,8 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   label: Text("EMAIL:"),
-                  icon: Icon(Icons.phone, color: Colors.blue[900]),
-                  hintText: "+email_nome@domain",
+                  icon: Icon(Icons.email, color: Colors.blue[900]),
+                  hintText: "email_nome@domain",
                 ),
               ),
             ),
@@ -390,6 +439,7 @@ class _CadastroState extends State<Cadastro> {
                 ),
               ),
             ),
+            
             Container(
               alignment: Alignment.center,
               padding: EdgeInsets.all(20),
@@ -441,7 +491,11 @@ class _CadastroState extends State<Cadastro> {
                         dia,
                         mes,
                         ano,
-                        selectedIndex);
+                        selectedIndex,
+                        _naturalidadeController.text,
+                        _ruaController.text,
+                        _ocupacaoController.text
+                        );
                     if (resp) {
                       print(resp.toString());
                       ScaffoldMessenger.of(this.context).showSnackBar(
@@ -459,20 +513,7 @@ class _CadastroState extends State<Cadastro> {
                           backgroundColor: Color.fromARGB(255, 235, 77, 3),
                         ),
                       );
-                      /*await DatabaseHelper.insertCandidato({
-                          'id': null,
-                          'nome': _nomeController.text,
-                          'apelido': _apelidoController.text,
-                          'email': _emailController.text,
-                          'senha': _passwordController.text,
-                          'telefone': _telemovelController.text,
-                          'telemovel': _telefoneController.text,
-                          'genero': 'M',
-                          'dia': dia,
-                          'mes': mes,
-                          'ano': ano,
-                          'codprovi': selectedIndex,
-                        });*/
+                      
                     }
                   }
                 },

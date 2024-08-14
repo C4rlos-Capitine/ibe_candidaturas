@@ -8,6 +8,9 @@ class Candidato{
   late bool isEmpty;
   late int idade;
   late int identificacao;
+  late String naturalidade;
+
+  
   Candidato({
       required this.nome,
       required this.apelido,
@@ -17,7 +20,8 @@ class Candidato{
       required this.email,
       required this.isEmpty,
       required this.idade,
-      required this.identificacao
+      required this.identificacao,
+      required this.naturalidade
   }) {
 
 

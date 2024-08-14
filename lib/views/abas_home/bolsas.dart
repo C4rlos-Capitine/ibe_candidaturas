@@ -40,6 +40,7 @@ class _BolsasState extends State<Bolsas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Novos editais de bolsas", style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 3, 55, 226),fontSize: 16)),
       ),

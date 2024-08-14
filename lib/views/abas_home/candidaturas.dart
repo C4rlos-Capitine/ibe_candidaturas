@@ -32,6 +32,7 @@ class _CandidaturasState extends State<Candidaturas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Minhas bolsas", style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 3, 55, 226),fontSize: 16)),
       ),

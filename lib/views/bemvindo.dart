@@ -11,6 +11,7 @@ class _BemvindoState extends State<Bemvindo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: ListView(
         children: [
           Container(
@@ -26,7 +27,7 @@ class _BemvindoState extends State<Bemvindo> {
             alignment: Alignment.topCenter,
             child: Card(
               child: Padding(
-                padding: EdgeInsets.all(50),
+                padding: EdgeInsets.all(70),
                 child: Column(
                   children: [
                     Text("BEM VINDO AO PORTAL DO CANDIDATO", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 12)),
@@ -40,10 +41,10 @@ class _BemvindoState extends State<Bemvindo> {
             alignment: Alignment.topCenter,
             child: Card(
               child: Padding(
-                padding: EdgeInsets.all(50),
+                padding: EdgeInsets.all(40),
                 child: Column(
                   children: [
-                    Text("O IBE é uma instituição pública de âmbito nacional com autonomia administrativa, tutelado por Ministro que superintende a área do Enisno Superior. Criado por Decreto 30/2007 de 10 de Agosto e revisto pelo Decreto nº 24/2017 de 10 de Junho.",
+                    Text("O IBE é uma instituição pública de âmbito nacional com autonomia administrativa, tutelado por Ministro que superintende a área do Enisno Superior.\n Criado por Decreto 30/2007 de 10 de Agosto e revisto pelo Decreto nº 24/2017 de 10 de Junho.",
                     style: TextStyle( fontSize: 13), textAlign: TextAlign.justify,),
                     
                   ],

@@ -16,6 +16,7 @@ class _PerfilState extends State<Perfil> {
     final candidato = widget.candidato;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: ListView(
         children: [
           Card(
@@ -52,6 +53,13 @@ class _PerfilState extends State<Perfil> {
                       Text("${candidato.idade}", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("NATURAL DE:", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("${candidato.naturalidade!}", style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -77,6 +85,14 @@ class _PerfilState extends State<Perfil> {
                       Text("${candidato.telefone}", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("N. CELULAR", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("${candidato.telemovel}", style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

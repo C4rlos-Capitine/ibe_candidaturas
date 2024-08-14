@@ -21,6 +21,7 @@ void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
+      color: Colors.white,
       theme: ThemeData(
         primaryColor: Colors.blue[900],
       ),

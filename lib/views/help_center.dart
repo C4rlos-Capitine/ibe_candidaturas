@@ -11,6 +11,7 @@ class _Help_centerState extends State<Help_center> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
           title: Text(
             "IBE - Portal do Candidatos",
