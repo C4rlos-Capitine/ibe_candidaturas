@@ -65,40 +65,41 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
           controller: _tabController,
           labelColor: Colors.blue[900],
           indicatorColor: Colors.blue[900],
-          isScrollable: true,
-          // padding: EdgeInsetsGeometry.infinity,
+         tabAlignment:TabAlignment.center,
+         
           tabs: [
             Tab(
+              iconMargin: EdgeInsets.all(0),
               icon: Icon(
                 EvaIcons.home,
                 color: Colors.blue[900],
               ),
-              child: Text("Bem vindo"),
+              child: Text("Bem vindo", style: TextStyle(fontSize: 12)),
             ),
             Tab(
               icon: Icon(EvaIcons.logIn, color: Colors.blue[900]),
-              child: Text("Login"),
+              child: Text("Login", style: TextStyle(fontSize: 12),),
             ),
             Tab(
               icon: Icon(
                 EvaIcons.info,
                 color: Colors.blue[900],
               ),
-              child: Text("Sobre nós"),
+              child: Text("Sobre nós", style: TextStyle(fontSize: 12),),
             ),
             Tab(
               icon: Icon(
                 EvaIcons.list,
                 color: Colors.blue[900],
               ),
-              child: Text("Bolsas"),
+              child: Text("Bolsas", style: TextStyle(fontSize: 12)),
             ),
             Tab(
               icon: Icon(
                 EvaIcons.personAdd,
                 color: Colors.blue[900],
               ),
-              child: Text("Inscrição"),
+              child: Text("Inscrição", style: TextStyle(fontSize: 12),),
             ),
           ],
         ),

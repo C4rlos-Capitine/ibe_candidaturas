@@ -26,6 +26,7 @@ class _BemvindoState extends State<Bemvindo> {
           Container(
             alignment: Alignment.topCenter,
             child: Card(
+              margin: EdgeInsets.all(10),
               child: Padding(
                 padding: EdgeInsets.all(70),
                 child: Column(
@@ -40,8 +41,9 @@ class _BemvindoState extends State<Bemvindo> {
           Container(
             alignment: Alignment.topCenter,
             child: Card(
+              margin: EdgeInsets.fromLTRB(30, 5, 30, 50),
               child: Padding(
-                padding: EdgeInsets.all(40),
+                padding: EdgeInsets.all(20),
                 child: Column(
                   children: [
                     Text("O IBE é uma instituição pública de âmbito nacional com autonomia administrativa, tutelado por Ministro que superintende a área do Enisno Superior.\n Criado por Decreto 30/2007 de 10 de Agosto e revisto pelo Decreto nº 24/2017 de 10 de Junho.",

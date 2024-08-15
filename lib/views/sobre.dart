@@ -13,7 +13,7 @@ class _SobreNosState extends State<SobreNos> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
+      body: ListView(
         children: [
           SizedBox(height: 30,),
           Container(
@@ -65,9 +65,9 @@ class _SobreNosState extends State<SobreNos> {
           ),
         ),
         Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(30),
             child: Card(
-              
+              //margin: EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

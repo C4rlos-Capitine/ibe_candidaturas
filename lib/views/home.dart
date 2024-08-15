@@ -6,23 +6,25 @@ import 'package:ibe_candidaturas/views/abas_home/candidaturas.dart';
 import 'package:ibe_candidaturas/views/abas_home/documentos.dart';
 import 'package:ibe_candidaturas/views/help_center.dart';
 import 'package:ibe_candidaturas/views/notificacoes.dart';
+import 'package:ibe_candidaturas/views/settings.dart';
 import 'estado_candidatura.dart';
 import 'abas_home/perfil.dart';
 import 'bemvindo.dart';
 import 'Notification.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
-//import 'package:ibe_candidaturas/views/notificacoes.dart';
+
+enum Menu { settings, about_app, help}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
-  
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   Candidato? _candidato;
@@ -61,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           backgroundColor: Color.fromARGB(255, 34, 88, 236),
           actions: <Widget>[
-            IconButton(
+            /*IconButton(
               onPressed: () => showDialog<String>(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
@@ -73,19 +75,69 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: const Text('Cancel'),
                     ),
                     TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Help_center()),
-                          );
-                        },
-                        child: const Text('OK'),
-                      ),
-
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Help_center()),
+                        );
+                      },
+                      child: const Text('OK'),
+                    ),
                   ],
                 ),
               ),
-              icon: Icon(Icons.help, color: Colors.white))
+              icon: Icon(Icons.help, color: Colors.white),
+            ),*/
+            PopupMenuButton<Menu>(
+              icon: Icon(Icons.more_vert, color: Colors.white),
+              onSelected: (Menu item) {
+                // Handle the menu item selection here
+                switch (item) {
+                  case Menu.settings:
+                    // Handle Preview action
+                    Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Settings()),
+                        );
+                    break;
+                  case Menu.about_app:
+                    // Handle Share action
+                    break;
+                  case Menu.help:
+                    // Handle Get link action
+                    Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Help_center()),
+                        );
+                    break;
+                }
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
+                const PopupMenuItem<Menu>(
+                  value: Menu.settings,
+                  child: ListTile(
+                    leading: Icon(Icons.settings),
+                    title: Text('Definições'),
+                  ),
+                ),
+                const PopupMenuItem<Menu>(
+                  value: Menu.about_app,
+                  child: ListTile(
+                    leading: Icon(Icons.info),
+                    title: Text('Sobre o aplicativo'),
+                  ),
+                ),
+                const PopupMenuItem<Menu>(
+                  value: Menu.help,
+                  child: ListTile(
+                    leading: Icon(Icons.help),
+                    title: Text('Suporte'),
+                  ),
+                ),
+                //const PopupMenuDivider(),
+                
+              ],
+            ),
           ],
           iconTheme: IconThemeData(color: Colors.blue[900]),
         ),

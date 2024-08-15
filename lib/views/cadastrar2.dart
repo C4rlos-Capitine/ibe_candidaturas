@@ -81,9 +81,9 @@ class _CadastroState extends State<Cadastro> {
             Container(
               height: 50,
               child: Card(
-                  elevation: 4.0,
+                  elevation: 0.0,
                   child: Text(
-                    "Cadastro de Candidato",
+                    "Auto Cadastro do Candidato",
                     style: TextStyle(
                         color: Color.fromARGB(255, 3, 44, 226),
                         fontWeight: FontWeight.bold,

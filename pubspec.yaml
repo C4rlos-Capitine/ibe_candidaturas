@@ -19,6 +19,10 @@ dependencies:
   path: ^1.9.0
   flutter_uploader: ^3.0.0-beta.4
   connectivity_plus: ^6.0.5
+  settings_ui: ^2.0.2
+  device_preview: ^1.2.0
+  flutter_launcher_icons: ^0.13.1
+  shared_preferences: ^2.3.1
   #sqflite_common_ffi: ^2.3.3
   #path_provider: ^2.1.4
   #http_client: ^1.5.3
@@ -26,6 +30,24 @@ dependencies:
   #hive: ^2.2.3
   #hive_flutter: ^1.1.0
   #hive_generator: ^2.0.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/ibe_moz.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/images/ibe_moz.png"
+    #background_color: "#hexcode"
+    #theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/images/ibe_moz.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/ibe_moz.png"
     
 
 dev_dependencies:
