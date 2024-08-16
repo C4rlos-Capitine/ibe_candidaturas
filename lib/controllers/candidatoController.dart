@@ -1,4 +1,4 @@
-import 'dart:convert';
+/*import 'dart:convert';
 import 'package:ibe_candidaturas/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:ibe_candidaturas/model/Candidato.dart';
@@ -100,6 +100,115 @@ Future<Candidato> getData(String email, String senha) async {
   }
   return candidato_inExistente;
 }
+*/
+
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ibe_candidaturas/model/Candidato.dart';
+import 'package:ibe_candidaturas/model/Candidatura.dart';
+import 'package:ibe_candidaturas/config.dart';
+import 'package:ibe_candidaturas/local_storage/storageManagment.dart'; 
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:ibe_candidaturas/model/Candidato.dart';
+
+
+Future<bool> login(String email, String senha) async {
+  print(senha);
+  try {
+    var url = Uri.http(IP, '/api/Candidato/search', {
+      'email': email,
+      'password': senha,
+    });
+
+    var response = await http.get(url).timeout(Duration(seconds: 10));
+
+    if (response.statusCode == 200) {
+      var responseBody = jsonDecode(response.body);
+      print(responseBody);
+
+      // Ensure 'findTrue' is checked before accessing other fields
+      if (responseBody['findTrue'] == true) {
+        // Create a Candidato instance from the response
+        Candidato candidato = Candidato.fromMap(responseBody);
+        await StorageUtils.saveCandidato(candidato);
+        return true;
+      }
+    }
+    return false;
+  } catch (e) {
+    print('Error during HTTP request: $e');
+    return false;
+  }
+}
+
+Future<Candidato?> attemptLocalLogin(String email, String senha) async {
+  Candidato? candidato = await StorageUtils.loadCandidato();
+  if (candidato != null && candidato.email == email) {
+    return candidato;
+  }
+  return null;
+}
+
+Future<Candidato> getData(String email, String senha) async {
+  Candidato candidato_inExistente = Candidato(
+    nome: "",
+    apelido: "",
+    codigo: 0,
+    telefone: "",
+    telemovel: "",
+    email: "email",
+    isEmpty: true,
+    idade: 0,
+    identificacao: 0,
+    naturalidade: "",
+  );
+
+  try {
+    var url = Uri.http(IP, '/api/Candidato/search', {
+      'email': email,
+      'password': senha,
+    });
+
+    var response = await http.get(url, headers: {'Content-Type': 'application/json'}).timeout(Duration(seconds: 10));
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      var responseBody = jsonDecode(response.body);
+      if (responseBody['findTrue'] == true) {
+        Candidato candidato = Candidato(
+          nome: responseBody["nome"],
+          apelido: responseBody["apelido"],
+          codigo: responseBody["codcandi"],
+          telefone: responseBody["telefone"],
+          telemovel: responseBody["telemovel"],
+          email: responseBody["email"],
+          isEmpty: false,
+          idade: responseBody["idade"],
+          identificacao: responseBody["num_ident"],
+          naturalidade: responseBody["naturalidade"],
+        );
+
+        // Save to local storage
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        // Convert Candidato to JSON string
+        String candidatoJson = jsonEncode(candidato.toJson());
+        await prefs.setString('candidato', candidatoJson);
+
+        return candidato;
+      }
+    } else {
+      print('Request failed with status: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error during HTTP request: $e');
+  }
+  return candidato_inExistente;
+}
+
 
 Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id,
     tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc, naturalidade, rua, ocupacao) async {

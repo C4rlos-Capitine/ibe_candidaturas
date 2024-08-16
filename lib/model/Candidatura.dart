@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Candidatura {
   late int cod_edital;
   late int codecurso;
@@ -19,19 +21,18 @@ class Candidatura {
     required this.resultado,
   });
 
-factory Candidatura.fromJson(Map<String, dynamic> json) {
-  return Candidatura(
-    codcandi: json['codcandi'] != null ? json['codcandi'] as int : 0,
-    cod_edital: json['cod_edital'] != null ? json['cod_edital'] as int : 0,
-    codecurso: json['codecurso'] != null ? json['codecurso'] as int : 0,
-    estado: json['estado'] != null ? json['estado'] as String : '',
-    resultado: json['resultado'] != null ? json['resultado'] as String : '',
-    curso: json['curso'] != null ? json['curso'] as String : '',
-    edital: json['edital'] != null ? json['edital'] as String : '',
-    data_submissao: json['data_subm'] != null ? json['data_subm'] as String : '',
-  );
-}
-
+  factory Candidatura.fromJson(Map<String, dynamic> json) {
+    return Candidatura(
+      codcandi: json['codcandi'] ?? 0,
+      cod_edital: json['cod_edital'] ?? 0,
+      codecurso: json['codecurso'] ?? 0,
+      estado: json['estado'] ?? '',
+      resultado: json['resultado'] ?? '',
+      curso: json['curso'] ?? '',
+      edital: json['edital'] ?? '',
+      data_submissao: json['data_subm'] ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {
@@ -41,8 +42,16 @@ factory Candidatura.fromJson(Map<String, dynamic> json) {
       'curso': curso,
       'edital': edital,
       'estado': estado,
-      'data_subm': data_submissao, // Adjust field name for consistency with API
+      'data_subm': data_submissao,
       'resultado': resultado,
     };
+  }
+
+  static List<Candidatura> listFromJson(List<dynamic> jsonList) {
+    return jsonList.map((json) => Candidatura.fromJson(json)).toList();
+  }
+
+  static List<dynamic> listToJson(List<Candidatura> candidaturaList) {
+    return candidaturaList.map((candidatura) => candidatura.toJson()).toList();
   }
 }

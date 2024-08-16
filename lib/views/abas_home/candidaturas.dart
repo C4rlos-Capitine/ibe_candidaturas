@@ -3,6 +3,7 @@ import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/model/Candidatura.dart';
 import 'package:ibe_candidaturas/views/estado_candidatura.dart';
+import 'package:ibe_candidaturas/local_storage/storageManagment.dart'; 
 
 class Candidaturas extends StatefulWidget {
   final Candidato candidato;
@@ -21,13 +22,45 @@ class _CandidaturasState extends State<Candidaturas> {
     _fetchCandidaturas();
   }
 
-  void _fetchCandidaturas() async{
-      List<Candidatura> candidaturas = await getCandidaturas(widget.candidato.codigo);
-      //print(candidaturas.first.edital);
-      setState(() {
-        _candidaturas = candidaturas;
-      });
+  void _fetchCandidaturas() async {
+  List<Candidatura> candidaturas = [];
+  bool hasNetworkError = false;
+
+  try {
+    // Primeiro, tente buscar candidaturas da rede
+    candidaturas = await getCandidaturas(widget.candidato.codigo);
+    if (candidaturas.isNotEmpty) {
+      // Se conseguir buscar dados da rede, salve-os localmente
+      await StorageUtils.saveCandidaturas(widget.candidato.codigo, candidaturas);
+      print('Dados obtidos e salvos localmente');
+    }
+  } catch (e) {
+    print('Erro durante a requisição HTTP: $e');
+    hasNetworkError = true;
   }
+
+  // Se houve um erro de rede ou não há dados, tente carregar os dados do armazenamento local
+  if (hasNetworkError || candidaturas.isEmpty) {
+    candidaturas = (await StorageUtils.loadCandidato()) as List<Candidatura>;
+    if (candidaturas.isEmpty) {
+      // Se ainda não houver dados, informe ao usuário
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Não foi possível carregar as candidaturas.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else {
+      print('Dados carregados do armazenamento local');
+    }
+  }
+
+  setState(() {
+    _candidaturas = candidaturas;
+  });
+}
+
+
 
   @override
   Widget build(BuildContext context) {
