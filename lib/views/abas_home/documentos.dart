@@ -133,6 +133,8 @@ class _DocumentosState extends State<Documentos> {
           Container(
             margin: EdgeInsets.all(10),
             child: Card(
+              color: Colors.white70,
+              elevation: 4.0,
               child: Padding(
                 padding: EdgeInsets.all(20),
                 child: Column(

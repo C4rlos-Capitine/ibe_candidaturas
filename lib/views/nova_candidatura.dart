@@ -54,31 +54,12 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          "IBE - Portal do Candidatos",
+          "IBE - Portal do Candidato",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Color.fromARGB(255, 34, 88, 236),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white),
-            onPressed: () => showDialog<String>(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                title: const Text('Novas Bolsas'),
-                content: const Text('Nenhuma bolsa lançada recentemente'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, 'Cancel'),
-                    child: const Text('Cancel'),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, 'OK'),
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            ),
-          ),
+         
         ],
         iconTheme: IconThemeData(color: Colors.blue[900]),
       ),
@@ -143,6 +124,7 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
             child: DropdownButtonFormField<String>(
+              dropdownColor: Colors.white,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 icon: Icon(Icons.task, color: Colors.blue[900]),

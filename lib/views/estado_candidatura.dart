@@ -31,6 +31,7 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
       body: ListView(
         children: [
           Card(
+            color: Colors.white70,
             child: Padding(
               padding: EdgeInsets.all(30),
               
@@ -38,6 +39,7 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
             )
           ),
           Card(
+            color: Colors.white70,
             child: Padding(
               padding: EdgeInsets.all(50),
               child:  Row(
@@ -51,6 +53,7 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
             ),
           ),
           Card(
+            color: Colors.white70,
             child: Padding(
               padding: EdgeInsets.all(15),
               child: Column(
@@ -84,7 +87,7 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
             )
           ),
           Card(
-            
+            color: Colors.white70,
             child: Padding(
               padding: EdgeInsets.all(20),
               child: Column(

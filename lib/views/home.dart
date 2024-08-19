@@ -63,32 +63,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           backgroundColor: Color.fromARGB(255, 34, 88, 236),
           actions: <Widget>[
-            /*IconButton(
-              onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Ajuda e Suporte'),
-                  content: const Text('Seção com perguntas frequentes e respostas, e Informações de contato para suporte técnico e administrativo. Clique OK para continuar'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'Cancel'),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Help_center()),
-                        );
-                      },
-                      child: const Text('OK'),
-                    ),
-                  ],
-                ),
-              ),
-              icon: Icon(Icons.help, color: Colors.white),
-            ),*/
+            
             PopupMenuButton<Menu>(
+              color: Colors.white,
               icon: Icon(Icons.more_vert, color: Colors.white),
               onSelected: (Menu item) {
                 // Handle the menu item selection here
@@ -145,11 +122,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ? _widgetOptions.elementAt(_selectedIndex)
             : Center(child: Text('No content available')), // Default widget
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           elevation: 5,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications, color: Color.fromARGB(255, 2, 33, 232)),
               label: 'Notificações',
+              
             ),
             BottomNavigationBarItem(
               icon: Icon(EvaIcons.person, color: Color.fromARGB(255, 2, 33, 232)),

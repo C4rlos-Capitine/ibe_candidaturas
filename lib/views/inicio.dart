@@ -29,7 +29,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
     var _networkCheckResponse = isConnected();
     print(_networkCheckResponse);
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   _checkNetworkStatus();
   
   }
@@ -65,41 +65,34 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
           controller: _tabController,
           labelColor: Colors.blue[900],
           indicatorColor: Colors.blue[900],
-         tabAlignment:TabAlignment.center,
-         
+          tabAlignment:TabAlignment.fill,
+          
           tabs: [
+
             Tab(
-              iconMargin: EdgeInsets.all(0),
-              icon: Icon(
-                EvaIcons.home,
-                color: Colors.blue[900],
-              ),
-              child: Text("Bem vindo", style: TextStyle(fontSize: 12)),
-            ),
-            Tab(
-              icon: Icon(EvaIcons.logIn, color: Colors.blue[900]),
-              child: Text("Login", style: TextStyle(fontSize: 12),),
+              icon: Icon( EvaIcons.home, color: Colors.blue[900]),
+              child: Text("Login", style: TextStyle(fontSize: 13),),
             ),
             Tab(
               icon: Icon(
                 EvaIcons.info,
                 color: Colors.blue[900],
               ),
-              child: Text("Sobre nós", style: TextStyle(fontSize: 12),),
+              child: Text("Sobre nós", style: TextStyle(fontSize: 13),),
             ),
             Tab(
               icon: Icon(
                 EvaIcons.list,
                 color: Colors.blue[900],
               ),
-              child: Text("Bolsas", style: TextStyle(fontSize: 12)),
+              child: Text("Bolsas", style: TextStyle(fontSize: 13)),
             ),
             Tab(
               icon: Icon(
                 EvaIcons.personAdd,
                 color: Colors.blue[900],
               ),
-              child: Text("Inscrição", style: TextStyle(fontSize: 12),),
+              child: Text("Inscrição", style: TextStyle(fontSize: 13),),
             ),
           ],
         ),
@@ -107,7 +100,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         children: [
-          Bemvindo(),
+          //Bemvindo(),
           Login(),
           SobreNos(), // Replace with your actual widget
           Bolsas(),

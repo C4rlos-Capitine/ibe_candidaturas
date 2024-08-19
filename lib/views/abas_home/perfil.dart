@@ -20,6 +20,7 @@ class _PerfilState extends State<Perfil> {
       body: ListView(
         children: [
           Card(
+            color: Colors.white70,
             child: Padding(
               padding: EdgeInsets.all(20),
               child: Column(
@@ -35,7 +36,7 @@ class _PerfilState extends State<Perfil> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("NOME:", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Nome:", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(candidato.nome, style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -49,14 +50,14 @@ class _PerfilState extends State<Perfil> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("IDADE:", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Idade:", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text("${candidato.idade}", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("NATURAL DE:", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Natural de:", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text("${candidato.naturalidade!}", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -66,6 +67,7 @@ class _PerfilState extends State<Perfil> {
           ),
           SizedBox(height: 15),
           Card(
+            color: Colors.white70,
             child: Padding(
               padding: EdgeInsets.all(15),
               child: Column(
@@ -81,14 +83,14 @@ class _PerfilState extends State<Perfil> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("N. TELEFONE", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("N. telefone", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text("${candidato.telefone}", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("N. CELULAR", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("N. Celular", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text("${candidato.telemovel}", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -96,7 +98,7 @@ class _PerfilState extends State<Perfil> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("E-MAIL", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("E-mail", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(candidato.email, style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -106,6 +108,7 @@ class _PerfilState extends State<Perfil> {
           ),
           SizedBox(height: 15),
           Card(
+            color: Colors.white70,
             child: Padding(
               padding: EdgeInsets.all(15),
               child: Column(
@@ -121,7 +124,7 @@ class _PerfilState extends State<Perfil> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("INST. ENSINO", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Inst. ensino", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text("candidato.instituicaoEnsino", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
