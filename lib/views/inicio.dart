@@ -7,6 +7,7 @@ import 'package:ibe_candidaturas/views/abas_home/bolsas_2.dart';
 import 'package:ibe_candidaturas/views/bemvindo.dart';
 import 'package:ibe_candidaturas/views/sobre.dart';
 import 'package:ibe_candidaturas/config.dart';
+import 'package:iconsax/iconsax.dart';
 
 //import 'package:ibe_candidaturas/sqlite_connection/CRUD_Candidatos.dart';
 
@@ -70,26 +71,26 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
           tabs: [
 
             Tab(
-              icon: Icon( EvaIcons.home, color: Colors.blue[900]),
+              icon: Icon(Iconsax.home_1, color: Colors.blue[900]),
               child: Text("Login", style: TextStyle(fontSize: 13),),
             ),
             Tab(
               icon: Icon(
-                EvaIcons.info,
+                Iconsax.info_circle,
                 color: Colors.blue[900],
               ),
               child: Text("Sobre nós", style: TextStyle(fontSize: 13),),
             ),
             Tab(
               icon: Icon(
-                EvaIcons.list,
+                EvaIcons.listOutline,
                 color: Colors.blue[900],
               ),
               child: Text("Bolsas", style: TextStyle(fontSize: 13)),
             ),
             Tab(
               icon: Icon(
-                EvaIcons.personAdd,
+                Iconsax.profile_add4,
                 color: Colors.blue[900],
               ),
               child: Text("Inscrição", style: TextStyle(fontSize: 13),),

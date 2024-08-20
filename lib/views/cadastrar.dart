@@ -7,6 +7,7 @@ import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ibe_candidaturas/controllers/provinciaController.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
+import 'package:iconsax/iconsax.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -84,6 +85,7 @@ class _CadastroState extends State<Cadastro> {
               height: 50,
               child: Card(
                   elevation: 0.0,
+                  color: Colors.white,
                   child: Text(
                     "Auto Cadastro do Candidato",
                     style: TextStyle(
@@ -96,14 +98,20 @@ class _CadastroState extends State<Cadastro> {
             SizedBox(height: 10),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 controller: _nomeController,
-                maxLength: 50,
+                //maxLength: 50,
+                keyboardType: TextInputType.name,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("NOME:"),
-                  icon: Icon(Icons.person, color: Colors.blue[900]),
+                  border: InputBorder.none,
+                  label: Text("Nome:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
                   hintText: "Escreva seu Nome",
                 ),
                 onChanged: (value) {
@@ -113,33 +121,46 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 10),
             Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
               child: TextFormField(
                 controller: _apelidoController,
-                maxLength: 25,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("APELIDO:"),
-                  icon: Icon(Icons.person, color: Colors.blue[900]),
+                  //border: OutlineInputBorder(),
+                  border: InputBorder.none,
+                  label: Text("Apelido:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
                   hintText: "Seu apelido",
                 ),
               ),
             ),
             SizedBox(height: 10),
             Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
               child: DropdownButtonFormField<String>(
+                dropdownColor: Colors.white,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  icon: Icon(Icons.document_scanner, color: Colors.blue[900]),
-                  labelText: "TIPO DOC.",
+                  border: InputBorder.none,
+                  icon: Icon(Iconsax.document_1, color: Colors.blue[900]),
+                  hintStyle: TextStyle(color: Colors.blue[900]),
+                  labelText: "Tipo de documento.",
+                  labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
                 value: _selectetTipo,
-                items: ["BI", "PASSAPORTE"]
+                items: ["BI", "Passaport"]
                     .map((label) => DropdownMenuItem(
-                          child: Text(label),
+                          child: Text(label, style: TextStyle(color: Colors.blue[900]),),
                           value: label,
                         ))
                     .toList(),
@@ -151,18 +172,23 @@ class _CadastroState extends State<Cadastro> {
                 },
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
               child: TextFormField(
                 controller: _docController,
                 keyboardType: TextInputType.number,
-                maxLength: 13,
+                //maxLength: 13,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("BI:"),
-                  icon: Icon(Icons.perm_identity, color: Colors.blue[900]),
+                  border: InputBorder.none,
+                  label: Text("BI:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Iconsax.card, color: Colors.blue[900]),
                   hintText: "Numero de BI",
                 ),
               ),
@@ -170,14 +196,20 @@ class _CadastroState extends State<Cadastro> {
             SizedBox(height: 10,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 controller: _dataEmissaoController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("DATA DE EMISSÃO:"),
-                  icon: Icon(Icons.date_range, color: Colors.blue[900]),
+                  border: InputBorder.none,
+                  label: Text("Data de emissão:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Iconsax.calendar, color: Colors.blue[900]),
                   hintText: "data dd/mm/aaaa",
+                  
                 ),
                 readOnly: true,
                 onTap: () async {
@@ -186,6 +218,24 @@ class _CadastroState extends State<Cadastro> {
                     initialDate: DateTime.now(),
                     firstDate: DateTime(1900),
                     lastDate: DateTime(2100),
+                    builder: (context, child) {
+                      return Theme(
+                        data: ThemeData.light().copyWith(
+                          primaryColor: Colors.blue[900], // Color for the header and selected date
+                          cardColor: Colors.blue[900],
+                          canvasColor: Colors.blue[900],
+                          dialogBackgroundColor: Colors.blue[900],
+                          colorScheme: ColorScheme(brightness: Brightness.light, primary: Color.fromARGB(255, 5, 85, 233), onPrimary: Colors.black, secondary: Colors.blue, onSecondary: Colors.black, error: Colors.redAccent, onError: Colors.redAccent, surface: Colors.white, onSurface: Colors.black),
+                          buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary), // Button text color
+                          textButtonTheme: TextButtonThemeData(
+                            style: TextButton.styleFrom(foregroundColor: Colors.blue[900]), // Color for text buttons
+                          ),
+                          primaryColorLight: Colors.white, // Background color
+                          //dialogBackgroundColor: Colors.white, // Background color of the dialog
+                        ),
+                        child: child!,
+                      );
+                    },
                   );
 
                   if (pickedDate != null) {
@@ -200,16 +250,21 @@ class _CadastroState extends State<Cadastro> {
                 },
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 20,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 controller: _dataValidadeController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("VALIDO ATÉ:"),
-                  icon: Icon(Icons.date_range, color: Colors.blue[900]),
+                  border: InputBorder.none,
+                  label: Text("Válido até:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Iconsax.calendar, color: Colors.blue[900]),
                   hintText: "data dd/mm/aaaa",
                 ),
                 readOnly: true,
@@ -219,6 +274,24 @@ class _CadastroState extends State<Cadastro> {
                     initialDate: DateTime.now(),
                     firstDate: DateTime(1900),
                     lastDate: DateTime(2100),
+                    builder: (context, child) {
+                      return Theme(
+                        data: ThemeData.light().copyWith(
+                          primaryColor: Colors.blue[900], // Color for the header and selected date
+                          cardColor: Colors.blue[900],
+                          canvasColor: Colors.blue[900],
+                          dialogBackgroundColor: Colors.blue[900],
+                          colorScheme: ColorScheme(brightness: Brightness.light, primary: Color.fromARGB(255, 5, 85, 233), onPrimary: Colors.black, secondary: Colors.blue, onSecondary: Colors.black, error: Colors.redAccent, onError: Colors.redAccent, surface: Colors.white, onSurface: Colors.black),
+                          buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary), // Button text color
+                          textButtonTheme: TextButtonThemeData(
+                            style: TextButton.styleFrom(foregroundColor: Colors.blue[900]), // Color for text buttons
+                          ),
+                          primaryColorLight: Colors.white, // Background color
+                          //dialogBackgroundColor: Colors.white, // Background color of the dialog
+                        ),
+                        child: child!,
+                      );
+                    },
                   );
 
                   if (pickedDate != null) {
@@ -233,16 +306,21 @@ class _CadastroState extends State<Cadastro> {
                 },
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 controller: _dataController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("DATA DE NASCIMENTO:"),
-                  icon: Icon(Icons.date_range, color: Colors.blue[900]),
+                  border: InputBorder.none,
+                  label: Text("Data de nascimento:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Iconsax.calendar, color: Colors.blue[900]),
                   hintText: "data dd/mm/aaaa",
                 ),
                 readOnly: true,
@@ -252,6 +330,24 @@ class _CadastroState extends State<Cadastro> {
                     initialDate: DateTime.now(),
                     firstDate: DateTime(1900),
                     lastDate: DateTime(2100),
+                    builder: (context, child) {
+                      return Theme(
+                        data: ThemeData.light().copyWith(
+                          primaryColor: Colors.blue[900], // Color for the header and selected date
+                          cardColor: Colors.blue[900],
+                          canvasColor: Colors.blue[900],
+                          dialogBackgroundColor: Colors.blue[900],
+                          colorScheme: ColorScheme(brightness: Brightness.light, primary: Color.fromARGB(255, 5, 85, 233), onPrimary: Colors.black, secondary: Colors.blue, onSecondary: Colors.black, error: Colors.redAccent, onError: Colors.redAccent, surface: Colors.white, onSurface: Colors.black),
+                          buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary), // Button text color
+                          textButtonTheme: TextButtonThemeData(
+                            style: TextButton.styleFrom(foregroundColor: Colors.blue[900]), // Color for text buttons
+                          ),
+                          primaryColorLight: Colors.white, // Background color
+                          //dialogBackgroundColor: Colors.white, // Background color of the dialog
+                        ),
+                        child: child!,
+                      );
+                    },
                   );
 
                   if (pickedDate != null) {
@@ -266,20 +362,28 @@ class _CadastroState extends State<Cadastro> {
                 },
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: DropdownButtonFormField<String>(
+                dropdownColor: Colors.white,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  icon: Icon(Icons.man, color: Colors.blue[900]),
-                  labelText: "GÊNERO",
+                  border: InputBorder.none,
+                  icon: Icon(Iconsax.man, color: Colors.blue[900]),
+                  labelText: "Gênero",
+                  hintStyle:TextStyle(color: Colors.blue[900]),
+                  labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
                 value: _selectedGender,
                 items: ["Masculino", "Feminino", "Outro"]
                     .map((label) => DropdownMenuItem(
-                          child: Text(label),
+                          child: Text(label, style: TextStyle(color: Colors.blue[900]),),
                           value: label,
                         ))
                     .toList(),
@@ -291,14 +395,23 @@ class _CadastroState extends State<Cadastro> {
                 },
               ),
             ),
+            SizedBox(height: 20,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: DropdownButtonFormField<String>(
+                dropdownColor: Colors.white,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  icon: Icon(Icons.place, color: Colors.blue[900]),
-                  labelText: "PROVINCIA",
+                  border: InputBorder.none,
+                  icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
+                  labelText: "Provincia",
+                  hintStyle:TextStyle(color: Colors.blue[900]),
+                  labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
                 value: _selectedProvince,
                 items: lista_prov
@@ -306,7 +419,7 @@ class _CadastroState extends State<Cadastro> {
                     .map((index, label) => MapEntry(
                           index,
                           DropdownMenuItem(
-                            child: Text(label),
+                            child: Text(label,  style:TextStyle(color: Colors.blue[900]),),
                             value: label,
                           ),
                         ))
@@ -323,123 +436,172 @@ class _CadastroState extends State<Cadastro> {
                 },
               ),
             ),
+            SizedBox(height: 20,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 controller: _naturalidadeController,
-                keyboardType: TextInputType.number,
-                maxLength: 25,
+                keyboardType: TextInputType.text,
+               // maxLength: 25,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("NATURALIDADE:"),
-                  icon: Icon(Icons.location_city, color: Colors.blue[900]),
+                  border: InputBorder.none,
+                  label: Text("Naturalidade:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
                   hintText: "Natural de...",
                 ),
               ),
             ),
+            SizedBox(height: 10,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 controller: _ruaController,
-                keyboardType: TextInputType.number,
-                maxLength: 25,
+                keyboardType: TextInputType.text,
+                //maxLength: 25,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("RUA:"),
-                  icon: Icon(Icons.streetview, color: Colors.blue[900]),
+                  border: InputBorder.none,
+                  label: Text("Rua:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
                   hintText: "Rua",
                 ),
               ),
             ),
+            SizedBox(height: 20,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 controller: _ocupacaoController,
-                keyboardType: TextInputType.number,
-                maxLength: 25,
+                keyboardType: TextInputType.text,
+                //maxLength: 25,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("OCUPAÇÃO:"),
-                  icon: Icon(Icons.task, color: Colors.blue[900]),
+                  border: InputBorder.none,
+                  label: Text("Ocupação:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Iconsax.task, color: Colors.blue[900]),
                   hintText: "Sua ocupação",
                 ),
               ),
             ),
+            SizedBox(height: 20,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 controller: _telemovelController,
                 keyboardType: TextInputType.number,
-                maxLength: 9,
+                //maxLength: 9,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("CELULAR:"),
+                  border: InputBorder.none,
+                  label: Text("Celular:", style: TextStyle(color: Colors.blue[900]),),
                   icon: Icon(Icons.phone_android, color: Colors.blue[900]),
                   hintText: "+258 00000",
                 ),
               ),
             ),
+            SizedBox(height: 20,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 controller: _telefoneController,
                 keyboardType: TextInputType.number,
-                maxLength: 9,
+                //maxLength: 9,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("TELEFONE:"),
+                  border: InputBorder.none,
+                  label: Text("Telefone:", style: TextStyle(color: Colors.blue[900]),),
                   icon: Icon(Icons.phone, color: Colors.blue[900]),
                   hintText: "+258 21 00000",
                 ),
               ),
             ),
+            SizedBox(height: 20,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("EMAIL:"),
-                  icon: Icon(Icons.email, color: Colors.blue[900]),
+                  border: InputBorder.none,
+                  label: Text("Email:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Icons.email_outlined, color: Colors.blue[900]),
                   hintText: "email_nome@domain",
                 ),
               ),
             ),
+            SizedBox(height: 25,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 obscureText: true,
                 controller: _passwordController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("SENHA:"),
-                  icon: Icon(Icons.password, color: Colors.blue[900]),
+                  border: InputBorder.none,
+                  label: Text("Senha:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Icons.password_sharp, color: Colors.blue[900]),
                   hintText: "********",
                 ),
               ),
             ),
+            SizedBox(height: 25,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: TextFormField(
                 obscureText: true,
                 controller: _passwordControllerConfirm,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("CONFIRMAR:"),
-                  icon: Icon(Icons.password, color: Colors.blue[900]),
+                  border: InputBorder.none,
+                  label: Text("Confirmar:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Iconsax.password_check, color: Colors.blue[900]),
                   hintText: "********",
                 ),
               ),
             ),
-            
+            SizedBox(height: 25,),
             Container(
               alignment: Alignment.center,
               padding: EdgeInsets.all(20),
@@ -528,6 +690,7 @@ class _CadastroState extends State<Cadastro> {
               ),
             ),
           ],
-        ));
+        )
+      );
   }
 }

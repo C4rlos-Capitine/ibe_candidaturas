@@ -1,20 +1,17 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:ibe_candidaturas/views/abas_home/bolsas.dart';
 import 'package:ibe_candidaturas/views/abas_home/candidaturas.dart';
+import 'package:ibe_candidaturas/views/abas_home/documento2.dart';
 import 'package:ibe_candidaturas/views/abas_home/documentos.dart';
+import 'package:ibe_candidaturas/views/abas_home/perfil.dart';
 import 'package:ibe_candidaturas/views/help_center.dart';
 import 'package:ibe_candidaturas/views/notificacoes.dart';
 import 'package:ibe_candidaturas/views/settings.dart';
-import 'estado_candidatura.dart';
-import 'abas_home/perfil.dart';
-import 'bemvindo.dart';
-import 'Notification.dart';
-import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
+import 'package:iconsax/iconsax.dart';
 
-enum Menu { settings, about_app, help}
+enum Menu { settings, about_app, help }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -58,34 +55,30 @@ class _MyHomePageState extends State<MyHomePage> {
       home: Scaffold(
         appBar: AppBar(
           title: Text(
-            "IBE - Portal do Candidatos",
+            widget.title,
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Color.fromARGB(255, 34, 88, 236),
           actions: <Widget>[
-            
             PopupMenuButton<Menu>(
               color: Colors.white,
               icon: Icon(Icons.more_vert, color: Colors.white),
               onSelected: (Menu item) {
-                // Handle the menu item selection here
                 switch (item) {
                   case Menu.settings:
-                    // Handle Preview action
                     Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Settings()),
-                        );
+                      context,
+                      MaterialPageRoute(builder: (context) => Settings()),
+                    );
                     break;
                   case Menu.about_app:
-                    // Handle Share action
+                    // Handle About App action
                     break;
                   case Menu.help:
-                    // Handle Get link action
                     Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Help_center()),
-                        );
+                      context,
+                      MaterialPageRoute(builder: (context) => Help_center()),
+                    );
                     break;
                 }
               },
@@ -111,8 +104,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: Text('Suporte'),
                   ),
                 ),
-                //const PopupMenuDivider(),
-                
               ],
             ),
           ],
@@ -120,36 +111,35 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: _widgetOptions.isNotEmpty
             ? _widgetOptions.elementAt(_selectedIndex)
-            : Center(child: Text('No content available')), // Default widget
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          elevation: 5,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications, color: Color.fromARGB(255, 2, 33, 232)),
+            : Center(child: Text('No content available')),
+        bottomNavigationBar: NavigationBar(
+          height: 80,
+          elevation: 0,
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: _onItemTapped,
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Iconsax.notification, color: Color.fromARGB(255, 34, 88, 236)),
               label: 'Notificações',
-              
             ),
-            BottomNavigationBarItem(
-              icon: Icon(EvaIcons.person, color: Color.fromARGB(255, 2, 33, 232)),
+            NavigationDestination(
+              icon: Icon(Iconsax.profile_2user4, color: Color.fromARGB(255, 34, 88, 236)),
               label: 'Perfil',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(EvaIcons.plus, color: Color.fromARGB(255, 2, 33, 232)),
-              label: 'Novas Bolsas',
+            NavigationDestination(
+              icon: Icon(EvaIcons.plus, color: Color.fromARGB(255, 34, 88, 236)),
+              label: 'Bolsas',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(EvaIcons.list, color: Color.fromARGB(255, 2, 33, 232)),
+            NavigationDestination(
+              icon: Icon(EvaIcons.list, color: Color.fromARGB(255, 34, 88, 236)),
               label: 'Histórico',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(EvaIcons.fileAdd, color: Color.fromARGB(255, 2, 33, 232)),
+            NavigationDestination(
+              icon: Icon(Iconsax.document_1, color: Color.fromARGB(255, 34, 88, 236)),
               label: 'Documentos',
             ),
           ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blue[900],
-          onTap: _onItemTapped,
+          //selectedItemColor: Colors.blue[900],
         ),
       ),
     );
@@ -164,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Perfil(candidato: _candidato!),
       Bolsas(candidato: _candidato!),
       Candidaturas(candidato: _candidato!),
-      Documentos(candidato: _candidato!),
+      Documento2(candidato: _candidato!),
     ];
   }
 

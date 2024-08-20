@@ -7,6 +7,7 @@ import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ibe_candidaturas/controllers/provinciaController.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
+import 'package:iconsax/iconsax.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -42,23 +43,7 @@ class _CadastroState extends State<Cadastro> {
   late int mes;
   late int ano;
   late int selectedIndex;
-/*
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _fetchProvincias();
-  }
 
-  void _fetchProvincias() async{
-    List<Provincia> provincia = (await getProvincias()).cast<Provincia>();
-    setState(() {
-      _provincias = provincia;
-      lista_prov =  provincia?.map((prov) => prov.provinc).toList(); 
-      print(lista_prov);
-    });
-  }
-*/
   void showErro(String descricao) {
     Fluttertoast.showToast(
       msg: descricao,
@@ -108,7 +93,7 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("Nome:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.person, color: Colors.blue[900]),
+                  icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
                   hintText: "Escreva seu Nome",
                 ),
                 onChanged: (value) {
@@ -131,7 +116,7 @@ class _CadastroState extends State<Cadastro> {
                   //border: OutlineInputBorder(),
                   border: InputBorder.none,
                   label: Text("Apelido:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.person, color: Colors.blue[900]),
+                  icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
                   hintText: "Seu apelido",
                 ),
               ),
@@ -149,7 +134,7 @@ class _CadastroState extends State<Cadastro> {
                 dropdownColor: Colors.white,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  icon: Icon(Icons.file_copy, color: Colors.blue[900]),
+                  icon: Icon(Iconsax.document_1, color: Colors.blue[900]),
                   hintStyle: TextStyle(color: Colors.blue[900]),
                   labelText: "Tipo de documento.",
                   labelStyle: TextStyle(color: Colors.blue[900]),
@@ -185,7 +170,7 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("BI:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.perm_identity, color: Colors.blue[900]),
+                  icon: Icon(Iconsax.card, color: Colors.blue[900]),
                   hintText: "Numero de BI",
                 ),
               ),
@@ -204,7 +189,7 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("Data de emissão:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.date_range, color: Colors.blue[900]),
+                  icon: Icon(Iconsax.calendar, color: Colors.blue[900]),
                   hintText: "data dd/mm/aaaa",
                   
                 ),
@@ -261,7 +246,7 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("Válido até:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.date_range, color: Colors.blue[900]),
+                  icon: Icon(Iconsax.calendar, color: Colors.blue[900]),
                   hintText: "data dd/mm/aaaa",
                 ),
                 readOnly: true,
@@ -317,7 +302,7 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("Data de nascimento:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.date_range, color: Colors.blue[900]),
+                  icon: Icon(Iconsax.calendar, color: Colors.blue[900]),
                   hintText: "data dd/mm/aaaa",
                 ),
                 readOnly: true,
@@ -372,7 +357,7 @@ class _CadastroState extends State<Cadastro> {
                 dropdownColor: Colors.white,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  icon: Icon(Icons.man, color: Colors.blue[900]),
+                  icon: Icon(Iconsax.man, color: Colors.blue[900]),
                   labelText: "Gênero",
                   hintStyle:TextStyle(color: Colors.blue[900]),
                   labelStyle: TextStyle(color: Colors.blue[900]),
@@ -405,7 +390,7 @@ class _CadastroState extends State<Cadastro> {
                 dropdownColor: Colors.white,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  icon: Icon(Icons.place, color: Colors.blue[900]),
+                  icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
                   labelText: "Provincia",
                   hintStyle:TextStyle(color: Colors.blue[900]),
                   labelStyle: TextStyle(color: Colors.blue[900]),
@@ -449,7 +434,7 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("Naturalidade:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.location_city, color: Colors.blue[900]),
+                  icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
                   hintText: "Natural de...",
                 ),
               ),
@@ -470,7 +455,7 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("Rua:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.streetview, color: Colors.blue[900]),
+                  icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
                   hintText: "Rua",
                 ),
               ),
@@ -491,7 +476,7 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("Ocupação:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.task, color: Colors.blue[900]),
+                  icon: Icon(Iconsax.task, color: Colors.blue[900]),
                   hintText: "Sua ocupação",
                 ),
               ),
@@ -553,7 +538,7 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("Email:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.email, color: Colors.blue[900]),
+                  icon: Icon(Icons.email_outlined, color: Colors.blue[900]),
                   hintText: "email_nome@domain",
                 ),
               ),
@@ -573,7 +558,7 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("Senha:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.password, color: Colors.blue[900]),
+                  icon: Icon(Icons.password_sharp, color: Colors.blue[900]),
                   hintText: "********",
                 ),
               ),
@@ -593,7 +578,7 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("Confirmar:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.password, color: Colors.blue[900]),
+                  icon: Icon(Iconsax.password_check, color: Colors.blue[900]),
                   hintText: "********",
                 ),
               ),

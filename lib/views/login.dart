@@ -110,7 +110,7 @@ class _LoginState extends State<Login> {
                 border: InputBorder.none,
                 hoverColor: Colors.blue[900],
                 label: Text("Email"),
-                icon: Icon(Icons.mail, color: Colors.blue[900]),
+                icon: Icon(Icons.mail_outline, color: Colors.blue[900]),
                 hintText: "Email",
                 labelStyle: TextStyle(color: Colors.blue[900]),
               ),
@@ -132,7 +132,7 @@ class _LoginState extends State<Login> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 label: Text("Senha"),
-                icon: Icon(Icons.person, color: Colors.blue[900]),
+                icon: Icon(Icons.key_outlined, color: Colors.blue[900]),
                 hintText: "Senha",
                 labelStyle: TextStyle(color: Colors.blue[900]),
                 hoverColor: Colors.blue[900],
@@ -142,7 +142,7 @@ class _LoginState extends State<Login> {
           ),
           SizedBox(height: 10),
           Container(
-           
+            margin: EdgeInsets.symmetric(horizontal: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -158,6 +158,7 @@ class _LoginState extends State<Login> {
                           backgroundColor: Colors.blue[900],
                         ),
                       ),
+                      SizedBox(height: 10,),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, "/cadastro");
