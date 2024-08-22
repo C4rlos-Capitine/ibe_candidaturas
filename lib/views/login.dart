@@ -13,6 +13,7 @@ import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
+import 'package:iconsax/iconsax.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -75,25 +76,39 @@ class _LoginState extends State<Login> {
       body: ListView(
         children: [
           Container(
-            padding: EdgeInsets.all(40),
+
+            margin: EdgeInsets.symmetric(vertical: 30, horizontal: 70),
             child: Image.asset('assets/images/ibe_moz.png'),
           ),
           Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue[900],
-                  ),
+            margin: EdgeInsets.symmetric(horizontal: 20),
+          
+            child: Card(
+              elevation: 4.0,
+              color: Colors.white,
+              child: Container(
+                margin: EdgeInsets.all(10),
+                child: Column(
+                
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Iconsax.info_circle5, color: Colors.blue[900],),
+                    Text(
+                      "Bem vindo ao portal, introduza o email e a senha para ter acesso ao seus dados e das suas candidaturas, ou inscreva - se na aba de Inscrição",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.blue[900], 
+                      ),
+                      textAlign: TextAlign.justify,
+                      
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            )
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 5),
           Container(
             alignment: Alignment.center,
             
@@ -150,16 +165,18 @@ class _LoginState extends State<Login> {
                     ? CircularProgressIndicator()
                     : ElevatedButton(
                         onPressed: _handleLogin,
-                        child: Text(
-                          "Autenticar",
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue[900],
+                          fixedSize: Size(300, 50)
                         ),
+                        child: Text(
+                          "Entrar",
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        
                       ),
                       SizedBox(height: 10,),
-                ElevatedButton(
+                /*ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, "/cadastro");
                   },
@@ -170,7 +187,7 @@ class _LoginState extends State<Login> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue[900],
                   ),
-                ),
+                ),*/
               ],
             ),
           ),

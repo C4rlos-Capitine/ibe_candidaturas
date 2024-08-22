@@ -32,10 +32,10 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
         children: [
           Card(
             color: Colors.white70,
-            child: Padding(
-              padding: EdgeInsets.all(30),
-              
-              child: Text("ESTADO DA CANDIDATURA", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),),
+            child: Container(
+              padding: EdgeInsets.all(20),
+              alignment: Alignment.center,
+              child: Text("Estado da Candidatura", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),),
             )
           ),
           Card(
@@ -80,6 +80,14 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
                     children: [
                       Text("Estado", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(widget.estado, style: TextStyle(fontWeight: FontWeight.bold))
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("Data de Submissão", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(widget.data_submissao, style: TextStyle(fontWeight: FontWeight.bold))
                     ],
                   ),
                 ],

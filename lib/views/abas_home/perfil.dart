@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
+import 'package:ibe_candidaturas/views/editar_dados.dart';
 
 class Perfil extends StatefulWidget {
   const Perfil({super.key, required this.candidato});
@@ -143,7 +144,7 @@ class _PerfilState extends State<Perfil> {
             padding: EdgeInsets.all(30),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, "/editar");
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> EditarDados(candidato: candidato)));
               },
               child: Text("Editar dados", style: TextStyle(fontWeight: FontWeight.bold)),
               style: ElevatedButton.styleFrom(

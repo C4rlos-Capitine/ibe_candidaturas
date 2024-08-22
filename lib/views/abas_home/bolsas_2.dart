@@ -64,11 +64,12 @@ class _BolsasState extends State<Bolsas> {
                   child: ListTile(
                     title: Text(edital.nome),
                     subtitle: Text('Ano: ${edital.ano}, Número: ${edital.numero}'),
+                    leading: Icon(Icons.download, color: Colors.blue[900],),
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Faça o auto - registo na aba de inscrições para se candidatar'),
-                          backgroundColor: Color.fromARGB(255, 235, 77, 3),
+                          content: Text('Faça o auto - registo na aba de inscrições para se candidatar', style: TextStyle(color: Colors.blue[900]),),
+                          backgroundColor: Color.fromARGB(255, 229, 231, 91),
                         ),
                       );
                     },

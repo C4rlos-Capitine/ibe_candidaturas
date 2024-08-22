@@ -11,6 +11,14 @@ class Candidato {
   late int idade;
   late int identificacao;
   late String naturalidade;
+  late String datadena;
+  late String data_emissao;
+  late String data_validade;
+  var genero;
+  late String provincia;
+  late int codprovi;
+  late String rua;
+  late String ocupacao;
 
   Candidato({
     required this.nome,
@@ -23,6 +31,14 @@ class Candidato {
     required this.idade,
     required this.identificacao,
     required this.naturalidade,
+    required this.datadena,
+    required this.data_emissao,
+    required this.data_validade,
+    required this.genero,
+    required this.provincia,
+    required this.codprovi,
+    required this.rua,
+    required this.ocupacao
   });
 
   factory Candidato.fromMap(Map<String, dynamic> map) {
@@ -37,8 +53,18 @@ class Candidato {
       idade: map['idade'] ?? 0,
       identificacao: map['num_ident'] ?? 0,
       naturalidade: map['naturalidade'] ?? '',
+      datadena: map['datadena'] ?? '',
+      data_emissao: map['data_emissao'],
+      data_validade: map['data_validade'],
+      genero: map['genero'],
+      provincia: map['provincia'],
+      codprovi: map['codprovi'],
+      rua: map['rua'],
+      ocupacao: map['ocupacao']
     );
   }
+  
+
 
   Map<String, dynamic> toJson() {
     return {
@@ -52,6 +78,14 @@ class Candidato {
       'idade': idade,
       'num_ident': identificacao,
       'naturalidade': naturalidade,
+      'datadena': datadena,
+      'data_emissao': data_emissao,
+      'data_validade': data_validade,
+      'genero': genero,
+      'provincia': provincia,
+      'codprovi': codprovi,
+      'rua': rua,
+      'ocupacao': ocupacao 
     };
   }
 

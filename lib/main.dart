@@ -11,13 +11,6 @@ import 'package:ibe_candidaturas/views/inicio.dart';
 //import 'package:workmanager/workmanager.dart';
 
 void main() {
-  /*WidgetsFlutterBinding.ensureInitialized();
-  Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
-  Workmanager().registerPeriodicTask(
-    'syncTask',
-    'syncCandidatos',
-    frequency: Duration(minutes: 15), // Adjust the frequency as needed
-  );*/
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -31,8 +24,6 @@ void main() {
         '/login': (context) => Login(),
         '/home': (context) => MyHomePage(title: "IBE - Candidaturas"),
         '/principal': (context) => Principal(),
-        //'/nova_candidatura': (context) => NovaCandidatura(codedita: null),
-        //'/estado': (context) => EstadoCandidatura(),
         '/inicio': (context) => Inicio()
       },
     ),

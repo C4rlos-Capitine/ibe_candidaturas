@@ -23,9 +23,9 @@ class _SobreNosState extends State<SobreNos> {
                   padding: EdgeInsets.all(30),
                   child: Column(
                     children: [
-                      Text("Quem somo nós", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 12)),
+                      Text("Quem somo nós", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 16)),
                       Text("O IBE é uma instituição pública de âmbito nacional com autonomia administrativa, tutelado por Ministro que superintende a área do Enisno Superior. Criado por Decreto 30/2007 de 10 de Agosto e revisto pelo Decreto nº 24/2017 de 10 de Junho.", 
-                      style: TextStyle(fontSize: 13), textAlign: TextAlign.justify,),
+                      style: TextStyle(fontSize: 14), textAlign: TextAlign.justify,),
                       
                     ],
                   ),
@@ -33,15 +33,17 @@ class _SobreNosState extends State<SobreNos> {
               ),
             ),
           Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(5),
           child: Card( 
-            child: Column(
+            child: Container(
+              margin: EdgeInsets.all(20),
+              child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [ 
-                    Text("Nossos contactos", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 12)),
+                    Text("Nossos contactos", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold, fontSize: 16)),
                   ],
                 ),
                 Row(
@@ -61,13 +63,14 @@ class _SobreNosState extends State<SobreNos> {
                   ],
                 ),
               ],
+            ),
             )
           ),
         ),
         Container(
-            padding: EdgeInsets.all(30),
+            padding: EdgeInsets.all(1),
             child: Card(
-              //margin: EdgeInsets.all(20),
+              margin: EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

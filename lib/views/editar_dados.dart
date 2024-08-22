@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -6,18 +7,19 @@ import 'package:flutter/widgets.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ibe_candidaturas/controllers/provinciaController.dart';
+import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
 import 'package:iconsax/iconsax.dart';
 
-class Cadastro extends StatefulWidget {
-  const Cadastro({super.key});
+class EditarDados extends StatefulWidget {
 
+  const EditarDados({super.key, required this.candidato});
+  final Candidato candidato;
   @override
-  State<Cadastro> createState() => _CadastroState();
+  State<EditarDados> createState() => _EditarDadosState();
 }
 
-class _CadastroState extends State<Cadastro> {
-  TextEditingController _dobController = TextEditingController();
+class _EditarDadosState extends State<EditarDados> {
   TextEditingController _nomeController = TextEditingController();
   TextEditingController _apelidoController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
@@ -25,20 +27,22 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController _passwordControllerConfirm = TextEditingController();
   TextEditingController _telefoneController = TextEditingController();
   TextEditingController _telemovelController = TextEditingController();
-  //TextEditingController _generoController = TextEditingController();
+  TextEditingController _generoController = TextEditingController();
   TextEditingController _docController = TextEditingController();
   TextEditingController _dataController = TextEditingController();
-    TextEditingController _dataEmissaoController = TextEditingController();
+  TextEditingController _dataEmissaoController = TextEditingController();
   TextEditingController _dataValidadeController = TextEditingController();
-    TextEditingController _naturalidadeController = TextEditingController();
+  TextEditingController _naturalidadeController = TextEditingController();
   TextEditingController _ruaController = TextEditingController();
   TextEditingController _ocupacaoController = TextEditingController();
+
   //List<Provincia>? _provincias;
-  List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
+  List<String> lista_prov = ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
 
   String? _selectedGender;
   String? _selectetTipo;
   String? _selectedProvince;
+  //String? _provincia;
   late int dia;
   late int mes;
   late int ano;
@@ -46,21 +50,53 @@ class _CadastroState extends State<Cadastro> {
 
   void showErro(String descricao) {
     Fluttertoast.showToast(
-      msg: descricao,
-      backgroundColor: const Color.fromARGB(255, 231, 3, 3),
-      fontSize: 25,
-      gravity: ToastGravity.TOP,
-      timeInSecForIosWeb: 5
-    );
+        msg: descricao,
+        backgroundColor: const Color.fromARGB(255, 231, 3, 3),
+        fontSize: 25,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 5);
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+    setState(() {
+      _nomeController.text = widget.candidato.nome;
+      _apelidoController.text = widget.candidato.apelido;
+      _docController.text = widget.candidato.identificacao.toString();
+      _telefoneController.text = widget.candidato.telefone;
+      _telemovelController.text = widget.candidato.telemovel;
+      _dataController.text = widget.candidato.datadena.toString();
+      //_ruaController.text = widget.candidato
+       _dataEmissaoController.text = widget.candidato.data_emissao.substring(0, widget.candidato.data_emissao.length - 9);
+       _dataValidadeController.text = widget.candidato.data_validade.substring(0, widget.candidato.data_validade.length - 9);
+       _dataController.text = widget.candidato.datadena.substring(0, widget.candidato.datadena.length - 9);
+       _generoController.text = widget.candidato.genero;
+       selectedIndex = widget.candidato.codprovi;
+       _naturalidadeController.text = widget.candidato.naturalidade;
+       _emailController.text = widget.candidato.email;
+       _ruaController.text = widget.candidato.rua;
+       _ocupacaoController.text = widget.candidato.ocupacao;
+    });
+    
 
-
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
-       body: ListView(
+        appBar: AppBar(
+          title: Text(
+            "IBE - Portal do Candidatos",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Color.fromARGB(255, 34, 88, 236),
+          iconTheme: IconThemeData(color: Colors.blue[900]),
+        ),
+        body: ListView(
           children: [
             SizedBox(height: 10),
              Container(
@@ -69,7 +105,7 @@ class _CadastroState extends State<Cadastro> {
                   elevation: 0.0,
                   color: Colors.white,
                   child: Text(
-                    "Auto Cadastro do Candidato",
+                    "Editar dados  do Candidato",
                     style: TextStyle(
                         color: Color.fromARGB(255, 3, 44, 226),
                         fontWeight: FontWeight.bold,
@@ -88,6 +124,8 @@ class _CadastroState extends State<Cadastro> {
               ),
               child: TextFormField(
                 controller: _nomeController,
+                enableSuggestions: false,
+                readOnly: true,
                 //maxLength: 50,
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(
@@ -112,6 +150,8 @@ class _CadastroState extends State<Cadastro> {
               margin: EdgeInsets.symmetric(horizontal: 30),
               child: TextFormField(
                 controller: _apelidoController,
+                enableSuggestions: false,
+                readOnly: true,
                 decoration: InputDecoration(
                   //border: OutlineInputBorder(),
                   border: InputBorder.none,
@@ -121,39 +161,7 @@ class _CadastroState extends State<Cadastro> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              child: DropdownButtonFormField<String>(
-                dropdownColor: Colors.white,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  icon: Icon(Iconsax.document_1, color: Colors.blue[900]),
-                  hintStyle: TextStyle(color: Colors.blue[900]),
-                  labelText: "Tipo de documento.",
-                  labelStyle: TextStyle(color: Colors.blue[900]),
-                ),
-                value: _selectetTipo,
-                items: ["BI", "Passaport"]
-                    .map((label) => DropdownMenuItem(
-                          child: Text(label, style: TextStyle(color: Colors.blue[900]),),
-                          value: label,
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectetTipo = value;
-                    print(_selectetTipo);
-                  });
-                },
-              ),
-            ),
+            
             SizedBox(height: 20),
             Container(
               decoration: BoxDecoration(
@@ -166,6 +174,8 @@ class _CadastroState extends State<Cadastro> {
               child: TextFormField(
                 controller: _docController,
                 keyboardType: TextInputType.number,
+                enableSuggestions: false,
+                readOnly: true,
                 //maxLength: 13,
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -346,35 +356,26 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 20),
             Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color.fromARGB(255, 248, 245, 245),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: DropdownButtonFormField<String>(
-                dropdownColor: Colors.white,
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: TextFormField(
+                controller: _generoController,
+                keyboardType: TextInputType.number,
+                enableSuggestions: false,
+                readOnly: true,
+                //maxLength: 13,
                 decoration: InputDecoration(
                   border: InputBorder.none,
+                  label: Text("Genero:", style: TextStyle(color: Colors.blue[900]),),
                   icon: Icon(Iconsax.man, color: Colors.blue[900]),
-                  labelText: "Gênero",
-                  hintStyle:TextStyle(color: Colors.blue[900]),
-                  labelStyle: TextStyle(color: Colors.blue[900]),
+                  
+                 
                 ),
-                value: _selectedGender,
-                items: ["Masculino", "Feminino", "Outro"]
-                    .map((label) => DropdownMenuItem(
-                          child: Text(label, style: TextStyle(color: Colors.blue[900]),),
-                          value: label,
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedGender = value;
-                    print(_selectedGender);
-                  });
-                },
               ),
             ),
             SizedBox(height: 20,),
@@ -392,6 +393,7 @@ class _CadastroState extends State<Cadastro> {
                   border: InputBorder.none,
                   icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
                   labelText: "Provincia",
+                  helperText: widget.candidato.provincia,
                   hintStyle:TextStyle(color: Colors.blue[900]),
                   labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
@@ -430,6 +432,8 @@ class _CadastroState extends State<Cadastro> {
               child: TextFormField(
                 controller: _naturalidadeController,
                 keyboardType: TextInputType.text,
+                enableSuggestions: false,
+                readOnly: true,
                // maxLength: 25,
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -533,6 +537,8 @@ class _CadastroState extends State<Cadastro> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextFormField(
+                 enableSuggestions: false,
+                readOnly: true,
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
@@ -543,46 +549,7 @@ class _CadastroState extends State<Cadastro> {
                 ),
               ),
             ),
-            SizedBox(height: 25,),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                obscureText: true,
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("Senha:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.password_sharp, color: Colors.blue[900]),
-                  hintText: "********",
-                ),
-              ),
-            ),
-            SizedBox(height: 25,),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                obscureText: true,
-                controller: _passwordControllerConfirm,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("Confirmar:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Iconsax.password_check, color: Colors.blue[900]),
-                  hintText: "********",
-                ),
-              ),
-            ),
+            
             SizedBox(height: 25,),
             Container(
               alignment: Alignment.center,
@@ -667,13 +634,12 @@ class _CadastroState extends State<Cadastro> {
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue[900],
-                          fixedSize: Size(300, 50)
-                        ),
+                  backgroundColor: Colors.blue[900],
+                ),
               ),
             ),
           ],
         )
-    );
+      );
   }
 }

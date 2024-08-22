@@ -1,8 +1,8 @@
 // config.dart
 library config;
 import 'package:connectivity_plus/connectivity_plus.dart';
-//final String IP = "localhost:5286";
-final String IP = "192.168.10.162:5286";
+final String IP = "192.168.10.162:5287";
+//final String IP = "192.168.10.162:5286";
 
 
 Future<NetworkCheckResponse> isConnected() async {

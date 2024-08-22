@@ -66,8 +66,9 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
       body: ListView(
         children: [
           Card(
-            child: Padding(
-              padding: EdgeInsets.all(10),
+            child: Container(
+              padding: EdgeInsets.all(20),
+              alignment: Alignment.center,
               child: Text("Nova Candidatura", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold)),
             ),
           ),
@@ -123,13 +124,21 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
           Container(
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
+            margin: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Color.fromARGB(255, 248, 245, 245),
+              borderRadius: BorderRadius.circular(10),
+              ),
             child: DropdownButtonFormField<String>(
               dropdownColor: Colors.white,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                icon: Icon(Icons.task, color: Colors.blue[900]),
-                labelText: "Curso",
-              ),
+                  border: InputBorder.none,
+                  icon: Icon(Icons.subject, color: Colors.blue[900]),
+                  labelText: "Selecione a área",
+                  hintStyle:TextStyle(color: Colors.blue[900]),
+                  labelStyle: TextStyle(color: Colors.blue[900]),
+                ),
               value: nome_curso,
               items: _dropdownMenuItems,
               onChanged: (value) {
