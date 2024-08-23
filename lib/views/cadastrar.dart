@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -42,6 +43,12 @@ class _CadastroState extends State<Cadastro> {
   late int dia;
   late int mes;
   late int ano;
+   dia_emissao,
+                        mes_emissao,
+                        ano_emissao,
+                        dia_validade,
+                        mes_validade,
+                        ano_validade;
   late int selectedIndex;
 
   void showErro(String descricao) {
@@ -656,7 +663,15 @@ class _CadastroState extends State<Cadastro> {
                         selectedIndex,
                         _naturalidadeController.text,
                         _ruaController.text,
-                        _ocupacaoController.text
+                        _ocupacaoController.text, 
+                        _dataEmissaoController.text,
+                        _dataValidadeController,
+                        dia_emissao,
+                        mes_emissao,
+                        ano_emissao,
+                        dia_validade,
+                        mes_validade,
+                        ano_validade
                         );
                     if (resp) {
                       print(resp.toString());
@@ -693,4 +708,10 @@ class _CadastroState extends State<Cadastro> {
         )
       );
   }
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('dia_emissao', dia_emissao));
+  }
 }
+*/

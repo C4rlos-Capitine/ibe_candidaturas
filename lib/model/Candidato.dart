@@ -54,13 +54,13 @@ class Candidato {
       identificacao: map['num_ident'] ?? 0,
       naturalidade: map['naturalidade'] ?? '',
       datadena: map['datadena'] ?? '',
-      data_emissao: map['data_emissao'],
-      data_validade: map['data_validade'],
-      genero: map['genero'],
-      provincia: map['provincia'],
-      codprovi: map['codprovi'],
-      rua: map['rua'],
-      ocupacao: map['ocupacao']
+      data_emissao: map['data_emissao'] ?? '',
+      data_validade: map['data_validade'] ?? '',
+      genero: map['genero'] ?? '',
+      provincia: map['provincia'] ?? '',
+      codprovi: map['codprovi'] ?? 0,
+      rua: map['rua'] ?? '',
+      ocupacao: map['ocupacao'] ?? ''
     );
   }
   

@@ -41,7 +41,7 @@ class _CandidaturasState extends State<Candidaturas> {
 
   // Se houve um erro de rede ou não há dados, tente carregar os dados do armazenamento local
   if (hasNetworkError || candidaturas.isEmpty) {
-    candidaturas = (await StorageUtils.loadCandidato()) as List<Candidatura>;
+    candidaturas = (await StorageUtils.loadCandidaturas(widget.candidato.codigo));
     if (candidaturas.isEmpty) {
       // Se ainda não houver dados, informe ao usuário
       ScaffoldMessenger.of(context).showSnackBar(

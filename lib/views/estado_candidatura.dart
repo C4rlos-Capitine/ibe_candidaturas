@@ -87,7 +87,7 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text("Data de Submissão", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(widget.data_submissao, style: TextStyle(fontWeight: FontWeight.bold))
+                      Text(widget.data_submissao.substring(0, widget.data_submissao.length - 9), style: TextStyle(fontWeight: FontWeight.bold))
                     ],
                   ),
                 ],

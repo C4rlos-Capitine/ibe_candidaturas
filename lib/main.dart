@@ -20,7 +20,7 @@ void main() {
       ),
       initialRoute: '/inicio',
       routes: {
-        '/cadastro': (context) => Cadastro(),
+       // '/cadastro': (context) => Cadastro(),
         '/login': (context) => Login(),
         '/home': (context) => MyHomePage(title: "IBE - Candidaturas"),
         '/principal': (context) => Principal(),

@@ -556,77 +556,7 @@ class _EditarDadosState extends State<EditarDados> {
               padding: EdgeInsets.all(20),
               child: ElevatedButton(
                 onPressed: () async {
-                  bool erro_validacao = false;
-                  if (_nomeController.text.isEmpty) {
-                    showErro("Campo nome Vazio");
-                    erro_validacao = true;
-                  }
-                  if (_apelidoController.text.isEmpty) {
-                    showErro("Campo apelido Vazio");
-                    erro_validacao = true;
-                  }
-                  if (_docController.text.isEmpty) {
-                    showErro("Campo BI/Passaporte Vazio");
-                    erro_validacao = true;
-                  }
-                  if (_passwordController.text.isEmpty) {
-                    showErro("Campo da senha Vazio");
-                    erro_validacao = true;
-                  }
-                  if (_passwordControllerConfirm.text.isEmpty) {
-                    showErro("Campo confirmar a senha Vazio");
-                    erro_validacao = true;
-                  }
-                  if (_passwordController.text !=
-                      _passwordControllerConfirm.text) {
-                    showErro(
-                        "A senha informada não é igual a do campo confirmar");
-                    erro_validacao = true;
-                  }
-                  if (_dataController.text.isEmpty) {
-                    showErro("Data de nascimento não informada");
-                    erro_validacao = true;
-                  }
-                  if (erro_validacao == false) {
-                    bool resp = await registar(
-                        _nomeController.text,
-                        _apelidoController.text,
-                        _emailController.text,
-                        _passwordController.text,
-                        _telemovelController.text,
-                        _telefoneController.text,
-                        _docController.text,
-                        1,
-                        _selectedGender,
-                        _dataController.text,
-                        dia,
-                        mes,
-                        ano,
-                        selectedIndex,
-                        _naturalidadeController.text,
-                        _ruaController.text,
-                        _ocupacaoController.text
-                        );
-                    if (resp) {
-                      print(resp.toString());
-                      ScaffoldMessenger.of(this.context).showSnackBar(
-                        SnackBar(
-                          content: Text('Registado com sucesso'),
-                          backgroundColor: Color.fromARGB(255, 8, 224, 134),
-                        ),
-                      );
-                      //print response from server
-                    } else {
-                      print("Erro de conexao.");
-                      ScaffoldMessenger.of(this.context).showSnackBar(
-                        SnackBar(
-                          content: Text('Erro ao enviar os dados'),
-                          backgroundColor: Color.fromARGB(255, 235, 77, 3),
-                        ),
-                      );
-                      
-                    }
-                  }
+
                 },
                 child: Text(
                   "Submeter",

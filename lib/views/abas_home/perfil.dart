@@ -20,8 +20,13 @@ class _PerfilState extends State<Perfil> {
       backgroundColor: Colors.white,
       body: ListView(
         children: [
-          Card(
-            color: Colors.white70,
+          Container(
+            //color: Colors.white70,
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
             child: Padding(
               padding: EdgeInsets.all(20),
               child: Column(
@@ -67,8 +72,12 @@ class _PerfilState extends State<Perfil> {
             ),
           ),
           SizedBox(height: 15),
-          Card(
-            color: Colors.white70,
+          Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
             child: Padding(
               padding: EdgeInsets.all(15),
               child: Column(
@@ -108,8 +117,12 @@ class _PerfilState extends State<Perfil> {
             ),
           ),
           SizedBox(height: 15),
-          Card(
-            color: Colors.white70,
+          Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
             child: Padding(
               padding: EdgeInsets.all(15),
               child: Column(

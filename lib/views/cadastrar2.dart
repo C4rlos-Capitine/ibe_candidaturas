@@ -42,6 +42,12 @@ class _CadastroState extends State<Cadastro> {
   late int dia;
   late int mes;
   late int ano;
+  late int dia_emissao;
+  late int mes_emissao;
+  late int ano_emissao;
+  late int dia_validade;
+  late int mes_validade;
+  late int ano_validade;
   late int selectedIndex;
 
   void showErro(String descricao) {
@@ -223,10 +229,10 @@ class _CadastroState extends State<Cadastro> {
                   if (pickedDate != null) {
                     setState(() {
                       _dataEmissaoController.text =
-                          "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                      dia = pickedDate.day;
-                      mes = pickedDate.month;
-                      ano = pickedDate.year;
+                          "${pickedDate.day}-${pickedDate.month}-${pickedDate.year}";
+                      dia_emissao = pickedDate.day;
+                      mes_emissao = pickedDate.month;
+                      ano_emissao = pickedDate.year;
                     });
                   }
                 },
@@ -279,10 +285,10 @@ class _CadastroState extends State<Cadastro> {
                   if (pickedDate != null) {
                     setState(() {
                       _dataValidadeController.text =
-                          "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                      dia = pickedDate.day;
-                      mes = pickedDate.month;
-                      ano = pickedDate.year;
+                          "${pickedDate.day}-${pickedDate.month}-${pickedDate.year}";
+                      dia_validade = pickedDate.day;
+                      mes_validade = pickedDate.month;
+                      ano_validade = pickedDate.year;
                     });
                   }
                 },
@@ -638,7 +644,15 @@ class _CadastroState extends State<Cadastro> {
                         selectedIndex,
                         _naturalidadeController.text,
                         _ruaController.text,
-                        _ocupacaoController.text
+                        _ocupacaoController.text,
+                        _dataEmissaoController.text,
+                        _dataValidadeController,
+                        dia_emissao,
+                        mes_emissao,
+                        ano_emissao,
+                        dia_validade,
+                        mes_validade,
+                        ano_validade
                         );
                     if (resp) {
                       print(resp.toString());

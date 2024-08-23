@@ -117,7 +117,7 @@ Future<Candidato> getData(String email, String senha) async {
 
 
 Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id,
-    tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc, naturalidade, rua, ocupacao) async {
+    tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc, naturalidade, rua, ocupacao, dataEmissao_doc, dataValidade_doc, dia_emissao, mes_emissao, ano_emissao, dia_validade, mes_validade, ano_validade) async {
   bool resp = false;
   try {
     var gender = "M";
@@ -143,7 +143,13 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id,
       'codprovi': cod_provinc,
       'naturalidade':naturalidade,
       "rua":rua,
-      'ocupacao':ocupacao
+      'ocupacao':ocupacao,
+      'dia_emissao': dia_emissao,
+      'mes_emissao':mes_emissao,
+      'ano_emissao':ano_emissao,
+      'dia_validade': dia_validade,
+      'mes_validade':mes_validade,
+      'ano_validade': ano_validade
     });
 
     print(requestBody);
