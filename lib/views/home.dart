@@ -6,12 +6,13 @@ import 'package:ibe_candidaturas/views/abas_home/documento2.dart';
 import 'package:ibe_candidaturas/views/abas_home/documentos.dart';
 import 'package:ibe_candidaturas/views/abas_home/perfil.dart';
 import 'package:ibe_candidaturas/views/help_center.dart';
+import 'package:ibe_candidaturas/views/inicio.dart';
 import 'package:ibe_candidaturas/views/notificacoes.dart';
 import 'package:ibe_candidaturas/views/settings.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:iconsax/iconsax.dart';
 
-enum Menu { settings, about_app, help }
+enum Menu { settings, about_app, help, logout }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -80,6 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       MaterialPageRoute(builder: (context) => Help_center()),
                     );
                     break;
+                  case Menu.logout:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Inicio()),
+                    );
+                    //Navigator.pushNamed(context, "/inicio");
+                    break;
                 }
               },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
@@ -102,6 +110,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ListTile(
                     leading: Icon(Icons.help),
                     title: Text('Suporte'),
+                  ),
+                ),
+                const PopupMenuItem<Menu>(
+                  value: Menu.logout,
+                  child: ListTile(
+                    leading: Icon(Icons.logout_outlined),
+                    title: Text('Saír'),
                   ),
                 ),
               ],

@@ -3,9 +3,13 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ibe_candidaturas/controllers/areaController.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ibe_candidaturas/controllers/editalController.dart';
 import 'package:ibe_candidaturas/controllers/provinciaController.dart';
+import 'package:ibe_candidaturas/model/Area.dart';
+import 'package:ibe_candidaturas/model/Edital.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -33,12 +37,27 @@ class _CadastroState extends State<Cadastro> {
     TextEditingController _naturalidadeController = TextEditingController();
   TextEditingController _ruaController = TextEditingController();
   TextEditingController _ocupacaoController = TextEditingController();
+  TextEditingController _especialidadeController = TextEditingController();
   //List<Provincia>? _provincias;
   List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
+  List <String> niveis = ["Licenciatura", "Mestrado", "Doutoramento"];
+
+  List<Area>? areas;
+
+    List<DropdownMenuItem<String>>? _dropdownMenuItems;
+
+    List<DropdownMenuItem<String>>? _dropdownMenuItems_Areas;
 
   String? _selectedGender;
   String? _selectetTipo;
   String? _selectedProvince;
+  String? _selectedNivel;
+  String? _selectedEdital;
+  String? _selectedArea;
+  String? edital;
+  String? nomeEdital;
+  String? nomeArea;
+  late int _selectedIndexNivel;
   late int dia;
   late int mes;
   late int ano;
@@ -49,6 +68,10 @@ class _CadastroState extends State<Cadastro> {
   late int mes_validade;
   late int ano_validade;
   late int selectedIndex;
+  late int _codedita;
+  late int _codarea;
+
+
 
   void showErro(String descricao) {
     Fluttertoast.showToast(
@@ -60,10 +83,59 @@ class _CadastroState extends State<Cadastro> {
     );
   }
 
+    List<Edital>? _edital;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEditais(); // Call the async method to load data
+    _getAreas();
+  }
+
+  // Asynchronous method to load data
+  Future<void> _loadEditais() async {
+    try {
+      List<Edital>? editais = await getEditais();
+      setState(() {
+        _edital = editais;
+        _dropdownMenuItems = editais?.map((edital) => DropdownMenuItem<String>(
+          child: Text(edital.nome),
+
+          value: edital.codedita.toString(),
+        )).toList();
+        if (_dropdownMenuItems != null && _dropdownMenuItems!.isNotEmpty) {
+          nomeEdital = _dropdownMenuItems!.first.value; // Set a default value if there are courses
+        }
+      });
+    } catch (e) {
+      print('Error loading cursos: $e');
+    }
+  }
+
+  Future <void> _getAreas() async{
+    try {
+        List<Area>? _areas = await getAreas(1);
+        setState(() {
+          areas = _areas;
+          _dropdownMenuItems_Areas = areas?.map((area) => DropdownMenuItem<String>(
+            child: Text(area.nome),
+
+            value: area.codarea.toString(),
+          )).toList();
+          if (_dropdownMenuItems_Areas != null && _dropdownMenuItems_Areas!.isNotEmpty) {
+            nomeEdital = _dropdownMenuItems_Areas!.first.value; // Set a default value if there are courses
+          }
+        });
+      } catch (e) {
+        print('Error loading cursos: $e');
+      }
+}
+
 
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.white,
        body: ListView(
@@ -401,7 +473,7 @@ class _CadastroState extends State<Cadastro> {
                   hintStyle:TextStyle(color: Colors.blue[900]),
                   labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
-                value: _selectedProvince,
+                //value: _selectedProvince,
                 items: lista_prov
                     .asMap()
                     .map((index, label) => MapEntry(
@@ -422,6 +494,142 @@ class _CadastroState extends State<Cadastro> {
                         "Selected item: $_selectedProvince, Index: $selectedIndex");
                   });
                 },
+              ),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: DropdownButtonFormField<String>(
+                dropdownColor: Colors.white,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: Icon(Icons.school, color: Colors.blue[900]),
+                  labelText: "Nível Académico",
+                  hintStyle:TextStyle(color: Colors.blue[900]),
+                  labelStyle: TextStyle(color: Colors.blue[900]),
+                ),
+                value: _selectedNivel,
+                items: niveis
+                    .asMap()
+                    .map((index, label) => MapEntry(
+                          index,
+                          DropdownMenuItem(
+                            child: Text(label,  style:TextStyle(color: Colors.blue[900]),),
+                            value: label,
+                          ),
+                        ))
+                    .values
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedNivel = value;
+                    print(_selectedNivel);
+                    _selectedIndexNivel = niveis.indexOf(_selectedNivel!);
+                    print(
+                        "Selected item: $_selectedNivel, Index: $_selectedIndexNivel");
+                  });
+                },
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+                ),
+              child: DropdownButtonFormField<String>(
+                dropdownColor: Colors.white,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    icon: Icon(Icons.subject, color: Colors.blue[900]),
+                    labelText: "Selecione o Edital",
+                    hintStyle:TextStyle(color: Colors.blue[900]),
+                    labelStyle: TextStyle(color: Colors.blue[900]),
+                  ),
+                value: nomeEdital,
+                items: _dropdownMenuItems,
+                onChanged: (value) {
+                  setState(() {
+                    try{
+                      print("value: $value");
+                      nomeEdital = value;
+                      print("value: $nomeEdital");
+                      //print("value: "+_selectedEdital);
+                    
+                    }catch(e){
+                      print(e);
+                    }
+                    
+                  });
+                },
+              ),
+            ),
+            SizedBox(height: 20,),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+                ),
+              child: DropdownButtonFormField<String>(
+                dropdownColor: Colors.white,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    icon: Icon(Icons.subject, color: Colors.blue[900]),
+                    labelText: "Selecione a área",
+                    hintStyle:TextStyle(color: Colors.blue[900]),
+                    labelStyle: TextStyle(color: Colors.blue[900]),
+                  ),
+                value: nomeArea,
+                items: _dropdownMenuItems_Areas,
+                onChanged: (value) {
+                  setState(() {
+                    try{
+                      print(value);
+                      nomeArea = value;
+                      print("area: $nomeArea");
+
+                    
+                    }catch(e){
+                      print(e);
+                    }
+                    
+                  });
+                },
+              ),
+            ),
+
+            SizedBox(height: 20,),
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextFormField(
+                controller: _especialidadeController,
+                keyboardType: TextInputType.text,
+               // maxLength: 25,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  label: Text("Especialidade:", style: TextStyle(color: Colors.blue[900]),),
+                  //icon: Icon(, color: Colors.blue[900]),
+                  hintText: "Informe a especialidade.",
+                ),
               ),
             ),
             SizedBox(height: 20,),
@@ -446,6 +654,7 @@ class _CadastroState extends State<Cadastro> {
               ),
             ),
             SizedBox(height: 10,),
+            
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
@@ -652,9 +861,22 @@ class _CadastroState extends State<Cadastro> {
                         ano_emissao,
                         dia_validade,
                         mes_validade,
-                        ano_validade
-                        );
+                        ano_validade,
+                        nomeEdital,
+                        nomeArea,
+                        _especialidadeController.text);
                     if (resp) {
+                      try{
+                        print(resp.toString());
+                      ScaffoldMessenger.of(this.context).showSnackBar(
+                        SnackBar(
+                          content: Text('Registado com sucesso'),
+                          backgroundColor: Color.fromARGB(255, 8, 224, 134),
+                        ),
+                      );
+                      }catch(e){
+                        print(e);
+                      }
                       print(resp.toString());
                       ScaffoldMessenger.of(this.context).showSnackBar(
                         SnackBar(
@@ -664,13 +886,18 @@ class _CadastroState extends State<Cadastro> {
                       );
                       //print response from server
                     } else {
-                      print("Erro de conexao.");
-                      ScaffoldMessenger.of(this.context).showSnackBar(
-                        SnackBar(
-                          content: Text('Erro ao enviar os dados'),
-                          backgroundColor: Color.fromARGB(255, 235, 77, 3),
-                        ),
-                      );
+                      try{
+                         print("Erro de conexao.");
+                        ScaffoldMessenger.of(this.context).showSnackBar(
+                          SnackBar(
+                            content: Text('Erro ao enviar os dados'),
+                            backgroundColor: Color.fromARGB(255, 235, 77, 3),
+                          ),
+                        );
+                      }catch(e){
+                        print(e);
+                      }
+                     
                       
                     }
                   }
