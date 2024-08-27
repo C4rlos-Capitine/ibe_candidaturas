@@ -8,6 +8,7 @@ import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ibe_candidaturas/controllers/editalController.dart';
 import 'package:ibe_candidaturas/controllers/provinciaController.dart';
+import 'package:ibe_candidaturas/http_response/http_response.dart';
 import 'package:ibe_candidaturas/model/Area.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
@@ -43,8 +44,11 @@ class _CadastroState extends State<Cadastro> {
   List <String> niveis = ["Licenciatura", "Mestrado", "Doutoramento"];
 
   List<Area>? areas;
+  List<Provincia>? provincias;
 
     List<DropdownMenuItem<String>>? _dropdownMenuItems;
+
+    List<DropdownMenuItem<String>>? _dropdownMenuItems_provincias;
 
     List<DropdownMenuItem<String>>? _dropdownMenuItems_Areas;
 
@@ -90,6 +94,7 @@ class _CadastroState extends State<Cadastro> {
     super.initState();
     _loadEditais(); // Call the async method to load data
     _getAreas();
+    _getProvincias();
   }
 
   // Asynchronous method to load data
@@ -104,12 +109,32 @@ class _CadastroState extends State<Cadastro> {
           value: edital.codedita.toString(),
         )).toList();
         if (_dropdownMenuItems != null && _dropdownMenuItems!.isNotEmpty) {
-          nomeEdital = _dropdownMenuItems!.first.value; // Set a default value if there are courses
+          //nomeEdital = _dropdownMenuItems!.first.value; // Set a default value if there are courses
         }
       });
     } catch (e) {
       print('Error loading cursos: $e');
     }
+  }
+
+  Future <void> _getProvincias() async{
+    try{
+      List<Provincia>? _provincias = await getProvincias();
+      setState(() {
+        provincias = _provincias;
+        _dropdownMenuItems_provincias = provincias?.map((provincia) => DropdownMenuItem<String>(
+            child: Text(provincia.provinc),
+
+            value: provincia.codprovi.toString(),
+          )).toList();
+          if (_dropdownMenuItems_provincias != null && _dropdownMenuItems_provincias!.isNotEmpty) {
+            _selectedProvince = _dropdownMenuItems_provincias!.first.value; 
+          }
+      });
+    }catch(e){
+      print(e);
+    }
+
   }
 
   Future <void> _getAreas() async{
@@ -123,7 +148,7 @@ class _CadastroState extends State<Cadastro> {
             value: area.codarea.toString(),
           )).toList();
           if (_dropdownMenuItems_Areas != null && _dropdownMenuItems_Areas!.isNotEmpty) {
-            nomeEdital = _dropdownMenuItems_Areas!.first.value; // Set a default value if there are courses
+            //nomeEdital = _dropdownMenuItems_Areas!.first.value; // Set a default value if there are courses
           }
         });
       } catch (e) {
@@ -147,7 +172,7 @@ class _CadastroState extends State<Cadastro> {
                   elevation: 0.0,
                   color: Colors.white,
                   child: Text(
-                    "Auto Cadastro do Candidato",
+                    "Registo da candidatura",
                     style: TextStyle(
                         color: Color.fromARGB(255, 3, 44, 226),
                         fontWeight: FontWeight.bold,
@@ -159,6 +184,7 @@ class _CadastroState extends State<Cadastro> {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color.fromARGB(255, 248, 245, 245),
@@ -181,6 +207,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 10),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color.fromARGB(255, 248, 245, 245),
@@ -201,6 +228,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 10),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color.fromARGB(255, 248, 245, 245),
@@ -234,6 +262,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 20),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color.fromARGB(255, 248, 245, 245),
@@ -255,6 +284,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 10,),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -312,6 +342,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 20,),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -368,6 +399,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 20),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -424,6 +456,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 20),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -457,6 +490,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 20,),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -474,17 +508,7 @@ class _CadastroState extends State<Cadastro> {
                   labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
                 //value: _selectedProvince,
-                items: lista_prov
-                    .asMap()
-                    .map((index, label) => MapEntry(
-                          index,
-                          DropdownMenuItem(
-                            child: Text(label,  style:TextStyle(color: Colors.blue[900]),),
-                            value: label,
-                          ),
-                        ))
-                    .values
-                    .toList(),
+                items: _dropdownMenuItems_provincias,
                 onChanged: (value) {
                   setState(() {
                     _selectedProvince = value;
@@ -498,6 +522,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 10,),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -538,8 +563,9 @@ class _CadastroState extends State<Cadastro> {
               ),
             ),
             Container(
+              
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.symmetric(horizontal: 2),
               margin: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
@@ -552,7 +578,7 @@ class _CadastroState extends State<Cadastro> {
                     border: InputBorder.none,
                     icon: Icon(Icons.subject, color: Colors.blue[900]),
                     labelText: "Selecione o Edital",
-                    hintStyle:TextStyle(color: Colors.blue[900]),
+                    hintStyle:TextStyle(color: Colors.blue[900],),
                     labelStyle: TextStyle(color: Colors.blue[900]),
                   ),
                 value: nomeEdital,
@@ -573,10 +599,10 @@ class _CadastroState extends State<Cadastro> {
                 },
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 5,),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(20),
+               padding: EdgeInsets.symmetric(horizontal: 2),
               margin: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
@@ -611,10 +637,11 @@ class _CadastroState extends State<Cadastro> {
               ),
             ),
 
-            SizedBox(height: 20,),
+            SizedBox(height: 10,),
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color.fromARGB(255, 248, 245, 245),
@@ -634,6 +661,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 20,),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -656,6 +684,7 @@ class _CadastroState extends State<Cadastro> {
             SizedBox(height: 10,),
             
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -677,6 +706,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 20,),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -698,6 +728,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 20,),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -719,6 +750,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 20,),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -740,6 +772,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 20,),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -760,6 +793,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 25,),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -780,6 +814,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 25,),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
@@ -800,11 +835,13 @@ class _CadastroState extends State<Cadastro> {
             ),
             SizedBox(height: 25,),
             Container(
+              
               alignment: Alignment.center,
               padding: EdgeInsets.all(20),
               child: ElevatedButton(
                 onPressed: () async {
                   bool erro_validacao = false;
+                  
                   if (_nomeController.text.isEmpty) {
                     showErro("Campo nome Vazio");
                     erro_validacao = true;
@@ -835,8 +872,36 @@ class _CadastroState extends State<Cadastro> {
                     showErro("Data de nascimento não informada");
                     erro_validacao = true;
                   }
+                  if(_especialidadeController.text.isEmpty){
+                    showErro("Especialidade não informada");
+                    erro_validacao = true;
+                  }
+                  if(nomeArea!.isEmpty){
+                    showErro("Aréa de estudo não selecionada");
+                    erro_validacao = true;
+                  }
+                  if(nomeEdital!.isEmpty){
+                    showErro("Edital não selecionado");
+                    erro_validacao = true;
+                  }
+                  if(_naturalidadeController.text.isEmpty){
+                    showErro("Naturalidade não informada");
+                    erro_validacao = true;
+                  }
+                  if(_ocupacaoController.text.isEmpty){
+                    showErro("Ocupação não informada");
+                    erro_validacao = true;
+                  }
+                  if(_dataEmissaoController.text.isEmpty){
+                    showErro("Data de emissão do BI/Passaporte não informada");
+                    erro_validacao = true;
+                  }
+                  if(_dataValidadeController.text.isEmpty){
+                    showErro("Data de validade do BI/Passaporte não informada");
+                    erro_validacao = true;
+                  }
                   if (erro_validacao == false) {
-                    bool resp = await registar(
+                    /*bool resp = await registar(
                         _nomeController.text,
                         _apelidoController.text,
                         _emailController.text,
@@ -850,7 +915,36 @@ class _CadastroState extends State<Cadastro> {
                         dia,
                         mes,
                         ano,
-                        selectedIndex,
+                        _selectedProvince,
+                        _naturalidadeController.text,
+                        _ruaController.text,
+                        _ocupacaoController.text,
+                        _dataEmissaoController.text,
+                        _dataValidadeController,
+                        dia_emissao,
+                        mes_emissao,
+                        ano_emissao,
+                        dia_validade,
+                        mes_validade,
+                        ano_validade,
+                        nomeEdital,
+                        nomeArea,
+                        _especialidadeController.text);*/
+                        ResquestResponse response = await registar2(
+                        _nomeController.text,
+                        _apelidoController.text,
+                        _emailController.text,
+                        _passwordController.text,
+                        _telemovelController.text,
+                        _telefoneController.text,
+                        _docController.text,
+                        1,
+                        _selectedGender,
+                        _dataController.text,
+                        dia,
+                        mes,
+                        ano,
+                        _selectedProvince,
                         _naturalidadeController.text,
                         _ruaController.text,
                         _ocupacaoController.text,
@@ -865,22 +959,16 @@ class _CadastroState extends State<Cadastro> {
                         nomeEdital,
                         nomeArea,
                         _especialidadeController.text);
-                    if (resp) {
+                    if (response.success) {
                       try{
-                        print(resp.toString());
-                      ScaffoldMessenger.of(this.context).showSnackBar(
-                        SnackBar(
-                          content: Text('Registado com sucesso'),
-                          backgroundColor: Color.fromARGB(255, 8, 224, 134),
-                        ),
-                      );
+
                       }catch(e){
                         print(e);
                       }
-                      print(resp.toString());
+                      print(response.message);
                       ScaffoldMessenger.of(this.context).showSnackBar(
                         SnackBar(
-                          content: Text('Registado com sucesso'),
+                          content: Text('Msg: ${response.message} ${response.statuscode}'),
                           backgroundColor: Color.fromARGB(255, 8, 224, 134),
                         ),
                       );
@@ -890,7 +978,7 @@ class _CadastroState extends State<Cadastro> {
                          print("Erro de conexao.");
                         ScaffoldMessenger.of(this.context).showSnackBar(
                           SnackBar(
-                            content: Text('Erro ao enviar os dados'),
+                            content: Text('Msg: ${response.message} ${response.statuscode}'),
                             backgroundColor: Color.fromARGB(255, 235, 77, 3),
                           ),
                         );

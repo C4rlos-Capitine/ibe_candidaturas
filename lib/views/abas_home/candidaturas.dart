@@ -80,10 +80,10 @@ class _CandidaturasState extends State<Candidaturas> {
                   title: Text(_candidatura.edital),
                   subtitle: Text('Curso: ${_candidatura.curso}, Número: ${_candidatura.cod_edital}'),
                   onTap: () {
-                      Navigator.push(
+                      /*Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => EstadoCandidatura(candidato: widget.candidato, cod_edital: _candidatura.cod_edital, codecurso: _candidatura.codecurso, codcandi: _candidatura.codcandi, curso: _candidatura.curso, edital: _candidatura.edital, estado: _candidatura.estado, resultado: _candidatura.resultado, data_submissao: _candidatura.data_submissao)) 
-                      );
+                        MaterialPageRoute(builder: (context) => EstadoCandidatura(candidato: ca,)) 
+                      );*/
                   },
                   ),
                 );

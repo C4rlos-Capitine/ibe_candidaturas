@@ -5,6 +5,7 @@ import 'package:ibe_candidaturas/views/abas_home/candidaturas.dart';
 import 'package:ibe_candidaturas/views/abas_home/documento2.dart';
 import 'package:ibe_candidaturas/views/abas_home/documentos.dart';
 import 'package:ibe_candidaturas/views/abas_home/perfil.dart';
+import 'package:ibe_candidaturas/views/estado_candidatura.dart';
 import 'package:ibe_candidaturas/views/help_center.dart';
 import 'package:ibe_candidaturas/views/inicio.dart';
 import 'package:ibe_candidaturas/views/notificacoes.dart';
@@ -146,8 +147,8 @@ class _MyHomePageState extends State<MyHomePage> {
               label: 'Bolsas',
             ),
             NavigationDestination(
-              icon: Icon(EvaIcons.list, color: Color.fromARGB(255, 34, 88, 236)),
-              label: 'Histórico',
+              icon: Icon(Iconsax.information, color: Color.fromARGB(255, 34, 88, 236)),
+              label: 'Candidatura',
             ),
             NavigationDestination(
               icon: Icon(Iconsax.document_1, color: Color.fromARGB(255, 34, 88, 236)),
@@ -168,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Notificacoes(),
       Perfil(candidato: _candidato!),
       Bolsas(candidato: _candidato!),
-      Candidaturas(candidato: _candidato!),
+      EstadoCandidatura(candidato: _candidato!),
       Documento2(candidato: _candidato!),
     ];
   }

@@ -9,6 +9,7 @@ import 'package:ibe_candidaturas/local_storage/storageManagment.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ibe_candidaturas/model/Candidato.dart';
+import 'package:ibe_candidaturas/http_response/http_response.dart';
 
 
 Future<bool> login(String email, String senha) async {
@@ -60,7 +61,7 @@ Future<Candidato> getData(String email, String senha) async {
     idade: 0,
     identificacao: 0,
     naturalidade: "",
-    datadena: "", data_emissao: '', data_validade: '', genero: "", provincia: "", codprovi: 0, rua: "", ocupacao: ""
+    datadena: "", data_emissao: '', data_validade: '', genero: "", provincia: "", codprovi: 0, rua: "", ocupacao: "", edital: '', area: '', especialidade: '', estado: ''
   );
 
   try {
@@ -95,7 +96,11 @@ Future<Candidato> getData(String email, String senha) async {
           provincia: responseBody['provincia'],
           codprovi: responseBody['codprovi'],
           rua: responseBody["rua"],
-          ocupacao: responseBody["ocupacao"]
+          ocupacao: responseBody["ocupacao"], 
+          edital: responseBody["edital"],
+          area: responseBody["area"],
+          especialidade: responseBody["especialidade"], 
+          estado: responseBody["estado"]
         );
 
         // Save to local storage
@@ -174,6 +179,7 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id,
       var responseBody = jsonDecode(response.body);
       print(responseBody);
       if (responseBody['success'] == true) {
+        //ResquestResponse httpResponse = ResquestResponse(response.statusCode, responseBody['message'], success, body)
         resp = true;
       }
     } else {
@@ -184,6 +190,83 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id,
     print('Error during HTTP request: $e');
   }
   return resp;
+}
+
+Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, telefone, id,
+    tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc, naturalidade, rua, ocupacao, dataEmissao_doc, 
+    dataValidade_doc, dia_emissao, mes_emissao, ano_emissao, dia_validade, mes_validade, ano_validade, codedita, codarea, especialidade) async{
+
+  ResquestResponse httpRespponse = new ResquestResponse(0, "requesição não realizada", false);
+  try {
+    var gender = "M";
+    if (genero != "Masculino") gender = "F";
+    var idade = DateTime.now().year - ano;
+    // Criar o corpo da requisição em formato JSON
+    var requestBody = jsonEncode({
+      'codcandi': 23, // Ajustar se necessário
+      'nome': nome,
+      'apelido': apelido,
+      'nomecomp': '$nome $apelido',
+      'telefone': telefone,
+      'telemovel': telemovel,
+      'email': email,
+      'password': senha,
+      'genero': gender,
+      'num_ident': id,
+      'dataNasc': dataNaci,
+      'dia': dia,
+      'mes': mes,
+      'ano': ano,
+      'idade': idade,
+      'codprovi': cod_provinc,
+      'naturalidade':naturalidade,
+      "rua":rua,
+      'ocupacao':ocupacao,
+      'dia_emissao': dia_emissao,
+      'mes_emissao':mes_emissao,
+      'ano_emissao':ano_emissao,
+      'dia_validade': dia_validade,
+      'mes_validade':mes_validade,
+      'ano_validade': ano_validade,
+      'codedital': codedita,
+      'codarea': codarea,
+      'especialidade': especialidade,
+      'nivel':'L'
+    });
+
+    print(requestBody);
+
+    var url = Uri.http(IP, '/api/Candidato');
+
+    // Enviar a requisição POST com o corpo JSON
+    var response = await http
+        .post(url,
+            headers: {'Content-Type': 'application/json'}, body: requestBody)
+        .timeout(Duration(seconds: 10));
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var responseBody = jsonDecode(response.body);
+      print(responseBody);
+      if (responseBody['success'] == true) {
+        return new ResquestResponse(response.statusCode, responseBody['message'], true);
+      }else{
+        return new ResquestResponse(response.statusCode, responseBody['message'], false);
+      }
+    } else {
+      print('Request failed with status: ${response.statusCode}');
+      var responseBody2 = jsonDecode(response.body);
+         return new ResquestResponse(response.statusCode, responseBody2['message'], false);
+    }
+  } catch (e) {
+    // Exception occurred during HTTP request
+    print('Error during HTTP request: $e');
+  }
+  
+
+  return httpRespponse;
 }
 
 Future <bool> actualizar (nome, apelido, email, senha, telemovel, telefone, id,

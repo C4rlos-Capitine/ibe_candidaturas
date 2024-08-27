@@ -8,13 +8,13 @@ class Provincia{
   });
 
   factory Provincia.fromJson(Map<String, dynamic> json){
-    return Provincia(codprovi: json["codprovi"], provinc: json["nome"]);
+    return Provincia(codprovi: json["codprovi"], provinc: json["provinc"]);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'codcurso': codprovi,
-      'nome': provinc,
+      'codprovi': codprovi,
+      'provinc': provinc,
     };
   }
 }

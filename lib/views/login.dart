@@ -111,7 +111,7 @@ class _LoginState extends State<Login> {
           SizedBox(height: 15),
           Container(
             alignment: Alignment.center,
-            
+            padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               color: Color.fromARGB(255, 248, 245, 245),
@@ -134,7 +134,7 @@ class _LoginState extends State<Login> {
           SizedBox(height: 10),
           Container(
             alignment: Alignment.center,
-           
+           padding: EdgeInsets.symmetric(horizontal: 10),
             margin: EdgeInsets.symmetric(horizontal: 30.0),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
@@ -176,18 +176,6 @@ class _LoginState extends State<Login> {
                         
                       ),
                       SizedBox(height: 10,),
-                /*ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/cadastro");
-                  },
-                  child: Text(
-                    "Ou Inscreva - se",
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[900],
-                  ),
-                ),*/
               ],
             ),
           ),

@@ -19,6 +19,10 @@ class Candidato {
   late int codprovi;
   late String rua;
   late String ocupacao;
+  late String edital;
+  late String area;
+  late String especialidade;
+  late String estado;
 
   Candidato({
     required this.nome,
@@ -38,7 +42,11 @@ class Candidato {
     required this.provincia,
     required this.codprovi,
     required this.rua,
-    required this.ocupacao
+    required this.ocupacao,
+    required this.edital,
+    required this.area,
+    required this.especialidade,
+    required this.estado,
   });
 
   factory Candidato.fromMap(Map<String, dynamic> map) {
@@ -60,7 +68,7 @@ class Candidato {
       provincia: map['provincia'] ?? '',
       codprovi: map['codprovi'] ?? 0,
       rua: map['rua'] ?? '',
-      ocupacao: map['ocupacao'] ?? ''
+      ocupacao: map['ocupacao'] ?? '', edital: '', area: '', especialidade: '', estado: ''
     );
   }
   
@@ -85,7 +93,11 @@ class Candidato {
       'provincia': provincia,
       'codprovi': codprovi,
       'rua': rua,
-      'ocupacao': ocupacao 
+      'ocupacao': ocupacao,
+      'edital': edital,
+      'area': area,
+      'especialidade': especialidade,
+      'estado': estado 
     };
   }
 

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:ibe_candidaturas/config.dart';
-import 'package:ibe_candidaturas/model/provincia.dart';
+import 'package:ibe_candidaturas/model/Provincia.dart';
 
 Future<List<Provincia>> getProvincias() async {
   List<Provincia> provincia = [];

@@ -1,6 +1,9 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/views/editar_dados.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:ionicons/ionicons.dart';
 
 class Perfil extends StatefulWidget {
   const Perfil({super.key, required this.candidato});
@@ -20,6 +23,27 @@ class _PerfilState extends State<Perfil> {
       backgroundColor: Colors.white,
       body: ListView(
         children: [
+          SizedBox(height: 10,),
+          Container(
+            //margin: EdgeInsets.symmetric(horizontal: 0,),
+            padding: EdgeInsets.symmetric(vertical: 5),
+            color:Color.fromARGB(255, 34, 88, 236),
+              child: Row(
+                children: [
+                  SizedBox(width: 10,),
+                  Icon(Iconsax.personalcard, color: Colors.white,),
+                  SizedBox(width: 10,),
+                  Text(
+                  "Dados Pessoais",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                ],
+              )
+          ),
           Container(
             //color: Colors.white70,
             decoration: BoxDecoration(
@@ -31,19 +55,19 @@ class _PerfilState extends State<Perfil> {
               padding: EdgeInsets.all(20),
               child: Column(
                 children: [
-                  Text(
-                    "Dados Pessoais",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 3, 44, 226),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Nome:", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(candidato.nome, style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Apelido:", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(candidato.apelido, style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Row(
@@ -72,6 +96,27 @@ class _PerfilState extends State<Perfil> {
             ),
           ),
           SizedBox(height: 15),
+         Container(
+            //margin: EdgeInsets.symmetric(horizontal: 0,),
+            padding: EdgeInsets.symmetric(vertical: 5),
+            color:Color.fromARGB(255, 34, 88, 236),
+              child: Row(
+                children: [
+                  SizedBox(width: 10,),
+                  Icon(Icons.contact_page, color: Colors.white,),
+                  SizedBox(width: 10,),
+                  Text(
+                  "Cotactos",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                ],
+              )
+          ),
+          
           Container(
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
@@ -82,25 +127,18 @@ class _PerfilState extends State<Perfil> {
               padding: EdgeInsets.all(15),
               child: Column(
                 children: [
-                  Text(
-                    "Contactos",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 3, 44, 226),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("N. telefone", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Celular", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text("${candidato.telefone}", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("N. Celular", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Celular alternativo", style: TextStyle(fontWeight: FontWeight.bold)),
                       Text("${candidato.telemovel}", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -118,6 +156,27 @@ class _PerfilState extends State<Perfil> {
           ),
           SizedBox(height: 15),
           Container(
+            //margin: EdgeInsets.symmetric(horizontal: 0,),
+            padding: EdgeInsets.symmetric(vertical: 5),
+            color:Color.fromARGB(255, 34, 88, 236),
+              child: Row(
+                children: [
+                  SizedBox(width: 10,),
+                  Icon(Icons.school, color: Colors.white,),
+                  SizedBox(width: 10,),
+                  Text(
+                  "Formação Académica",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                ],
+              )
+          ),
+          
+          Container(
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color.fromARGB(255, 248, 245, 245),
@@ -127,26 +186,18 @@ class _PerfilState extends State<Perfil> {
               padding: EdgeInsets.all(15),
               child: Column(
                 children: [
-                  Text(
-                    "Formação",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 3, 44, 226),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Inst. ensino", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("candidato.instituicaoEnsino", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Nível", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("CURSO", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("candidato.curso", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Inst. de Ensino", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("", style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ],
