@@ -41,7 +41,7 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController _especialidadeController = TextEditingController();
   //List<Provincia>? _provincias;
   List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
-  List <String> niveis = ["Licenciatura", "Mestrado", "Doutoramento"];
+  List <String> niveis = ["Médio","Téc. Médio","Licenciatura", "Mestrado", "Doutoramento"];
 
   List<Area>? areas;
   List<Provincia>? provincias;
@@ -474,7 +474,7 @@ class _CadastroState extends State<Cadastro> {
                   labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
                 value: _selectedGender,
-                items: ["Masculino", "Feminino", "Outro"]
+                items: ["Masculino", "Feminino"]
                     .map((label) => DropdownMenuItem(
                           child: Text(label, style: TextStyle(color: Colors.blue[900]),),
                           value: label,
@@ -938,7 +938,7 @@ class _CadastroState extends State<Cadastro> {
                         _telemovelController.text,
                         _telefoneController.text,
                         _docController.text,
-                        1,
+                        _selectetTipo,
                         _selectedGender,
                         _dataController.text,
                         dia,
@@ -958,7 +958,7 @@ class _CadastroState extends State<Cadastro> {
                         ano_validade,
                         nomeEdital,
                         nomeArea,
-                        _especialidadeController.text);
+                        _especialidadeController.text, _selectedIndexNivel);
                     if (response.success) {
                       try{
 

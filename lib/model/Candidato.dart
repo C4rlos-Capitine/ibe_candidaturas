@@ -3,13 +3,14 @@ import 'dart:convert';
 class Candidato {
   late String nome;
   late String apelido;
+  late String nomecomp;
   late String telemovel;
   late String telefone;
   late String email;
   late int codigo;
-  late bool isEmpty;
+  late bool findTrue;
   late int idade;
-  late int identificacao;
+  late String identificacao;
   late String naturalidade;
   late String datadena;
   late String data_emissao;
@@ -23,15 +24,18 @@ class Candidato {
   late String area;
   late String especialidade;
   late String estado;
+  late String nivel;
+  late int pontuacao;
 
   Candidato({
     required this.nome,
     required this.apelido,
+    required this.nomecomp,
     required this.codigo,
     required this.telefone,
     required this.telemovel,
     required this.email,
-    required this.isEmpty,
+    required this.findTrue,
     required this.idade,
     required this.identificacao,
     required this.naturalidade,
@@ -47,19 +51,22 @@ class Candidato {
     required this.area,
     required this.especialidade,
     required this.estado,
+    required this.nivel,
+    required this.pontuacao
   });
 
   factory Candidato.fromMap(Map<String, dynamic> map) {
     return Candidato(
       nome: map['nome'] ?? '',
       apelido: map['apelido'] ?? '',
+      nomecomp: map['nomecomp'] ?? '',
       codigo: map['codcandi'] ?? 0,
       telefone: map['telefone'] ?? '',
       telemovel: map['telemovel'] ?? '',
       email: map['email'] ?? '',
-      isEmpty: map['isEmpty'] ?? true,
+      findTrue: map['findTrue'] ?? true,
       idade: map['idade'] ?? 0,
-      identificacao: map['num_ident'] ?? 0,
+      identificacao: map['identificacao'] ?? '',
       naturalidade: map['naturalidade'] ?? '',
       datadena: map['datadena'] ?? '',
       data_emissao: map['data_emissao'] ?? '',
@@ -68,7 +75,11 @@ class Candidato {
       provincia: map['provincia'] ?? '',
       codprovi: map['codprovi'] ?? 0,
       rua: map['rua'] ?? '',
-      ocupacao: map['ocupacao'] ?? '', edital: '', area: '', especialidade: '', estado: ''
+      ocupacao: map['ocupacao'] ?? '', 
+      edital: '', 
+      area: '',
+      especialidade: '',
+      estado: '', nivel: '', pontuacao: 0
     );
   }
   
@@ -78,13 +89,14 @@ class Candidato {
     return {
       'nome': nome,
       'apelido': apelido,
+      'nomecomp': nomecomp,
       'codcandi': codigo,
       'telefone': telefone,
       'telemovel': telemovel,
       'email': email,
-      'isEmpty': isEmpty,
+      'findTrue': findTrue,
       'idade': idade,
-      'num_ident': identificacao,
+      'identificacao': identificacao,
       'naturalidade': naturalidade,
       'datadena': datadena,
       'data_emissao': data_emissao,
@@ -97,7 +109,9 @@ class Candidato {
       'edital': edital,
       'area': area,
       'especialidade': especialidade,
-      'estado': estado 
+      'estado': estado,
+      'nivel':nivel,
+      'pontuacao': pontuacao
     };
   }
 

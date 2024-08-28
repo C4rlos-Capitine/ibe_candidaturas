@@ -57,11 +57,11 @@ Future<Candidato> getData(String email, String senha) async {
     telefone: "",
     telemovel: "",
     email: "email",
-    isEmpty: true,
+    findTrue: true,
     idade: 0,
-    identificacao: 0,
+    identificacao: "",
     naturalidade: "",
-    datadena: "", data_emissao: '', data_validade: '', genero: "", provincia: "", codprovi: 0, rua: "", ocupacao: "", edital: '', area: '', especialidade: '', estado: ''
+    datadena: "", data_emissao: '', data_validade: '', genero: "", provincia: "", codprovi: 0, rua: "", ocupacao: "", edital: '', area: '', especialidade: '', estado: '', nomecomp: '', nivel: '', pontuacao: 0
   );
 
   try {
@@ -85,9 +85,9 @@ Future<Candidato> getData(String email, String senha) async {
           telefone: responseBody["telefone"],
           telemovel: responseBody["telemovel"],
           email: responseBody["email"],
-          isEmpty: false,
+          findTrue: responseBody['findTrue'],
           idade: responseBody["idade"],
-          identificacao: responseBody["num_ident"],
+          identificacao: responseBody["identificacao"],
           naturalidade: responseBody["naturalidade"],
           datadena: responseBody["datadena"],
           data_emissao: responseBody['data_emissao'],
@@ -100,7 +100,9 @@ Future<Candidato> getData(String email, String senha) async {
           edital: responseBody["edital"],
           area: responseBody["area"],
           especialidade: responseBody["especialidade"], 
-          estado: responseBody["estado"]
+          estado: responseBody["estado"], 
+          nomecomp: responseBody['nomecomp'],
+          nivel: responseBody['nivel'], pontuacao: responseBody['pontuacao']
         );
 
         // Save to local storage
@@ -194,8 +196,23 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id,
 
 Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, telefone, id,
     tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc, naturalidade, rua, ocupacao, dataEmissao_doc, 
-    dataValidade_doc, dia_emissao, mes_emissao, ano_emissao, dia_validade, mes_validade, ano_validade, codedita, codarea, especialidade) async{
-
+    dataValidade_doc, dia_emissao, mes_emissao, ano_emissao, dia_validade, mes_validade, ano_validade, codedita, codarea, especialidade, int nivel) async{
+  var level = "";
+  var doc = "B";
+  if(nivel==0){
+    level = "E";
+  }else if(nivel == 1){
+    level = "P";
+  }else if(nivel == 2){
+    level = "L";
+  }else if(nivel == 3){
+    level = "M";
+  }
+  if(tipo_doc=="Passaport"){
+    doc = "P";
+  }
+  print("level: $level");
+  print("Doc: $doc");
   ResquestResponse httpRespponse = new ResquestResponse(0, "requesição não realizada", false);
   try {
     var gender = "M";
@@ -231,7 +248,8 @@ Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, tele
       'codedital': codedita,
       'codarea': codarea,
       'especialidade': especialidade,
-      'nivel':'L'
+      'nivel':'L',
+      'tipo_doc': tipo_doc
     });
 
     print(requestBody);

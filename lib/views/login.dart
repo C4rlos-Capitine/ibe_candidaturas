@@ -48,6 +48,7 @@ class _LoginState extends State<Login> {
     if (!internetLoginSuccess) {
       // If internet login fails, attempt local login
       candidato = await attemptLocalLogin(_email.text, _senha.text);
+      print(candidato?.nome);
       if (candidato == null) {
         // Show error if local storage login also fails
         ScaffoldMessenger.of(context).showSnackBar(

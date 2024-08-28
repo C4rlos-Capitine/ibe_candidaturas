@@ -59,36 +59,36 @@ class _PerfilState extends State<Perfil> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Nome:", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(candidato.nome, style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Nome:"),
+                      Text(candidato.nome),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Apelido:", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(candidato.apelido, style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Apelido:"),
+                      Text(candidato.apelido),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("BI:", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("${candidato.identificacao}", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("BI:"),
+                      Text("${candidato.identificacao}"),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Idade:", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("${candidato.idade}", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Idade:"),
+                      Text("${candidato.idade}"),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Natural de:", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("${candidato.naturalidade!}", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Natural de:"),
+                      Text("${candidato.naturalidade!}"),
                     ],
                   ),
                 ],
@@ -106,7 +106,7 @@ class _PerfilState extends State<Perfil> {
                   Icon(Icons.contact_page, color: Colors.white,),
                   SizedBox(width: 10,),
                   Text(
-                  "Cotactos",
+                  "Contactos",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -131,23 +131,23 @@ class _PerfilState extends State<Perfil> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Celular", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("${candidato.telefone}", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Celular"),
+                      Text("${candidato.telefone}"),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Celular alternativo", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("${candidato.telemovel}", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Celular alternativo"),
+                      Text("${candidato.telemovel}"),
                     ],
                   ),
                 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("E-mail", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(candidato.email, style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("E-mail"),
+                      Text(candidato.email),
                     ],
                   ),
                 ],
@@ -189,15 +189,15 @@ class _PerfilState extends State<Perfil> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Nível", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Nível"),
+                      Text("${candidato.nivel}"),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Inst. de Ensino", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Inst. de Ensino"),
+                      Text("",),
                     ],
                   ),
                 ],

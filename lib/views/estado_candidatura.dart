@@ -16,6 +16,10 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
   @override
   Widget build(BuildContext context) {
     final candidato = widget.candidato;
+    String pontuacao = "Não disponível";
+    if(candidato.pontuacao==0){
+      pontuacao = "${candidato.pontuacao} pontos";
+    }
     print(candidato.especialidade);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -45,8 +49,8 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Candidato: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                  Text(candidato.nome +" "+candidato.apelido, style: TextStyle(fontWeight: FontWeight.bold))
+                  Text("Candidato: "),
+                  Text(candidato.nome +" "+candidato.apelido)
                 ],
               ),
             )
@@ -74,31 +78,31 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Edital", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text('${candidato.edital}', style: TextStyle(fontWeight: FontWeight.bold))
+                      Text("Edital"),
+                      Text('${candidato.edital}')
                     ],
                   ),
                    Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Área:", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text('${candidato.area}', style: TextStyle(fontWeight: FontWeight.bold))
+                      Text("Área:"),
+                      Text('${candidato.area}')
                     ],
                   ),
                    Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Estado", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(candidato.estado, style: TextStyle(fontWeight: FontWeight.bold))
+                      Text("Estado"),
+                      Text(candidato.estado)
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Data de Submissão", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Data de Submissão"),
                       //Text(widget.data_submissao.substring(0, widget.data_submissao.length - 9), style: TextStyle(fontWeight: FontWeight.bold))
                     ],
                   ),
@@ -129,16 +133,24 @@ class _EstadoCandidaturaState extends State<EstadoCandidatura> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Especialidade:", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(candidato.especialidade, style: TextStyle(fontWeight: FontWeight.bold))
+                      Text("Especialidade:"),
+                      Text(candidato.especialidade)
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Resultado", style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("", style: TextStyle(fontWeight: FontWeight.bold))
+                      Text("Resultado"),
+                      Text("${candidato.estado}")
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("Pontuação"),
+                      Text("$pontuacao")
                     ],
                   ),
                 ],

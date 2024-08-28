@@ -34,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
       final candidato = ModalRoute.of(context)!.settings.arguments as Candidato;
+      print("candi $candidato");
       setState(() {
         _candidato = candidato;
         _isCandidatoInitialized = true;
