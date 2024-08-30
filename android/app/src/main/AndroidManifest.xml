@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ibe_candidaturas">
+    package="portal.candidato.ibe_candidaturas">
    <application
         android:label="Portal do Candidato"
         android:name="${applicationName}"
