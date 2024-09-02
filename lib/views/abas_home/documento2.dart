@@ -19,8 +19,12 @@ class Documento2 extends StatefulWidget {
 class _Documento2State extends State<Documento2> {
   File? _biFile;
   File? _certificadoFile;
+  File? _nuitFile;
+  File? _fotoFile;
   String _biFileName = "";
   String _certificadoFileName = "";
+  String _nuitName = "";
+  String _fotoName = "";
   String progress = "0%";
   bool _isUploading = false; // Adicionamos um flag para controle de upload
   Dio dio = Dio();
@@ -36,6 +40,12 @@ class _Documento2State extends State<Documento2> {
         } else if (field == 'certificado') {
           _certificadoFile = File(result.files.single.path!);
           _certificadoFileName = result.files.single.name;
+        } else if (field == 'NUIT') {
+          _nuitFile = File(result.files.single.path!);
+          _nuitName = result.files.single.name;
+        }else if(field == 'foto'){
+          _fotoFile = File(result.files.single.path!);
+          _fotoName = result.files.single.name;
         }
       });
     }
@@ -44,13 +54,24 @@ class _Documento2State extends State<Documento2> {
   void uploadFile(int codigo, String field) async {
     File? file;
     String? fileName;
+    late int tipo_ficheiro;
 
     if (field == 'bi') {
       file = _biFile;
       fileName = _biFileName;
+      tipo_ficheiro = 1;
     } else if (field == 'certificado') {
       file = _certificadoFile;
       fileName = _certificadoFileName;
+      tipo_ficheiro = 2;
+    }else if(field == 'NUIT'){
+      file = _nuitFile;
+      fileName = _nuitName;
+      tipo_ficheiro = 3;
+    }else if(field == 'foto'){
+      file = _fotoFile;
+      fileName = _fotoName;
+      tipo_ficheiro = 4;
     }
 
     if (file == null) {
@@ -64,7 +85,7 @@ class _Documento2State extends State<Documento2> {
     }
 
     try {
-      String url = 'http://$IP/api/FileUpload/upload?id=$codigo'; // Substitua com o URL da sua API
+      String url = 'http://$IP/api/FileUpload/upload?id=$codigo&tipo=$tipo_ficheiro'; // Substitua com o URL da sua API
 
       FormData formData = FormData.fromMap({
         'file': await MultipartFile.fromFile(file.path, filename: fileName),
@@ -157,6 +178,39 @@ class _Documento2State extends State<Documento2> {
                 ),
               ],
             ),
+            
+          ),
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Color.fromARGB(255, 248, 245, 245),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    leading: Icon(Iconsax.card, color: Colors.blue[900]),
+                    title: Text("NUIT:", style: TextStyle(color: Colors.blue[900])),
+                    subtitle: Text(_nuitName.isEmpty ? "Selecione o documento" : _nuitName),
+                    onTap: () => pickFile('NUIT'),
+                  ),
+                ),
+                ElevatedButton.icon(
+                  icon: const Icon(
+                    EvaIcons.upload,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => uploadFile(widget.candidato.codigo, 'NUIT'),
+                  label: Text("Enviar", style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 34, 37, 199),
+                  ),
+                ),
+              ],
+            ),
+            
           ),
           Container(
             decoration: BoxDecoration(
@@ -181,6 +235,38 @@ class _Documento2State extends State<Documento2> {
                     color: Colors.white,
                   ),
                   onPressed: () => uploadFile(widget.candidato.codigo, 'certificado'),
+                  label: Text("Enviar", style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 34, 37, 199),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Color.fromARGB(255, 248, 245, 245),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    leading: Icon(Iconsax.document, color: Colors.blue[900]),
+                    title: Text("Foto tipo passe:", style: TextStyle(color: Colors.blue[900])),
+                    subtitle: Text(_fotoName.isEmpty ? "Selecione o documento" : _fotoName),
+                    onTap: () => pickFile('foto'),
+                  ),
+                ),
+                ElevatedButton.icon(
+                  icon: const Icon(
+                    EvaIcons.upload,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => uploadFile(widget.candidato.codigo, 'foto'),
                   label: Text("Enviar", style: TextStyle(color: Colors.white)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 34, 37, 199),
