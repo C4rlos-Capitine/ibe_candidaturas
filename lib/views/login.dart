@@ -81,7 +81,7 @@ class _LoginState extends State<Login> {
             margin: EdgeInsets.symmetric(vertical: 25, horizontal: 70),
             child: Image.asset('assets/images/ibe_moz.png'),
           ),
-          Container(
+          /*Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
           
             child: Card(
@@ -108,7 +108,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
             )
-          ),
+          ),*/
           SizedBox(height: 15),
           Container(
             alignment: Alignment.center,
