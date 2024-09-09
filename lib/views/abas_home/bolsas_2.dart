@@ -45,11 +45,13 @@ class _BolsasState extends State<Bolsas> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           "Novos editais de bolsas",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 3, 55, 226),
+            backgroundColor: Colors.white,
             fontSize: 16,
           ),
         ),
@@ -61,6 +63,8 @@ class _BolsasState extends State<Bolsas> {
               itemBuilder: (context, index) {
                 final edital = _edital![index];
                 return Card(
+                  color: Colors.white,
+                  elevation: 4.0,
                   child: ListTile(
                     title: Text(edital.nome),
                     subtitle: Text('Ano: ${edital.ano}, Número: ${edital.numero}'),

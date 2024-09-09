@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';  // For TimeoutException
+
 /*
 Future<List<Edital>> getEditais() async {
   List<Edital> editais = [];
@@ -32,6 +34,8 @@ Future<List<Edital>> getEditais() async {
   return editais;
 }
 */
+
+
 Future<List<Edital>> getEditais() async {
   List<Edital> editais = [];
   try {
@@ -55,11 +59,14 @@ Future<List<Edital>> getEditais() async {
     } else {
       print('Request failed with status: ${response.statusCode}');
     }
+  } on TimeoutException catch (e) {
+    print('Request timed out: $e');
   } catch (e) {
     print('Error during HTTP request: $e');
   }
   return editais;
 }
+
 
 
 Future<List<Edital>> loadEditaisFromLocal() async {

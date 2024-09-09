@@ -51,6 +51,8 @@ class _BolsasState extends State<Bolsas> {
               itemBuilder: (context, index) {
                 final edital = _edital![index];
                 return Card(
+                  color: Colors.white,
+                  elevation: 4.0,
                   child: ListTile(
                   title: Text(edital.nome),
                   subtitle: Text('Ano: ${edital.ano}, Número: ${edital.numero}'),

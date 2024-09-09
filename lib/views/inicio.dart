@@ -30,7 +30,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
     var _networkCheckResponse = isConnected();
     print(_networkCheckResponse);
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   _checkNetworkStatus();
   
   }
@@ -55,7 +55,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
         backgroundColor: Colors.white,
         actions: [],
         title: Text(
-          "IBE - Portal do Candidato",
+          "IBE, IP - Portal do Candidato",
           style:
               TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
@@ -74,13 +74,13 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
               icon: Icon(Iconsax.home_1, color: Colors.blue[900]),
               child: Text("Login", style: TextStyle(fontSize: 13),),
             ),
-            Tab(
+            /*Tab(
               icon: Icon(
                 Iconsax.info_circle,
                 color: Colors.blue[900],
               ),
               child: Text("Sobre nós", style: TextStyle(fontSize: 13),),
-            ),
+            ),*/
             Tab(
               icon: Icon(
                 EvaIcons.listOutline,
@@ -103,7 +103,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
         children: [
           //Bemvindo(),
           Login(),
-          SobreNos(), // Replace with your actual widget
+         // SobreNos(), // Replace with your actual widget
           Bolsas(),
           Cadastro()
         ],

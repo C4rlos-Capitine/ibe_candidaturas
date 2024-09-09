@@ -78,37 +78,16 @@ class _LoginState extends State<Login> {
         children: [
           Container(
 
-            margin: EdgeInsets.symmetric(vertical: 25, horizontal: 70),
-            child: Image.asset('assets/images/ibe_moz.png'),
+            margin: EdgeInsets.symmetric(vertical: 1, horizontal: 100),
+            padding: EdgeInsets.symmetric(vertical: 1),
+            child: Image.asset('assets/images/f-login__brand.png'),
           ),
-          /*Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
-          
-            child: Card(
-              elevation: 4.0,
-              color: Colors.white,
-              child: Container(
-                margin: EdgeInsets.all(10),
-                child: Column(
-                
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Iconsax.info_circle5, color: Colors.blue[900],),
-                    Text(
-                      "Bem vindo ao portal, introduza o email e a senha para ter acesso ao seus dados e das suas candidaturas, ou inscreva - se na aba de Inscrição",
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.blue[900], 
-                      ),
-                      textAlign: TextAlign.justify,
-                      
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ),*/
+         
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(vertical: 1),
+            child: Text("Login", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),),
+          ),
           SizedBox(height: 15),
           Container(
             alignment: Alignment.center,

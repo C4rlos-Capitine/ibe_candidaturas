@@ -20,7 +20,7 @@ class _NotificacoesState extends State<Notificacoes> {
             fontWeight: FontWeight.bold,
             fontSize: 16)),
 
-          Container(
+         /* Container(
             padding: EdgeInsets.all(10),
             margin: EdgeInsets.all(10),
             child: Card(
@@ -34,7 +34,7 @@ class _NotificacoesState extends State<Notificacoes> {
             child: Card(
               child: Text("mensagem:.............."),
             ),
-          ),
+          ),*/
         ],
       ),
     );
