@@ -78,9 +78,9 @@ class _LoginState extends State<Login> {
         children: [
           Container(
 
-            margin: EdgeInsets.symmetric(vertical: 1, horizontal: 100),
+            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 100),
             padding: EdgeInsets.symmetric(vertical: 1),
-            child: Image.asset('assets/images/f-login__brand.png'),
+            child: Image.asset('assets/images/logotipo_header.png'),
           ),
          
           Container(
