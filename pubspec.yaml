@@ -19,12 +19,15 @@ dependencies:
   path: ^1.9.0
   flutter_uploader: ^3.0.0-beta.4
   connectivity_plus: ^6.0.5
-  settings_ui: ^2.0.2
+
   device_preview: ^1.2.0
   flutter_launcher_icons: ^0.13.1
   shared_preferences: ^2.3.1
   iconsax: ^0.0.8
   ionicons: ^0.2.2
+  path_provider: ^2.1.4
+  open_filex: ^4.5.0
+  panara_dialogs: ^0.1.5
   #flutter_boxicons: ^3.1.0
 
 flutter_launcher_icons:

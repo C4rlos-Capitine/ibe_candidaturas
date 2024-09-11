@@ -17,7 +17,7 @@ void main() {
       color: Colors.white,
       theme: ThemeData(
         primaryColor: Colors.blue[900],
-      ),
+      ),  
       initialRoute: '/inicio',
       routes: {
        // '/cadastro': (context) => Cadastro(),

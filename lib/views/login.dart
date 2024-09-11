@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/local_storage/storageManagment.dart'; 
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -37,6 +39,17 @@ class _LoginState extends State<Login> {
 
     // Attempt to log in via the internet
     try {
+        NetworkCheckResponse _networkCheckResponse = isConnected() as NetworkCheckResponse;
+        print(_networkCheckResponse.state);
+        if(_networkCheckResponse.state == false){
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Verifique se o wifi ou dados estão ligados'),
+                backgroundColor: Color.fromARGB(255, 235, 77, 3),
+              ),
+            );
+            return;
+        }
       internetLoginSuccess = await login(_email.text, _senha.text);
       if (internetLoginSuccess) {
         candidato = await getData(_email.text, _senha.text);
@@ -50,12 +63,17 @@ class _LoginState extends State<Login> {
       candidato = await attemptLocalLogin(_email.text, _senha.text);
       print(candidato?.nome);
       if (candidato == null) {
-        // Show error if local storage login also fails
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Dados incorrectos'),
-            backgroundColor: Color.fromARGB(255, 235, 77, 3),
-          ),
+
+        PanaraInfoDialog.showAnimatedGrow(
+          context,
+          title: "Mensagem de Erro",
+          message: "Dados Incorrectos.",
+          buttonText: "Okay",
+          color: Colors.white,
+          onTapDismiss: () {
+            Navigator.pop(context);
+          },
+          panaraDialogType: PanaraDialogType.error,
         );
       }
     }

@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
@@ -10,6 +11,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/http_response/http_response.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_filex/open_filex.dart';
 
 
 Future<bool> login(String email, String senha) async {
@@ -414,3 +417,34 @@ Future<bool> saveCandidatura(codcandi, cod_edital, cod_curso) async {
   }
   return resp;
 }
+
+
+Future<void> downloadAndOpenFile(String email) async {
+  try {
+    // Get the directory to store the downloaded file
+    final directory = await getApplicationDocumentsDirectory();
+    final filePath = '${directory.path}/comprovativo.pdf';
+    
+    // Make the HTTP request to download the file
+    final response = await http.get(Uri.parse("http://$IP/api/Report/report?email=$email"));
+    
+    // Check if the request was successful
+    if (response.statusCode == 200) {
+      final file = File(filePath);
+      // Write the response body to the file
+      await file.writeAsBytes(response.bodyBytes);
+      print('File downloaded to $filePath');
+
+      // Open the file
+      final result = await OpenFilex.open(filePath);
+      if (result.type != ResultType.done) {
+        print('Failed to open file: ${result.message}');
+      }
+    } else {
+      print('Failed to download file: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error: $e');
+  }
+}
+

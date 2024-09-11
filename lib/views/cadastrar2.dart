@@ -13,6 +13,7 @@ import 'package:ibe_candidaturas/model/Area.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -966,21 +967,41 @@ class _CadastroState extends State<Cadastro> {
                         print(e);
                       }
                       print(response.message);
-                      ScaffoldMessenger.of(this.context).showSnackBar(
+                      /*ScaffoldMessenger.of(this.context).showSnackBar(
                         SnackBar(
                           content: Text('Msg: ${response.message} ${response.statuscode}'),
                           backgroundColor: Color.fromARGB(255, 8, 224, 134),
                         ),
-                      );
+                      );*/
+                       PanaraInfoDialog.show(
+                          context,
+                          title: "Olá!!",
+                          message: "'Msg: ${response.message} ${response.statuscode}'",
+                          buttonText: "Okay",
+                          onTapDismiss: () {
+                            Navigator.pop(context);
+                          },
+                          panaraDialogType: PanaraDialogType.success,
+                        );
                       //print response from server
                     } else {
                       try{
                          print("Erro de conexao.");
-                        ScaffoldMessenger.of(this.context).showSnackBar(
+                        /*ScaffoldMessenger.of(this.context).showSnackBar(
                           SnackBar(
                             content: Text('Msg: ${response.message} ${response.statuscode}'),
                             backgroundColor: Color.fromARGB(255, 235, 77, 3),
                           ),
+                        );*/
+                        PanaraInfoDialog.showAnimatedGrow(
+                          context,
+                          title: "Mensagem de Erro",
+                          message: 'Msg: ${response.message} ${response.statuscode}',
+                          buttonText: "Okay",
+                          onTapDismiss: () {
+                            Navigator.pop(context);
+                          },
+                          panaraDialogType: PanaraDialogType.error,
                         );
                       }catch(e){
                         print(e);

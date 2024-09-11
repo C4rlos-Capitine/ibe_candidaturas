@@ -1,7 +1,7 @@
 // config.dart
 library config;
 import 'package:connectivity_plus/connectivity_plus.dart';
-//final String IP = "192.168.10.105:5285";
+//final String IP = "192.168.10.110:5285";
 final String IP = "5.189.138.20:8999";
 //final String IP = "localhost:5289";
 
@@ -12,18 +12,18 @@ Future<NetworkCheckResponse> isConnected() async {
   print('Connectivity Result: $connectivityResult'); // Debug print
 
   if (connectivityResult == ConnectivityResult.none) {
-    return NetworkCheckResponse(
+    return new NetworkCheckResponse(
       state: false,
       mesg: "Não conectado à rede",
     );
   } else if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi || connectivityResult == ConnectivityResult.vpn || connectivityResult == ConnectivityResult.other) {
-    return NetworkCheckResponse(
+    return new NetworkCheckResponse(
       state: true,
       mesg: "Conectado à rede: ${connectivityResult.toString()}",
     );
   } else {
     // Handle other possible connectivity results if needed
-    return NetworkCheckResponse(
+    return new NetworkCheckResponse(
       state: false,
       mesg: "Estado de rede desconhecido",
     );

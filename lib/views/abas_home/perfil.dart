@@ -1,5 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/views/editar_dados.dart';
 import 'package:iconsax/iconsax.dart';
@@ -205,7 +206,7 @@ class _PerfilState extends State<Perfil> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(30),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
             child: ElevatedButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> EditarDados(candidato: candidato)));
@@ -216,6 +217,24 @@ class _PerfilState extends State<Perfil> {
                 foregroundColor: Colors.white,
               ),
             ),
+
+            
+          ),
+
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            child: ElevatedButton(
+              onPressed: () {
+                downloadAndOpenFile(candidato.email);
+              },
+              child: Text("Baixa comprovativo", style: TextStyle(fontWeight: FontWeight.bold)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue[900],
+                foregroundColor: Colors.white,
+              ),
+            ),
+
+            
           ),
         ],
       ),
