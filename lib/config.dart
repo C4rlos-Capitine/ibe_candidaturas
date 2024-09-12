@@ -7,25 +7,57 @@ final String IP = "5.189.138.20:8999";
 
 
 Future<NetworkCheckResponse> isConnected() async {
-  final connectivityResult = await Connectivity().checkConnectivity();
-  
-  print('Connectivity Result: $connectivityResult'); // Debug print
+  try {
+    //final connectivityResult = await Connectivity().checkConnectivity();
+    final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
+    print('Connectivity Result: $connectivityResult'); // Debug print
 
-  if (connectivityResult == ConnectivityResult.none) {
-    return new NetworkCheckResponse(
+    if (connectivityResult.contains(ConnectivityResult.none)) {
+      return NetworkCheckResponse(
+        state: false,
+        mesg: "Não conectado à rede",
+      );
+    } else if (connectivityResult.contains(ConnectivityResult.mobile)) {
+      return NetworkCheckResponse(
+        state: true,
+        mesg: "Conectado à rede móvel",
+      );
+    } else if (connectivityResult.contains(ConnectivityResult.wifi)) {
+      return NetworkCheckResponse(
+        state: true,
+        mesg: "Conectado à rede Wi-Fi",
+      );
+    } else if (connectivityResult.contains(ConnectivityResult.ethernet)) {
+      return NetworkCheckResponse(
+        state: true,
+        mesg: "Conectado à rede Ethernet",
+      );
+    } else if (connectivityResult.contains(ConnectivityResult.vpn)) {
+      return NetworkCheckResponse(
+        state: true,
+        mesg: "Conectado através de VPN",
+      );
+    } else if (connectivityResult.contains(ConnectivityResult.bluetooth)) {
+      return NetworkCheckResponse(
+        state: true,
+        mesg: "Conectado através de Bluetooth",
+      );
+    } else if (connectivityResult.contains(ConnectivityResult.other)) {
+      return NetworkCheckResponse(
+        state: true,
+        mesg: "Conectado a uma rede desconhecida",
+      );
+    } else {
+      return NetworkCheckResponse(
+        state: false,
+        mesg: "Estado de rede desconhecido",
+      );
+    }
+  } catch (e) {
+    // Handle possible exceptions (e.g., no permission to access connectivity)
+    return NetworkCheckResponse(
       state: false,
-      mesg: "Não conectado à rede",
-    );
-  } else if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi || connectivityResult == ConnectivityResult.vpn || connectivityResult == ConnectivityResult.other) {
-    return new NetworkCheckResponse(
-      state: true,
-      mesg: "Conectado à rede: ${connectivityResult.toString()}",
-    );
-  } else {
-    // Handle other possible connectivity results if needed
-    return new NetworkCheckResponse(
-      state: false,
-      mesg: "Estado de rede desconhecido",
+      mesg: "Erro ao verificar a conectividade: ${e.toString()}",
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/controllers/editalController.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
 import 'package:ibe_candidaturas/views/estado_candidatura.dart';
@@ -14,14 +15,48 @@ class Bolsas extends StatefulWidget {
 
 class _BolsasState extends State<Bolsas> {
   List<Edital>? _edital;
+  bool _connected = false;
 
   @override
   void initState() {
     super.initState();
-    _loadEditais(); // Call the async method to load data
+    _initializeData();
   }
 
-  // Asynchronous method to load data
+  Future<void> _initializeData() async {
+    // Check network status and wait for the result
+    _connected = await _checkNetworkStatus();
+    print("after check: $_connected");
+
+    if (_connected) {
+      // Load data if connected
+      await _loadEditais();
+    } else {
+      // Show a snack bar if not connected
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Verifique se o wifi ou dados estão ligados'),
+          backgroundColor: Color.fromARGB(255, 235, 77, 3),
+        ),
+      );
+      setState(() {
+        _edital = null; // Clear or handle data if not connected
+      });
+    }
+  }
+
+  Future<bool> _checkNetworkStatus() async {
+    try {
+      final response = await isConnected();
+      print('Network Status: ${response.state}');
+      print('Message: ${response.mesg}');
+      return response.state;
+    } catch (error) {
+      print('Error: $error');
+      return false;
+    }
+  }
+
   Future<void> _loadEditais() async {
     try {
       List<Edital> editais = await fetchEditais(); // Use fetchEditais to handle both server and local data
@@ -29,7 +64,6 @@ class _BolsasState extends State<Bolsas> {
         _edital = editais; // Update the state with the fetched data
       });
     } catch (e) {
-      // Handle errors here
       print('Error loading editais: $e');
       Fluttertoast.showToast(
         msg: "Failed to load editais. Showing cached data.",

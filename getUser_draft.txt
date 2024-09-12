@@ -1,0 +1,13 @@
+ User _user = new User(username: "carlos23", email: "carlos23@gmail.com", phone: 852976341, pin: 4834, nome: "Carlos2");
+          await _user.openDb();
+         // _user.insert(_user);
+        User? user = await _user.getUser("carlos@gmail.com");
+        if (user != null) {
+          print('Username: ${user.username}');
+          print('Email: ${user.email}');
+          print('Phone: ${user.phone}');
+          print('PIN: ${user.pin}');
+          print('Name: ${user.nome}');
+        } else {
+          print('User not found');
+        }

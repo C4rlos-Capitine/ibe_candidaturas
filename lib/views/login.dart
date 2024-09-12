@@ -29,64 +29,94 @@ class _LoginState extends State<Login> {
   final TextEditingController _email = TextEditingController();
   bool _isLoading = false;
 
-  Future<void> _handleLogin() async {
-    setState(() {
-      _isLoading = true;
-    });
+Future<void> _handleLogin() async {
+  // Validação dos campos
+  if (_email.text.isEmpty || _senha.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Preencha todos os campos'),
+        backgroundColor: Color.fromARGB(255, 235, 77, 3),
+      ),
+    );
+    return;
+  }
 
-    bool internetLoginSuccess = false;
-    Candidato? candidato;
+  // Mostrar carregamento
+  setState(() {
+    _isLoading = true;
+  });
 
-    // Attempt to log in via the internet
-    try {
-        NetworkCheckResponse _networkCheckResponse = isConnected() as NetworkCheckResponse;
-        print(_networkCheckResponse.state);
-        if(_networkCheckResponse.state == false){
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Verifique se o wifi ou dados estão ligados'),
-                backgroundColor: Color.fromARGB(255, 235, 77, 3),
-              ),
-            );
-            return;
-        }
-      internetLoginSuccess = await login(_email.text, _senha.text);
-      if (internetLoginSuccess) {
-        candidato = await getData(_email.text, _senha.text);
-      }
-    } catch (e) {
-      print('Error during internet login: $e');
-    }
-
-    if (!internetLoginSuccess) {
-      // If internet login fails, attempt local login
-      candidato = await attemptLocalLogin(_email.text, _senha.text);
-      print(candidato?.nome);
-      if (candidato == null) {
-
-        PanaraInfoDialog.showAnimatedGrow(
-          context,
-          title: "Mensagem de Erro",
-          message: "Dados Incorrectos.",
-          buttonText: "Okay",
-          color: Colors.white,
-          onTapDismiss: () {
-            Navigator.pop(context);
-          },
-          panaraDialogType: PanaraDialogType.error,
-        );
-      }
-    }
-
-    if (candidato != null) {
-      // Navigate to home screen if login is successful
-      Navigator.pushNamed(context, "/home", arguments: candidato);
-    }
-
+  // Verificar a conexão com a internet
+  bool connected = await _checkNetworkStatus();
+  if (!connected) {
+    // Mostrar mensagem de erro se não estiver conectado
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Verifique se o wifi ou dados estão ligados'),
+        backgroundColor: Color.fromARGB(255, 235, 77, 3),
+      ),
+    );
     setState(() {
       _isLoading = false;
     });
+    return;
   }
+
+  // Tentar fazer login via internet
+  bool internetLoginSuccess = false;
+  Candidato? candidato;
+
+  try {
+    internetLoginSuccess = await login(_email.text, _senha.text);
+    if (internetLoginSuccess) {
+      candidato = await getData(_email.text, _senha.text);
+    }
+  } catch (e) {
+    print('Error during internet login: $e');
+  }
+
+  // Se o login via internet falhar, tentar login local
+  if (!internetLoginSuccess) {
+    candidato = await attemptLocalLogin(_email.text, _senha.text);
+    print(candidato?.nome);
+    if (candidato == null) {
+      PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Mensagem de Erro",
+        message: "Dados incorectos.",
+        buttonText: "Okay",
+        color: Colors.white,
+        onTapDismiss: () {
+          Navigator.pop(context);
+        },
+        panaraDialogType: PanaraDialogType.error,
+      );
+    }
+  }
+
+  // Navegar para a tela inicial se o login for bem-sucedido
+  if (candidato != null) {
+    Navigator.pushNamed(context, "/home", arguments: candidato);
+  }
+
+  // Ocultar carregamento
+  setState(() {
+    _isLoading = false;
+  });
+}
+
+Future<bool> _checkNetworkStatus() async {
+  try {
+    final response = await isConnected();
+    print('Network Status: ${response.state}');
+    print('Message: ${response.mesg}');
+    return response.state;
+  } catch (error) {
+    print('Error: $error');
+    return false;
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {

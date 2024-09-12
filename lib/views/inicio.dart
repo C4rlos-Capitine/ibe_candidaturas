@@ -36,8 +36,8 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
   }
   Future<void> _checkNetworkStatus() async {
     NetworkCheckResponse response = await isConnected();
-    print(response.mesg);
-    print(response.state);
+    print('msg: ${response.mesg}');
+    print('status: ${response.state}');
   }
 
   
