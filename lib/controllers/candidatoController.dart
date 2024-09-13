@@ -130,6 +130,7 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id,
     tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc, naturalidade, rua, ocupacao, dataEmissao_doc, 
     dataValidade_doc, dia_emissao, mes_emissao, ano_emissao, dia_validade, mes_validade, ano_validade, codedita, codarea, especialidade) async {
   bool resp = false;
+
   try {
     var gender = "M";
     if (genero != "Masculino") gender = "F";
@@ -205,11 +206,13 @@ Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, tele
   if(nivel==0){
     level = "E";
   }else if(nivel == 1){
-    level = "P";
+    level = "ET";
   }else if(nivel == 2){
     level = "L";
   }else if(nivel == 3){
     level = "M";
+  }else if(nivel==4){
+    level = "D";
   }
   if(tipo_doc=="Passaport"){
     doc = "P";
@@ -251,8 +254,8 @@ Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, tele
       'codedital': codedita,
       'codarea': codarea,
       'especialidade': especialidade,
-      'nivel':'L',
-      'tipo_doc': tipo_doc
+      'nivel':level,
+      'tipo_doc': doc
     });
 
     print(requestBody);

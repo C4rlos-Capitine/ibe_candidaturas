@@ -902,35 +902,6 @@ class _CadastroState extends State<Cadastro> {
                     erro_validacao = true;
                   }
                   if (erro_validacao == false) {
-                    /*bool resp = await registar(
-                        _nomeController.text,
-                        _apelidoController.text,
-                        _emailController.text,
-                        _passwordController.text,
-                        _telemovelController.text,
-                        _telefoneController.text,
-                        _docController.text,
-                        1,
-                        _selectedGender,
-                        _dataController.text,
-                        dia,
-                        mes,
-                        ano,
-                        _selectedProvince,
-                        _naturalidadeController.text,
-                        _ruaController.text,
-                        _ocupacaoController.text,
-                        _dataEmissaoController.text,
-                        _dataValidadeController,
-                        dia_emissao,
-                        mes_emissao,
-                        ano_emissao,
-                        dia_validade,
-                        mes_validade,
-                        ano_validade,
-                        nomeEdital,
-                        nomeArea,
-                        _especialidadeController.text);*/
                         ResquestResponse response = await registar2(
                         _nomeController.text,
                         _apelidoController.text,
@@ -987,12 +958,6 @@ class _CadastroState extends State<Cadastro> {
                     } else {
                       try{
                          print("Erro de conexao.");
-                        /*ScaffoldMessenger.of(this.context).showSnackBar(
-                          SnackBar(
-                            content: Text('Msg: ${response.message} ${response.statuscode}'),
-                            backgroundColor: Color.fromARGB(255, 235, 77, 3),
-                          ),
-                        );*/
                         PanaraInfoDialog.showAnimatedGrow(
                           context,
                           title: "Mensagem de Erro",
