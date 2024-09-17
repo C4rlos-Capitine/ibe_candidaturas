@@ -59,7 +59,7 @@ Future<void> _handleLogin() async {
     setState(() {
       _isLoading = false;
     });
-    return;
+    //return;
   }
 
   // Tentar fazer login via internet
@@ -126,7 +126,7 @@ Future<bool> _checkNetworkStatus() async {
         children: [
           Container(
 
-            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 100),
             padding: EdgeInsets.symmetric(vertical: 1),
             child: Image.asset('assets/images/logotipo_header.png'),
           ),

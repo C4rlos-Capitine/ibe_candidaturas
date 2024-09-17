@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ibe_candidaturas/controllers/areaController.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/controllers/cursoController.dart';
+import 'package:ibe_candidaturas/model/Area.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/model/Curso.dart';
 
@@ -21,12 +23,34 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
   String? nome_curso;
   int? cod_curso;
   List<DropdownMenuItem<String>>? _dropdownMenuItems;
+  List<Area>? _areas;
+  TextEditingController _especialidadeController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _fetchCursos();
+    _getAreas();
     print(widget.candidato.apelido);
+  }
+
+  Future<void> _getAreas() async{
+    try{
+      List <Area>? areas = await getAreas(1);
+      setState(() {
+        _areas = areas;
+        
+        _dropdownMenuItems = areas?.map((area) => DropdownMenuItem<String>(
+          child: Text(area.nome),
+
+          value: area.codarea.toString()
+        )).toList();
+        if (_dropdownMenuItems != null && _dropdownMenuItems!.isNotEmpty) {
+          nome_curso = _dropdownMenuItems!.first.value; // Set a default value if there are courses
+        }
+      });
+    }catch(e){
+
+    }
   }
 
   Future<void> _fetchCursos() async {
@@ -159,12 +183,39 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
             ),
           ),
           Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextFormField(
+                controller: _especialidadeController,
+                keyboardType: TextInputType.text,
+               // maxLength: 25,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  label: Text("Especialidade:", style: TextStyle(color: Colors.blue[900]),),
+                  //icon: Icon(, color: Colors.blue[900]),
+                  hintText: "Informe a especialidade.",
+                ),
+              ),
+            ),
+          Container(
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
             child: ElevatedButton(
               onPressed: () async {
+                 ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Não pode se candidatar a duas bolsas em simultaneo'),
+                        backgroundColor: Color.fromARGB(255, 235, 77, 3),
+                      ),
+                    );
                 // Your button action here
-                bool saved = await saveCandidatura(widget.candidato.codigo, widget.codedita, nome_curso);
+                /*bool saved = await saveCandidatura(widget.candidato.codigo, widget.codedita, nome_curso);
                 if(saved==true){
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -179,7 +230,7 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
                         backgroundColor: Color.fromARGB(255, 235, 77, 3),
                       ),
                     );
-                }
+                }*/
               },
               child: Text(
                 "Enviar Candidatura",

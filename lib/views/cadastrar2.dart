@@ -951,10 +951,11 @@ class _CadastroState extends State<Cadastro> {
                           buttonText: "Okay",
                           onTapDismiss: () {
                             Navigator.pop(context);
+                            downloadAndOpenFile(_emailController.text);
                           },
                           panaraDialogType: PanaraDialogType.success,
                         );
-                      //print response from server
+                      
                     } else {
                       try{
                          print("Erro de conexao.");
@@ -968,6 +969,7 @@ class _CadastroState extends State<Cadastro> {
                           },
                           panaraDialogType: PanaraDialogType.error,
                         );
+
                       }catch(e){
                         print(e);
                       }

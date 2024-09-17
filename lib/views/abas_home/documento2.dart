@@ -8,6 +8,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:iconsax/iconsax.dart';
 
+
+enum identificacao { bi, passaporte}  
+
+
 class Documento2 extends StatefulWidget {
   const Documento2({super.key, required this.candidato});
   final Candidato candidato;
@@ -28,6 +32,8 @@ class _Documento2State extends State<Documento2> {
   String progress = "0%";
   bool _isUploading = false; // Adicionamos um flag para controle de upload
   Dio dio = Dio();
+
+ 
 
   Future<void> pickFile(String field) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -148,6 +154,36 @@ class _Documento2State extends State<Documento2> {
               ),
             ),
           ),
+          Text("Doc. identificação"),
+           Column(
+              children: <Widget>[
+                ListTile(
+                  title: const Text('BI'),
+                  leading: Radio(
+                    value: "BI",
+                    groupValue: identificacao,
+                    onChanged: (identificacao) {
+                      setState(() {
+                        //_site = value!;
+                      });
+                    },
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Passaporte'),
+                  leading: Radio(
+                    value: "P",
+                    groupValue: identificacao,
+                    onChanged: (identificacao) {
+                      setState(() {
+                        //_site = value!;
+                      });
+                    },
+                  ),
+                ),
+
+              ],
+            ),
           Container(
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,

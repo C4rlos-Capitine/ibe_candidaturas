@@ -259,7 +259,11 @@ Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, tele
     });
 
     print(requestBody);
-
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+        // Convert Candidato to JSON string
+    //String candidatoJson = jsonEncode(requestBody);
+    //String candidatoJson = requestBody;
+    //await prefs.setString('candidato', candidatoJson);
     var url = Uri.http(IP, '/api/Candidato');
 
     // Enviar a requisição POST com o corpo JSON
