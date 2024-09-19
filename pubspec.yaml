@@ -19,6 +19,7 @@ dependencies:
   path: ^1.9.0
   flutter_uploader: ^3.0.0-beta.4
   connectivity_plus: ^6.0.5
+  flutter_background_service: ^5.0.10
 
   device_preview: ^1.2.0
   flutter_launcher_icons: ^0.13.1

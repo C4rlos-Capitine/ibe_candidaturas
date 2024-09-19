@@ -27,8 +27,8 @@ class _BolsasState extends State<Bolsas> {
     // Check network status and wait for the result
     _connected = await _checkNetworkStatus();
     print("after check: $_connected");
-
-    if (_connected) {
+    await _loadEditais();
+    /*if (_connected) {
       // Load data if connected
       await _loadEditais();
     } else {
@@ -42,7 +42,7 @@ class _BolsasState extends State<Bolsas> {
       setState(() {
         _edital = null; // Clear or handle data if not connected
       });
-    }
+    }*/
   }
 
   Future<bool> _checkNetworkStatus() async {
@@ -102,7 +102,12 @@ class _BolsasState extends State<Bolsas> {
                   child: ListTile(
                     title: Text(edital.nome),
                     subtitle: Text('Ano: ${edital.ano}, Número: ${edital.numero}'),
-                    leading: Icon(Icons.download, color: Colors.blue[900],),
+                    //leading: Icon(Icons.download, color: Colors.blue[900],),
+                    leading: Image.network(
+                      'http://localhost:5287/api/Images/paises/${edital.codedita}', // Replace with your image URL
+                      width: 40, // Set your desired width
+                      height: 40, // Set your desired height
+                    ),
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
