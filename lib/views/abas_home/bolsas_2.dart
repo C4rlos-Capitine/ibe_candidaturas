@@ -104,9 +104,9 @@ class _BolsasState extends State<Bolsas> {
                     subtitle: Text('Ano: ${edital.ano}, Número: ${edital.numero}'),
                     //leading: Icon(Icons.download, color: Colors.blue[900],),
                     leading: Image.network(
-                      'http://localhost:5287/api/Images/paises/${edital.codedita}', // Replace with your image URL
-                      width: 40, // Set your desired width
-                      height: 40, // Set your desired height
+                      'http://192.168.10.115:5285/api/Images/paises/${edital.codedita}', // Replace with your image URL
+                      width: 20, // Set your desired width
+                      height: 20, // Set your desired height
                     ),
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(

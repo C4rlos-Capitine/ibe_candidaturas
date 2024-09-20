@@ -16,8 +16,6 @@ import 'package:http/http.dart' as http;
 
 Future<void> main() async {
 
-    //WidgetsFlutterBinding.ensureInitialized();
-  //await initiateService();
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,

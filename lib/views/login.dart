@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/config.dart';
+import 'package:ibe_candidaturas/controllers/EmailSendig.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/local_storage/storageManagment.dart'; 
@@ -16,6 +17,8 @@ import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
+
+import 'package:flutter/gestures.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -206,6 +209,30 @@ Future<bool> _checkNetworkStatus() async {
                       SizedBox(height: 10,),
               ],
             ),
+          ),
+
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child:RichText(
+            text: TextSpan(children: [
+              TextSpan(
+                text: 'Perdeu sua senha? ',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              TextSpan(
+                  text: 'Recupere clicando aqui',
+                  style: TextStyle(
+                    color: Colors.blue,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      recoverPassword(_email.text);
+                      print('Recupere clicando aqui');
+                    }),
+            ]),
+          ),
           ),
         ],
       ),
