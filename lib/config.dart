@@ -1,15 +1,17 @@
 // config.dart
 library config;
-import 'package:connectivity_plus/connectivity_plus.dart';
-//final String IP = "192.168.10.115:5285";
-//final String IP = "5.189.138.20:8999";
-final String IP = "localhost:5287";
 
+import 'package:connectivity_plus/connectivity_plus.dart';
+
+//final String IP = "192.168.10.115:5285";
+final String IP = "5.189.138.20:8999";
+//final String IP = "localhost:5287";
 
 Future<NetworkCheckResponse> isConnected() async {
   try {
     //final connectivityResult = await Connectivity().checkConnectivity();
-    final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
     print('Connectivity Result: $connectivityResult'); // Debug print
 
     if (connectivityResult.contains(ConnectivityResult.none)) {
@@ -62,8 +64,8 @@ Future<NetworkCheckResponse> isConnected() async {
   }
 }
 
-class NetworkCheckResponse{
+class NetworkCheckResponse {
   late bool state;
-  late  String mesg;
-  NetworkCheckResponse({required this.state,required this.mesg});
+  late String mesg;
+  NetworkCheckResponse({required this.state, required this.mesg});
 }

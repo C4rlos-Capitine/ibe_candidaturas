@@ -3,7 +3,7 @@ import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/controllers/EmailSendig.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
-import 'package:ibe_candidaturas/local_storage/storageManagment.dart'; 
+import 'package:ibe_candidaturas/local_storage/storageManagment.dart';
 
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
@@ -31,95 +31,101 @@ class _LoginState extends State<Login> {
   final TextEditingController _senha = TextEditingController();
   final TextEditingController _email = TextEditingController();
   bool _isLoading = false;
+  bool _obscureText = true;
 
-Future<void> _handleLogin() async {
-  // Validação dos campos
-  if (_email.text.isEmpty || _senha.text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Preencha todos os campos'),
-        backgroundColor: Color.fromARGB(255, 235, 77, 3),
-      ),
-    );
-    return;
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
   }
 
-  // Mostrar carregamento
-  setState(() {
-    _isLoading = true;
-  });
+  Future<void> _handleLogin() async {
+    // Validação dos campos
+    if (_email.text.isEmpty || _senha.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Preencha todos os campos'),
+          backgroundColor: Color.fromARGB(255, 235, 77, 3),
+        ),
+      );
+      return;
+    }
 
-  // Verificar a conexão com a internet
-  bool connected = await _checkNetworkStatus();
-  if (!connected) {
-    // Mostrar mensagem de erro se não estiver conectado
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Verifique se o wifi ou dados estão ligados'),
-        backgroundColor: Color.fromARGB(255, 235, 77, 3),
-      ),
-    );
+    // Mostrar carregamento
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Verificar a conexão com a internet
+    bool connected = await _checkNetworkStatus();
+    if (!connected) {
+      // Mostrar mensagem de erro se não estiver conectado
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Verifique se o wifi ou dados estão ligados'),
+          backgroundColor: Color.fromARGB(255, 235, 77, 3),
+        ),
+      );
+      setState(() {
+        _isLoading = false;
+      });
+      //return;
+    }
+
+    // Tentar fazer login via internet
+    bool internetLoginSuccess = false;
+    Candidato? candidato;
+
+    try {
+      internetLoginSuccess = await login(_email.text, _senha.text);
+      if (internetLoginSuccess) {
+        candidato = await getData(_email.text, _senha.text);
+      }
+    } catch (e) {
+      print('Error during internet login: $e');
+    }
+
+    // Se o login via internet falhar, tentar login local
+    if (!internetLoginSuccess) {
+      candidato = await attemptLocalLogin(_email.text, _senha.text);
+      print(candidato?.nome);
+      if (candidato == null) {
+        PanaraInfoDialog.showAnimatedGrow(
+          context,
+          title: "Mensagem de Erro",
+          message: "Dados incorectos.",
+          buttonText: "Okay",
+          color: Colors.white,
+          onTapDismiss: () {
+            Navigator.pop(context);
+          },
+          panaraDialogType: PanaraDialogType.error,
+        );
+      }
+    }
+
+    // Navegar para a tela inicial se o login for bem-sucedido
+    if (candidato != null) {
+      Navigator.pushNamed(context, "/home", arguments: candidato);
+    }
+
+    // Ocultar carregamento
     setState(() {
       _isLoading = false;
     });
-    //return;
   }
 
-  // Tentar fazer login via internet
-  bool internetLoginSuccess = false;
-  Candidato? candidato;
-
-  try {
-    internetLoginSuccess = await login(_email.text, _senha.text);
-    if (internetLoginSuccess) {
-      candidato = await getData(_email.text, _senha.text);
-    }
-  } catch (e) {
-    print('Error during internet login: $e');
-  }
-
-  // Se o login via internet falhar, tentar login local
-  if (!internetLoginSuccess) {
-    candidato = await attemptLocalLogin(_email.text, _senha.text);
-    print(candidato?.nome);
-    if (candidato == null) {
-      PanaraInfoDialog.showAnimatedGrow(
-        context,
-        title: "Mensagem de Erro",
-        message: "Dados incorectos.",
-        buttonText: "Okay",
-        color: Colors.white,
-        onTapDismiss: () {
-          Navigator.pop(context);
-        },
-        panaraDialogType: PanaraDialogType.error,
-      );
+  Future<bool> _checkNetworkStatus() async {
+    try {
+      final response = await isConnected();
+      print('Network Status: ${response.state}');
+      print('Message: ${response.mesg}');
+      return response.state;
+    } catch (error) {
+      print('Error: $error');
+      return false;
     }
   }
-
-  // Navegar para a tela inicial se o login for bem-sucedido
-  if (candidato != null) {
-    Navigator.pushNamed(context, "/home", arguments: candidato);
-  }
-
-  // Ocultar carregamento
-  setState(() {
-    _isLoading = false;
-  });
-}
-
-Future<bool> _checkNetworkStatus() async {
-  try {
-    final response = await isConnected();
-    print('Network Status: ${response.state}');
-    print('Message: ${response.mesg}');
-    return response.state;
-  } catch (error) {
-    print('Error: $error');
-    return false;
-  }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -128,16 +134,18 @@ Future<bool> _checkNetworkStatus() async {
       body: ListView(
         children: [
           Container(
-
             margin: EdgeInsets.symmetric(vertical: 5, horizontal: 100),
             padding: EdgeInsets.symmetric(vertical: 1),
             child: Image.asset('assets/images/logotipo_header.png'),
           ),
-         
           Container(
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(vertical: 1),
-            child: Text("Login", style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),),
+            child: Text(
+              "Login",
+              style: TextStyle(
+                  color: Colors.blue[900], fontWeight: FontWeight.bold),
+            ),
           ),
           SizedBox(height: 15),
           Container(
@@ -165,7 +173,7 @@ Future<bool> _checkNetworkStatus() async {
           SizedBox(height: 10),
           Container(
             alignment: Alignment.center,
-           padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             margin: EdgeInsets.symmetric(horizontal: 30.0),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
@@ -174,7 +182,7 @@ Future<bool> _checkNetworkStatus() async {
             ),
             child: TextField(
               controller: _senha,
-              obscureText: true,
+              obscureText: _obscureText,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 label: Text("Senha"),
@@ -182,8 +190,14 @@ Future<bool> _checkNetworkStatus() async {
                 hintText: "Senha",
                 labelStyle: TextStyle(color: Colors.blue[900]),
                 hoverColor: Colors.blue[900],
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.blue[900],
+                  ),
+                  onPressed: _togglePasswordVisibility,
+                ),
               ),
-              
             ),
           ),
           SizedBox(height: 10),
@@ -197,42 +211,74 @@ Future<bool> _checkNetworkStatus() async {
                     : ElevatedButton(
                         onPressed: _handleLogin,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue[900],
-                          fixedSize: Size(300, 50)
-                        ),
+                            backgroundColor: Colors.blue[900],
+                            fixedSize: Size(300, 50)),
                         child: Text(
                           "Entrar",
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
                         ),
-                        
                       ),
-                      SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ),
-
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
-            child:RichText(
-            text: TextSpan(children: [
-              TextSpan(
-                text: 'Perdeu sua senha? ',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              TextSpan(
-                  text: 'Recupere clicando aqui',
+            child: RichText(
+              text: TextSpan(children: [
+                TextSpan(
+                  text: 'Perdeu sua senha? ',
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.black,
                   ),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      recoverPassword(_email.text);
-                      print('Recupere clicando aqui');
-                    }),
-            ]),
-          ),
+                ),
+                TextSpan(
+                    text: 'Recupere clicando aqui',
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        PanaraInfoDialog.showAnimatedGrow(
+                          context,
+                          title: "Aviso",
+                          message:
+                              "Um email com nova senha será enviado para o ." +
+                                  _email.text,
+                          buttonText: "Okay",
+                          color: Colors.white,
+                          onTapDismiss: () async {
+                            bool recovery = await recoverPassword(_email.text);
+                            if (recovery == true) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Senha alterada. Verifique sua caixa de emails'),
+                                  backgroundColor:
+                                      Color.fromARGB(255, 20, 212, 24),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Erro ao alterar a senha'),
+                                  backgroundColor:
+                                      Color.fromARGB(255, 235, 77, 3),
+                                ),
+                              );
+                            }
+                            Navigator.pop(context);
+                          },
+                          panaraDialogType: PanaraDialogType.normal,
+                        );
+
+                        print('Recupere clicando aqui');
+                      }),
+              ]),
+            ),
           ),
         ],
       ),

@@ -59,7 +59,8 @@ class _BolsasState extends State<Bolsas> {
 
   Future<void> _loadEditais() async {
     try {
-      List<Edital> editais = await fetchEditais(); // Use fetchEditais to handle both server and local data
+      List<Edital> editais =
+          await fetchEditais(); // Use fetchEditais to handle both server and local data
       setState(() {
         _edital = editais; // Update the state with the fetched data
       });
@@ -101,17 +102,21 @@ class _BolsasState extends State<Bolsas> {
                   elevation: 4.0,
                   child: ListTile(
                     title: Text(edital.nome),
-                    subtitle: Text('Ano: ${edital.ano}, Número: ${edital.numero}'),
+                    subtitle:
+                        Text('Ano: ${edital.ano}, Número: ${edital.numero}'),
                     //leading: Icon(Icons.download, color: Colors.blue[900],),
                     leading: Image.network(
-                      'http://192.168.10.115:5285/api/Images/paises/${edital.codedita}', // Replace with your image URL
+                      'http://$IP/api/Images/paises/${edital.codedita}', // Replace with your image URL
                       width: 20, // Set your desired width
                       height: 20, // Set your desired height
                     ),
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Faça o auto - registo na aba de inscrições para se candidatar', style: TextStyle(color: Colors.blue[900]),),
+                          content: Text(
+                            'Faça o auto - registo na aba de inscrições para se candidatar',
+                            style: TextStyle(color: Colors.blue[900]),
+                          ),
                           backgroundColor: Color.fromARGB(255, 229, 231, 91),
                         ),
                       );
