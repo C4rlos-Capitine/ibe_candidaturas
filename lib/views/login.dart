@@ -3,22 +3,9 @@ import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/controllers/EmailSendig.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
-import 'package:ibe_candidaturas/local_storage/storageManagment.dart';
-
-import 'package:flutter/material.dart';
-import 'package:ibe_candidaturas/controllers/candidatoController.dart';
-import 'package:ibe_candidaturas/model/Candidato.dart';
-import 'package:flutter/material.dart';
-import 'package:ibe_candidaturas/controllers/candidatoController.dart';
-import 'package:ibe_candidaturas/model/Candidato.dart';
-
-import 'package:flutter/material.dart';
-import 'package:ibe_candidaturas/controllers/candidatoController.dart';
-import 'package:ibe_candidaturas/model/Candidato.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
-
 import 'package:flutter/gestures.dart';
+import 'dart:async';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -32,6 +19,15 @@ class _LoginState extends State<Login> {
   final TextEditingController _email = TextEditingController();
   bool _isLoading = false;
   bool _obscureText = true;
+
+  final List<String> images = [
+    'assets/images/graduate.png',
+    'assets/images/graduate2.png',
+  ];
+
+  late PageController _pageController;
+  late Timer _timer;
+  int _currentPage = 0;
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -69,7 +65,7 @@ class _LoginState extends State<Login> {
       setState(() {
         _isLoading = false;
       });
-      //return;
+      return;
     }
 
     // Tentar fazer login via internet
@@ -80,6 +76,7 @@ class _LoginState extends State<Login> {
       internetLoginSuccess = await login(_email.text, _senha.text);
       if (internetLoginSuccess) {
         candidato = await getData(_email.text, _senha.text);
+       
       }
     } catch (e) {
       print('Error during internet login: $e');
@@ -88,12 +85,11 @@ class _LoginState extends State<Login> {
     // Se o login via internet falhar, tentar login local
     if (!internetLoginSuccess) {
       candidato = await attemptLocalLogin(_email.text, _senha.text);
-      print(candidato?.nome);
       if (candidato == null) {
         PanaraInfoDialog.showAnimatedGrow(
           context,
           title: "Mensagem de Erro",
-          message: "Dados incorectos.",
+          message: "Dados incorretos.",
           buttonText: "Okay",
           color: Colors.white,
           onTapDismiss: () {
@@ -118,13 +114,40 @@ class _LoginState extends State<Login> {
   Future<bool> _checkNetworkStatus() async {
     try {
       final response = await isConnected();
-      print('Network Status: ${response.state}');
-      print('Message: ${response.mesg}');
       return response.state;
     } catch (error) {
       print('Error: $error');
       return false;
     }
+  }
+
+  void _startImageSlider() {
+    _timer = Timer.periodic(Duration(seconds: 15), (Timer timer) {
+      if (_currentPage < images.length - 1) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+      _pageController.animateToPage(
+        _currentPage,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    _startImageSlider();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -134,18 +157,9 @@ class _LoginState extends State<Login> {
       body: ListView(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 100),
+            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 100),
             padding: EdgeInsets.symmetric(vertical: 1),
             child: Image.asset('assets/images/logotipo_header.png'),
-          ),
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(vertical: 1),
-            child: Text(
-              "Login",
-              style: TextStyle(
-                  color: Colors.blue[900], fontWeight: FontWeight.bold),
-            ),
           ),
           SizedBox(height: 15),
           Container(
@@ -162,7 +176,6 @@ class _LoginState extends State<Login> {
               controller: _email,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hoverColor: Colors.blue[900],
                 label: Text("Email"),
                 icon: Icon(Icons.mail_outline, color: Colors.blue[900]),
                 hintText: "Email",
@@ -189,7 +202,6 @@ class _LoginState extends State<Login> {
                 icon: Icon(Icons.key_outlined, color: Colors.blue[900]),
                 hintText: "Senha",
                 labelStyle: TextStyle(color: Colors.blue[900]),
-                hoverColor: Colors.blue[900],
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscureText ? Icons.visibility : Icons.visibility_off,
@@ -209,19 +221,17 @@ class _LoginState extends State<Login> {
                 _isLoading
                     ? CircularProgressIndicator()
                     : ElevatedButton(
-                        onPressed: _handleLogin,
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[900],
-                            fixedSize: Size(300, 50)),
-                        child: Text(
-                          "Entrar",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                SizedBox(
-                  height: 10,
+                  onPressed: _handleLogin,
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue[900],
+                      fixedSize: Size(300, 50)),
+                  child: Text(
+                    "Entrar",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                 ),
+                SizedBox(height: 10),
               ],
             ),
           ),
@@ -231,23 +241,18 @@ class _LoginState extends State<Login> {
               text: TextSpan(children: [
                 TextSpan(
                   text: 'Perdeu sua senha? ',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+                  style: TextStyle(color: Colors.black),
                 ),
                 TextSpan(
                     text: 'Recupere clicando aqui',
-                    style: TextStyle(
-                      color: Colors.blue,
-                    ),
+                    style: TextStyle(color: Colors.blue),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         PanaraInfoDialog.showAnimatedGrow(
                           context,
                           title: "Aviso",
-                          message:
-                              "Um email com nova senha será enviado para o ." +
-                                  _email.text,
+                          message: "Um email com nova senha será enviado para o ." +
+                              _email.text,
                           buttonText: "Okay",
                           color: Colors.white,
                           onTapDismiss: () async {
@@ -257,16 +262,14 @@ class _LoginState extends State<Login> {
                                 SnackBar(
                                   content: Text(
                                       'Senha alterada. Verifique sua caixa de emails'),
-                                  backgroundColor:
-                                      Color.fromARGB(255, 20, 212, 24),
+                                  backgroundColor: Color.fromARGB(255, 20, 212, 24),
                                 ),
                               );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text('Erro ao alterar a senha'),
-                                  backgroundColor:
-                                      Color.fromARGB(255, 235, 77, 3),
+                                  backgroundColor: Color.fromARGB(255, 235, 77, 3),
                                 ),
                               );
                             }
@@ -274,10 +277,29 @@ class _LoginState extends State<Login> {
                           },
                           panaraDialogType: PanaraDialogType.normal,
                         );
-
-                        print('Recupere clicando aqui');
                       }),
               ]),
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            width: 300,
+            height: 300,
+            padding: EdgeInsets.symmetric(vertical: 1),
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: images.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      image: AssetImage(images[index]),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ],

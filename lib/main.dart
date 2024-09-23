@@ -1,20 +1,44 @@
 import 'dart:async';
-import 'dart:io';
-
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-//import 'package:ibe_candidaturas/views/cadastrar.dart';
+import 'package:ibe_candidaturas/config.dart';
+import 'package:ibe_candidaturas/local_storage/storageManagment.dart';
 import 'package:ibe_candidaturas/views/login.dart';
 import 'package:ibe_candidaturas/views/home.dart';
-//import 'package:ibe_candidaturas/views/principal.dart';
-import 'package:ibe_candidaturas/views/estado_candidatura.dart';
 import 'package:ibe_candidaturas/views/inicio.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-//import 'package:workmanager/workmanager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Necessário para inicializar corretamente
+
+  await AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+        channelKey: "basic_channel_group",
+        channelName: "Notificação",
+        channelDescription: "channelDescription",
+        defaultColor: Color(0xFF9D50DD),
+        ledColor: Colors.white,
+      )
+    ],
+    channelGroups: [
+      NotificationChannelGroup(
+        channelGroupKey: "basic_channel_group",
+        channelGroupName: "Basic group",
+      ),
+    ],
+  );
+
+  bool isAllowedToSendNotification = await AwesomeNotifications().isNotificationAllowed();
+  if (!isAllowedToSendNotification) {
+    await AwesomeNotifications().requestPermissionToSendNotifications();
+  }
+
+  await initiateService();
 
   runApp(
     MaterialApp(
@@ -22,19 +46,16 @@ Future<void> main() async {
       color: Colors.white,
       theme: ThemeData(
         primaryColor: Colors.blue[900],
-      ),  
+      ),
       initialRoute: '/inicio',
       routes: {
-       // '/cadastro': (context) => Cadastro(),
         '/login': (context) => Login(),
         '/home': (context) => MyHomePage(title: "IBE,IP - Candidaturas"),
-       // '/principal': (context) => Principal(),
-        '/inicio': (context) => Inicio()
+        '/inicio': (context) => Inicio(),
       },
     ),
   );
 }
-
 
 Future<void> initiateService() async {
   final service = FlutterBackgroundService();
@@ -66,7 +87,7 @@ void onStart(ServiceInstance service) async {
       service.stopSelf();
     });
 
-    // Send notifications and invoke API every 5 seconds
+    // Send notifications and invoke API every 15 seconds
     Timer.periodic(const Duration(seconds: 15), (timer) async {
       if (await service.isForegroundService()) {
         // Update foreground notification info
@@ -83,13 +104,18 @@ void onStart(ServiceInstance service) async {
 }
 
 Future<void> apiCall() async {
-  var url = Uri.http('5.189.138.20:8999', '/api/Curso');
-
+  var email = await StorageUtils.getLastEmail();
+  var url = Uri.http(IP, '/api/Mensagens/$email');///PAREI AQUI, ADCIONE PARAMENTRO
+ // var url = Uri.http(IP, '/api/Curso');
   try {
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var responseBody = jsonDecode(response.body);
-      print(responseBody);
+      print(responseBody); 
+      
+      // Enviar notificação com o resultado da API
+      await sendNotification(responseBody["msg"]);
+      
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -97,4 +123,18 @@ Future<void> apiCall() async {
     print('API call error: $e');
   }
 }
+
+Future<void> sendNotification(dynamic responseBody) async {
+  String title = "Atualização da API";
+  String content = "Dados recebidos: ${responseBody.toString()}";
+
+  await AwesomeNotifications().createNotification(
+    content: NotificationContent(
+      channelKey: 'basic_channel_group',
+      title: title,
+      body: content, id: 1,
+    ),
+  );
+}
+
 

@@ -167,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
       return []; // Return an empty list if candidato is not yet initialized
     }
     return [
-      Notificacoes(),
+      Notificacoes(candidato: _candidato!),
       Perfil(candidato: _candidato!),
       Bolsas(candidato: _candidato!),
       EstadoCandidatura(candidato: _candidato!),

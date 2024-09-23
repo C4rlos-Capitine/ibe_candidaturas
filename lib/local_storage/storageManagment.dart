@@ -27,6 +27,27 @@ static Future<void> saveCandidato(Candidato candidato) async {
   }
 
 
+  static Future<void> saveEmail(String email) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('last_email', email);
+}
+
+static Future<void> clearPreviousEmail() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove('last_email');  // Remove o e-mail anterior
+}
+
+static void onLogin(String email) async {
+  await clearPreviousEmail(); // Limpa o e-mail anterior
+  await saveEmail(email);      // Salva o novo e-mail
+}
+
+static Future<String?> getLastEmail() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('last_email');
+}
+
+
   static Future<void> saveCandidaturas(int codcandi, List<Candidatura> candidaturas) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String jsonString = jsonEncode(Candidatura.listToJson(candidaturas));
