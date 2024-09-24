@@ -88,11 +88,11 @@ void onStart(ServiceInstance service) async {
     });
 
     // Send notifications and invoke API every 15 seconds
-    Timer.periodic(const Duration(seconds: 15), (timer) async {
+    Timer.periodic(const Duration(minutes: 15), (timer) async {
       if (await service.isForegroundService()) {
         // Update foreground notification info
         service.setForegroundNotificationInfo(
-          title: "My App Service",
+          title: "IBE,IP - Notificações",
           content: "Update at ${DateTime.now()}",
         );
 
@@ -125,16 +125,23 @@ Future<void> apiCall() async {
 }
 
 Future<void> sendNotification(dynamic responseBody) async {
-  String title = "Atualização da API";
+  String title = "IBE,IP - Portal do candidato";
   String content = "Dados recebidos: ${responseBody.toString()}";
 
   await AwesomeNotifications().createNotification(
-    content: NotificationContent(
-      channelKey: 'basic_channel_group',
-      title: title,
-      body: content, id: 1,
-    ),
-  );
+  content: NotificationContent(
+    channelKey: 'basic_channel_group',
+    title: title,
+    body: content,
+    id: 1,
+    notificationLayout: NotificationLayout.Default, // Choose your layout
+    bigPicture: 'assets/images/icon.png', // Replace with your image resource
+    displayOnBackground: true,
+    displayOnForeground: true,
+    color: Colors.blue
+  ),
+);
+
 }
 
 

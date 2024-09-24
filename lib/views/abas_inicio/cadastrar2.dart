@@ -842,6 +842,7 @@ class _CadastroState extends State<Cadastro> {
               child: ElevatedButton(
                 onPressed: () async {
                   bool erro_validacao = false;
+
                   
                   if (_nomeController.text.isEmpty) {
                     showErro("Campo nome Vazio");
@@ -901,6 +902,18 @@ class _CadastroState extends State<Cadastro> {
                     showErro("Data de validade do BI/Passaporte não informada");
                     erro_validacao = true;
                   }
+                    RegExp emailRegExp = RegExp(
+                      r'^[^@]+@[^@]+\.[^@]+',
+                    );
+                  if (emailRegExp.hasMatch(_emailController.text)) {
+                      print("Email válido.");
+                    } else {
+                      print("Email inválido.");
+                      showErro("Email deve conter @");
+                      erro_validacao = true;
+                  
+                      return;
+                    }
                   if (erro_validacao == false) {
                         ResquestResponse response = await registar2(
                         _nomeController.text,

@@ -8,7 +8,7 @@ import 'package:ibe_candidaturas/views/abas_home/perfil.dart';
 import 'package:ibe_candidaturas/views/estado_candidatura.dart';
 import 'package:ibe_candidaturas/views/help_center.dart';
 import 'package:ibe_candidaturas/views/inicio.dart';
-import 'package:ibe_candidaturas/views/notificacoes.dart';
+import 'package:ibe_candidaturas/views/abas_home/notificacoes.dart';
 import 'package:ibe_candidaturas/views/settings.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:iconsax/iconsax.dart';

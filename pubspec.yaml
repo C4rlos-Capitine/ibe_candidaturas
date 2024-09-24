@@ -1,7 +1,7 @@
 name: ibe_candidaturas
-description: A new Flutter project.
+description: App Portal do candidato, IBE-IP.
 publish_to: 'none'
-version: 0.1.0+6
+version: 0.1.0+7
 
 environment:
   sdk: '>=2.19.2 <3.0.0'

@@ -170,7 +170,7 @@ class _Documento2State extends State<Documento2> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Passaporte'),
+                  title: const Text('Pass'),
                   leading: Radio(
                     value: "P",
                     groupValue: identificacao,

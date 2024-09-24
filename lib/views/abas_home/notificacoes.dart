@@ -21,6 +21,7 @@ class _NotificacoesState extends State<Notificacoes> {
       setState(() {
         _mensagens = mesg; // Update the state with the fetched data
       });
+      NotificationController.marcarLida(widget.candidato.email);
     } catch (e) {
       print('Error loading messages: $e');
       Fluttertoast.showToast(
@@ -49,6 +50,7 @@ class _NotificacoesState extends State<Notificacoes> {
               itemBuilder: (context, index) {
                 final mensagem = _mensagens![index]; // Use a descriptive variable name
                 return Card(
+                  margin: EdgeInsets.all(10),
                   color: Colors.white,
                   elevation: 4.0,
                   child: ListTile(

@@ -47,6 +47,24 @@ class _LoginState extends State<Login> {
       return;
     }
 
+    RegExp emailRegExp = RegExp(
+        r'^[^@]+@[^@]+\.[^@]+',
+      );
+
+      if (emailRegExp.hasMatch(_email.text)) {
+        print("Email válido.");
+      } else {
+        print("Email inválido.");
+        ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('email deve conter @'),
+          backgroundColor: Color.fromARGB(255, 235, 77, 3),
+        ),
+      );
+         return;
+      }
+
+
     // Mostrar carregamento
     setState(() {
       _isLoading = true;

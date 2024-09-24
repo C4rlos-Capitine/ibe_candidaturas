@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/controllers/editalController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
@@ -54,14 +55,26 @@ class _BolsasState extends State<Bolsas> {
                   color: Colors.white,
                   elevation: 4.0,
                   child: ListTile(
-                  title: Text(edital.nome),
-                  subtitle: Text('Ano: ${edital.ano}, Número: ${edital.numero}'),
-                  onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => NovaCandidatura(codedita: edital.codedita, ano: edital.ano, numero: edital.numero, nome: edital.nome, candidato: widget.candidato)) 
+                    title: Text(edital.nome),
+                    subtitle:
+                        Text('Ano: ${edital.ano}, Número: ${edital.numero}'),
+                    //leading: Icon(Icons.download, color: Colors.blue[900],),
+                    leading: Image.network(
+                      'http://$IP/api/Images/paises/${edital.codedita}', // Replace with your image URL
+                      width: 20, // Set your desired width
+                      height: 20, // Set your desired height
+                    ),
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Faça o auto - registo na aba de inscrições para se candidatar',
+                            style: TextStyle(color: Colors.blue[900]),
+                          ),
+                          backgroundColor: Color.fromARGB(255, 229, 231, 91),
+                        ),
                       );
-                  },
+                    },
                   ),
                 );
               },

@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/controllers/areaController.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
@@ -5,6 +6,7 @@ import 'package:ibe_candidaturas/controllers/cursoController.dart';
 import 'package:ibe_candidaturas/model/Area.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/model/Curso.dart';
+import 'package:iconsax/iconsax.dart';
 
 class NovaCandidatura extends StatefulWidget {
   const NovaCandidatura({super.key, required this.codedita, required this.ano, required this.numero, required this.nome, required this.candidato});
@@ -171,9 +173,6 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
                     print(value);
                     nome_curso = value;
                     print(nome_curso);
-                    //cod_curso = value;//_cursos?.firstWhere((curso) => curso.nome == value).codcurso;
-                    //print(_cursos?.firstWhere((curso) => curso.nome == value).codcurso);
-                  
                   }catch(e){
                     print(e);
                   }
@@ -184,7 +183,7 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
           ),
           Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
+              margin: EdgeInsets.symmetric(horizontal: 20),
               padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
@@ -203,6 +202,30 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
                 ),
               ),
             ),
+
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Color.fromARGB(255, 248, 245, 245),
+              borderRadius: BorderRadius.circular(10),
+            ),
+
+            child: Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    leading: Icon(Iconsax.card, color: Colors.blue[900]),
+                    title: Text("Outros documentos:", style: TextStyle(color: Colors.blue[900])),
+                    subtitle: Text("Selecione o documento"),
+                    onTap: () {}
+                  ),
+                ),
+              ],
+            ),
+            
+          ),
           Container(
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
@@ -214,23 +237,6 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
                         backgroundColor: Color.fromARGB(255, 235, 77, 3),
                       ),
                     );
-                // Your button action here
-                /*bool saved = await saveCandidatura(widget.candidato.codigo, widget.codedita, nome_curso);
-                if(saved==true){
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Candidatura submetida com sucesso'),
-                        backgroundColor: Color.fromARGB(255, 5, 228, 42),
-                      ),
-                    );
-                }else{
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Falha na submissão'),
-                        backgroundColor: Color.fromARGB(255, 235, 77, 3),
-                      ),
-                    );
-                }*/
               },
               child: Text(
                 "Enviar Candidatura",

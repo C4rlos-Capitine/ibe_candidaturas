@@ -47,5 +47,27 @@ class NotificationController {
     }
     return mensagens; // Return the list of mensagens
   }
+
+  static Future<void> marcarLida(String email) async{
+    try {
+      var url = Uri.http(IP, '/api/MsgUpdate/$email');
+
+      var response = await http.put(url).timeout(const Duration(seconds: 30));
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        // Decode the response body as a List
+
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } on TimeoutException catch (e) {
+      print('Request timed out: $e');
+    } catch (e) {
+      print('Error during HTTP request: $e');
+    }
+  }
   
 }
