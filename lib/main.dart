@@ -3,7 +3,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/local_storage/storageManagment.dart';
-import 'package:ibe_candidaturas/views/login.dart';
+import 'package:ibe_candidaturas/views/abas_inicio/login.dart';
 import 'package:ibe_candidaturas/views/home.dart';
 import 'package:ibe_candidaturas/views/inicio.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';

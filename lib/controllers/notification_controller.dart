@@ -52,7 +52,7 @@ class NotificationController {
     try {
       var url = Uri.http(IP, '/api/MsgUpdate/$email');
 
-      var response = await http.put(url).timeout(const Duration(seconds: 30));
+      var response = await http.post(url).timeout(const Duration(seconds: 30));
 
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');

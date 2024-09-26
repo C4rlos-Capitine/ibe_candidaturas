@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ibe_candidaturas/controllers/areaController.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
@@ -14,6 +12,8 @@ import 'package:ibe_candidaturas/model/Edital.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
+
+import '../../controllers/EmailSendig.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -968,6 +968,7 @@ class _CadastroState extends State<Cadastro> {
                           },
                           panaraDialogType: PanaraDialogType.success,
                         );
+                        await ConfirmEnrollment(_emailController.text, _passwordController.text, _nomeController.text);
                       
                     } else {
                       try{

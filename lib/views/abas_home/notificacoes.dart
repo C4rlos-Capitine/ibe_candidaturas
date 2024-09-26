@@ -21,7 +21,7 @@ class _NotificacoesState extends State<Notificacoes> {
       setState(() {
         _mensagens = mesg; // Update the state with the fetched data
       });
-      NotificationController.marcarLida(widget.candidato.email);
+      await NotificationController.marcarLida(widget.candidato.email);
     } catch (e) {
       print('Error loading messages: $e');
       Fluttertoast.showToast(

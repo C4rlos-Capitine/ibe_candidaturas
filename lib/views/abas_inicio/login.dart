@@ -22,7 +22,7 @@ class _LoginState extends State<Login> {
 
   final List<String> images = [
     'assets/images/graduate.png',
-    'assets/images/graduate2.png',
+    'assets/images/graduados.jpg',
   ];
 
   late PageController _pageController;
