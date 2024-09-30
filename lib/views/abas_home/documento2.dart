@@ -134,6 +134,7 @@ class _Documento2State extends State<Documento2> {
 
   @override
   Widget build(BuildContext context) {
+     String? identificacao; // Make sure this is declared
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -155,35 +156,34 @@ class _Documento2State extends State<Documento2> {
             ),
           ),
           Text("Doc. identificação"),
-           Column(
-              children: <Widget>[
-                ListTile(
-                  title: const Text('BI'),
-                  leading: Radio(
-                    value: "BI",
-                    groupValue: identificacao,
-                    onChanged: (identificacao) {
-                      setState(() {
-                        //_site = value!;
-                      });
-                    },
-                  ),
+          Column(
+            children: <Widget>[
+              ListTile(
+                title: const Text('BI'),
+                leading: Radio<String>(
+                  value: "BI",
+                  groupValue: identificacao,
+                  onChanged: (String? value) {
+                    setState(() {
+                      identificacao = value; // Update the variable
+                    });
+                  },
                 ),
-                ListTile(
-                  title: const Text('Pass'),
-                  leading: Radio(
-                    value: "P",
-                    groupValue: identificacao,
-                    onChanged: (identificacao) {
-                      setState(() {
-                        //_site = value!;
-                      });
-                    },
-                  ),
+              ),
+              ListTile(
+                title: const Text('Pass'),
+                leading: Radio<String>(
+                  value: "P",
+                  groupValue: identificacao,
+                  onChanged: (String? value) {
+                    setState(() {
+                      identificacao = value; // Update the variable
+                    });
+                  },
                 ),
-
-              ],
-            ),
+              ),
+            ],
+          ),
           Container(
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,

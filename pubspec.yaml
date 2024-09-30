@@ -1,7 +1,7 @@
 name: ibe_candidaturas
 description: App Portal do candidato, IBE-IP.
 publish_to: 'none'
-version: 0.1.0+8
+version: 0.1.0+10
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
@@ -22,7 +22,7 @@ dependencies:
   flutter_background_service: ^5.0.10
   awesome_notifications: ^0.9.3+1
 
-  device_preview: ^1.2.0
+  #device_preview: ^1.2.0
   flutter_launcher_icons: ^0.13.1
   shared_preferences: ^2.3.1
   iconsax: ^0.0.8
@@ -34,22 +34,22 @@ dependencies:
 
 flutter_launcher_icons:
   android: true #"launcher_icon"
-  image_path_android: "assets/images/icon2"
+  image_path_android: "assets/images/IBE-IP.png"
   ios: true
-  image_path: "assets/images/icon2"
+  image_path: "assets/images/IBE-IP.png"
   min_sdk_android: 16 # android min sdk min:16, default 21
   web:
     generate: true
-    image_path: "assets/images/icon2"
+    image_path: "assets/images/IBE-IP.png"
     #background_color: "#hexcode"
     #theme_color: "#hexcode"
   windows:
     generate: true
-    image_path: "assets/images/icon2"
+    image_path: "assets/images/IBE-IP.png"
     icon_size: 38 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "assets/images/icon2"
+    image_path: "assets/images/IBE-IP.png"
     
 
 dev_dependencies:

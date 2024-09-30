@@ -69,10 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
               onSelected: (Menu item) {
                 switch (item) {
                   case Menu.settings:
-                    Navigator.push(
-                      context,
+                    /*Navigator.push(
+                    context,
                       MaterialPageRoute(builder: (context) => Settings()),
-                    );
+                    );*/
                     break;
                   case Menu.about_app:
                     // Handle About App action

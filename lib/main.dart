@@ -88,7 +88,7 @@ void onStart(ServiceInstance service) async {
     });
 
     // Send notifications and invoke API every 15 seconds
-    Timer.periodic(const Duration(minutes: 15), (timer) async {
+    Timer.periodic(const Duration(seconds: 15), (timer) async {
       if (await service.isForegroundService()) {
         // Update foreground notification info
         service.setForegroundNotificationInfo(

@@ -65,13 +65,10 @@ class _BolsasState extends State<Bolsas> {
                       height: 20, // Set your desired height
                     ),
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Faça o auto - registo na aba de inscrições para se candidatar',
-                            style: TextStyle(color: Colors.blue[900]),
-                          ),
-                          backgroundColor: Color.fromARGB(255, 229, 231, 91),
+                       Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NovaCandidatura(codedita: edital.codedita, ano: edital.ano, numero: edital.numero, nome: edital.nome, candidato: widget.candidato),
                         ),
                       );
                     },

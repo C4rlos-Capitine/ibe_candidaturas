@@ -80,7 +80,7 @@ class _NovaCandidaturaState extends State<NovaCandidatura> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          "IBE - Portal do Candidato",
+          "IBE,IP - Portal do Candidato",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Color.fromARGB(255, 34, 88, 236),
