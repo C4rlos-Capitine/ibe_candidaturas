@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:radio_group_v2/radio_group_v2.dart';
 
 
 enum identificacao { bi, passaporte}  
@@ -33,7 +34,7 @@ class _Documento2State extends State<Documento2> {
   bool _isUploading = false; // Adicionamos um flag para controle de upload
   Dio dio = Dio();
 
- 
+ RadioGroupController myController = RadioGroupController();
 
   Future<void> pickFile(String field) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -156,34 +157,7 @@ class _Documento2State extends State<Documento2> {
             ),
           ),
           Text("Doc. identificação"),
-          Column(
-            children: <Widget>[
-              ListTile(
-                title: const Text('BI'),
-                leading: Radio<String>(
-                  value: "BI",
-                  groupValue: identificacao,
-                  onChanged: (String? value) {
-                    setState(() {
-                      identificacao = value; // Update the variable
-                    });
-                  },
-                ),
-              ),
-              ListTile(
-                title: const Text('Pass'),
-                leading: Radio<String>(
-                  value: "P",
-                  groupValue: identificacao,
-                  onChanged: (String? value) {
-                    setState(() {
-                      identificacao = value; // Update the variable
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
+         
           Container(
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
@@ -191,29 +165,47 @@ class _Documento2State extends State<Documento2> {
               borderRadius: BorderRadius.circular(10),
             ),
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Row(
+            child: Column(
+              
               children: [
-                Expanded(
-                  child: ListTile(
-                    leading: Icon(Iconsax.card, color: Colors.blue[900]),
-                    title: Text("BI/Passaporte:", style: TextStyle(color: Colors.blue[900])),
-                    subtitle: Text(_biFileName.isEmpty ? "Selecione o documento" : _biFileName),
-                    onTap: () => pickFile('bi'),
+                 RadioGroup(
+                  controller: myController,
+                  values: ["BI", "Passaporte"],
+                  indexOfDefault: 0,
+                  orientation: RadioGroupOrientation.horizontal,
+                  decoration: RadioGroupDecoration(
+                    spacing: 10.0,
+                    labelStyle: TextStyle(
+                      //color: Colors.blue,
+                    ),
+                    activeColor: Colors.blueAccent,
                   ),
                 ),
-                ElevatedButton.icon(
-                  icon: const Icon(
-                    EvaIcons.upload,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => uploadFile(widget.candidato.codigo, 'bi'),
-                  label: Text("Enviar", style: TextStyle(color: Colors.white)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 34, 37, 199),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        leading: Icon(Iconsax.card, color: Colors.blue[900]),
+                        title: Text("BI/Passaporte:", style: TextStyle(color: Colors.blue[900])),
+                        subtitle: Text(_biFileName.isEmpty ? "Selecione o documento" : _biFileName),
+                        onTap: () => pickFile('bi'),
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      icon: const Icon(
+                        EvaIcons.upload,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => uploadFile(widget.candidato.codigo, 'bi'),
+                      label: Text("Enviar", style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 34, 37, 199),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
+            )
             
           ),
           Container(

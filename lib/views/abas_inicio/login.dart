@@ -35,6 +35,80 @@ class _LoginState extends State<Login> {
     });
   }
 
+   void _showAuthForm(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            width: 300, // Set your desired width
+            height: 250, // Set your desired height
+            padding: EdgeInsets.all(16.0), // Add some padding
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Use min size to wrap content
+              children: [
+                Text("Código de autenticação", style: TextStyle(fontWeight: FontWeight.bold)),
+                SizedBox(height: 10), // Space between title and content
+                Form(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Insira o Código aqui',
+                          labelStyle: TextStyle(color: Colors.blueAccent),
+                          border: InputBorder.none,
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blueAccent),
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          // _firstInputValue = value!;
+                        },
+                      ),
+                      SizedBox(height: 20), // Space between input and button
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue[900],
+                        ),
+                        child: Text(
+                          "Entrar",
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10), // Space between content and actions
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                      child: Text("Close", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+
+      },
+    );
+  }
+
   Future<void> _handleLogin() async {
     // Validação dos campos
     if (_email.text.isEmpty || _senha.text.isEmpty) {
@@ -239,7 +313,10 @@ class _LoginState extends State<Login> {
                 _isLoading
                     ? CircularProgressIndicator()
                     : ElevatedButton(
-                  onPressed: _handleLogin,
+                  //onPressed: _handleLogin,
+                  onPressed: () {
+                    _showAuthForm(context);
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[900],
                       fixedSize: Size(300, 50)),
