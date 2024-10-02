@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/views/abas_inicio/cadastrar2.dart';
+import 'package:ibe_candidaturas/views/abas_inicio/cadastrar_dio.dart';
 import 'package:ibe_candidaturas/views/abas_inicio/login.dart';
 import 'package:ibe_candidaturas/views/abas_home/bolsas_2.dart';
 import 'package:ibe_candidaturas/views/abas_inicio/bemvindo.dart';
@@ -105,7 +106,8 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
           Login(),
          // SobreNos(), // Replace with your actual widget
           Bolsas(),
-          Cadastro()
+          //Cadastro()
+          CadastrarDio()
         ],
       ),
     );

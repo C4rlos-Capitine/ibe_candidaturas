@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/config.dart';
+import 'package:ibe_candidaturas/controllers/AuthController.dart';
 import 'package:ibe_candidaturas/controllers/EmailSendig.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
@@ -17,6 +18,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController _senha = TextEditingController();
   final TextEditingController _email = TextEditingController();
+  final TextEditingController codigo_authController = TextEditingController();
   bool _isLoading = false;
   bool _obscureText = true;
 
@@ -42,7 +44,7 @@ class _LoginState extends State<Login> {
         return Dialog(
           child: Container(
             width: 300, // Set your desired width
-            height: 250, // Set your desired height
+            height: 350, // Set your desired height
             padding: EdgeInsets.all(16.0), // Add some padding
             child: Column(
               mainAxisSize: MainAxisSize.min, // Use min size to wrap content
@@ -53,8 +55,10 @@ class _LoginState extends State<Login> {
                   child: Column(
                     children: [
                       TextFormField(
+                        keyboardType: TextInputType.number,
+                        controller: codigo_authController,
                         decoration: InputDecoration(
-                          labelText: 'Insira o Código aqui',
+                          labelText: 'Insira o Código enviado para o seu email aqui',
                           labelStyle: TextStyle(color: Colors.blueAccent),
                           border: InputBorder.none,
                           focusedBorder: UnderlineInputBorder(
@@ -66,7 +70,7 @@ class _LoginState extends State<Login> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Campo Vázio, escreva o código';
                           }
                           return null;
                         },
@@ -76,7 +80,19 @@ class _LoginState extends State<Login> {
                       ),
                       SizedBox(height: 20), // Space between input and button
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async{
+                          var tryAuth = await SecoundAtuthentication(_email.text, codigo_authController.text);
+                          if(tryAuth){
+                            _finishLogIn(_email.text, _senha.text);
+                          }else{
+                             ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Código incorecto, tente novamente'),
+                                backgroundColor: Color.fromARGB(255, 235, 77, 3),
+                              ),
+                            );
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue[900],
                         ),
@@ -85,7 +101,25 @@ class _LoginState extends State<Login> {
                           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ],
+                      Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                            text: 'Não recebeu o email com o codigo? ',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          TextSpan(
+                              text: 'Tente novamente',
+                              style: TextStyle(color: Colors.blue),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  SendAuthRequest(_email.text);
+                                }),
+                        ]),
+                      ),
+                    ),
+                              ],
                   ),
                 ),
                 SizedBox(height: 10), // Space between content and actions
@@ -138,12 +172,6 @@ class _LoginState extends State<Login> {
          return;
       }
 
-
-    // Mostrar carregamento
-    setState(() {
-      _isLoading = true;
-    });
-
     // Verificar a conexão com a internet
     bool connected = await _checkNetworkStatus();
     if (!connected) {
@@ -166,41 +194,44 @@ class _LoginState extends State<Login> {
 
     try {
       internetLoginSuccess = await login(_email.text, _senha.text);
-      if (internetLoginSuccess) {
-        candidato = await getData(_email.text, _senha.text);
-       
+      if(internetLoginSuccess){
+        SendAuthRequest(_email.text);
+        _showAuthForm(context);
+        return;
+      }else {
+        candidato = await attemptLocalLogin(_email.text, _senha.text);
+        if (candidato == null) {
+          PanaraInfoDialog.showAnimatedGrow(
+            context,
+            title: "Mensagem de Erro",
+            message: "Dados incorretos.",
+            buttonText: "Okay",
+            color: Colors.white,
+            onTapDismiss: () {
+              Navigator.pop(context);
+            },
+            panaraDialogType: PanaraDialogType.error,
+          );
+        }
       }
     } catch (e) {
       print('Error during internet login: $e');
     }
 
-    // Se o login via internet falhar, tentar login local
-    if (!internetLoginSuccess) {
-      candidato = await attemptLocalLogin(_email.text, _senha.text);
-      if (candidato == null) {
-        PanaraInfoDialog.showAnimatedGrow(
-          context,
-          title: "Mensagem de Erro",
-          message: "Dados incorretos.",
-          buttonText: "Okay",
-          color: Colors.white,
-          onTapDismiss: () {
-            Navigator.pop(context);
-          },
-          panaraDialogType: PanaraDialogType.error,
-        );
-      }
-    }
 
-    // Navegar para a tela inicial se o login for bem-sucedido
+  }
+
+  Future <void> _finishLogIn(String email, String senha) async{
+    Candidato? candidato;
+    candidato = await getData(email, senha);
     if (candidato != null) {
       Navigator.pushNamed(context, "/home", arguments: candidato);
     }
-
-    // Ocultar carregamento
+        // Ocultar carregamento
     setState(() {
       _isLoading = false;
     });
+
   }
 
   Future<bool> _checkNetworkStatus() async {
@@ -313,10 +344,8 @@ class _LoginState extends State<Login> {
                 _isLoading
                     ? CircularProgressIndicator()
                     : ElevatedButton(
-                  //onPressed: _handleLogin,
-                  onPressed: () {
-                    _showAuthForm(context);
-                  },
+                  onPressed: _handleLogin,
+                  
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[900],
                       fixedSize: Size(300, 50)),

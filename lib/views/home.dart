@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:ibe_candidaturas/controllers/AuthController.dart';
 import 'package:ibe_candidaturas/views/abas_home/bolsas.dart';
 import 'package:ibe_candidaturas/views/abas_home/candidaturas.dart';
 import 'package:ibe_candidaturas/views/abas_home/documento2.dart';
@@ -35,15 +36,19 @@ class _MyHomePageState extends State<MyHomePage> {
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
       final candidato = ModalRoute.of(context)!.settings.arguments as Candidato;
       print("candi $candidato");
+      var setLogged = await SetLoggedIn(candidato.email);
       setState(() {
         _candidato = candidato;
         _isCandidatoInitialized = true;
       });
     });
+    
+    
   }
 
   @override
   Widget build(BuildContext context) {
+    
     if (!_isCandidatoInitialized || _candidato == null) {
       return MaterialApp(
         home: Scaffold(
