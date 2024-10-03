@@ -1,12 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ibe_candidaturas/model/Candidato.dart';
-import 'package:ibe_candidaturas/model/Candidatura.dart';
 import 'package:ibe_candidaturas/config.dart';
-import 'package:ibe_candidaturas/local_storage/storageManagment.dart'; 
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:ibe_candidaturas/model/Area.dart';
 
 Future<List<Area>>? getAreas(int codedita) async {

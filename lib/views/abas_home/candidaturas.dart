@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/model/Candidatura.dart';
-import 'package:ibe_candidaturas/views/estado_candidatura.dart';
 import 'package:ibe_candidaturas/local_storage/storageManagment.dart'; 
 
 class Candidaturas extends StatefulWidget {

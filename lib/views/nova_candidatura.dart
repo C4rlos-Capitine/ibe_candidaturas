@@ -1,7 +1,5 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/controllers/areaController.dart';
-import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:ibe_candidaturas/controllers/cursoController.dart';
 import 'package:ibe_candidaturas/model/Area.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';

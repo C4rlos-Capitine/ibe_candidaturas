@@ -3,8 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/controllers/editalController.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
-import 'package:ibe_candidaturas/views/estado_candidatura.dart';
-import 'package:ibe_candidaturas/views/nova_candidatura.dart';
 
 class Bolsas extends StatefulWidget {
   const Bolsas({super.key});
@@ -28,21 +26,6 @@ class _BolsasState extends State<Bolsas> {
     _connected = await _checkNetworkStatus();
     print("after check: $_connected");
     await _loadEditais();
-    /*if (_connected) {
-      // Load data if connected
-      await _loadEditais();
-    } else {
-      // Show a snack bar if not connected
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Verifique se o wifi ou dados estão ligados'),
-          backgroundColor: Color.fromARGB(255, 235, 77, 3),
-        ),
-      );
-      setState(() {
-        _edital = null; // Clear or handle data if not connected
-      });
-    }*/
   }
 
   Future<bool> _checkNetworkStatus() async {

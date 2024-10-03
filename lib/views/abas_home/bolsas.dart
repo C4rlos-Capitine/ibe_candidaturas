@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/controllers/editalController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
-import 'package:ibe_candidaturas/views/estado_candidatura.dart';
 import 'package:ibe_candidaturas/views/nova_candidatura.dart';
 
 class Bolsas extends StatefulWidget {

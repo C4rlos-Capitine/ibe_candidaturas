@@ -9,7 +9,6 @@ import 'package:ibe_candidaturas/views/inicio.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Necessário para inicializar corretamente

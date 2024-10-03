@@ -2,7 +2,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
-import 'package:path/path.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:dio/dio.dart';
@@ -38,7 +37,6 @@ class _Documento2State extends State<Documento2> {
 
   Future<void> pickFile(String field) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
-
     if (result != null) {
       setState(() {
         if (field == 'bi') {

@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/controllers/areaController.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -175,6 +173,44 @@ class _CadastrarDioState extends State<CadastrarDio> {
       }
 }
 
+  void uploadFiles(String email) async {
+  try {
+    String url = 'http://$IP/api/Upload/upload?email=$email'; // Corrected URL construction
+
+    FormData formData = FormData.fromMap({
+      if (_biFile != null) 'bi': await MultipartFile.fromFile(_biFile!.path, filename: _biFileName),
+      if (_nuitFile != null) 'nuit': await MultipartFile.fromFile(_nuitFile!.path, filename: _nuitName),
+      if (_certificadoFile != null) 'certificado': await MultipartFile.fromFile(_certificadoFile!.path, filename: _certificadoFileName),
+      if (_fotoFile != null) 'foto': await MultipartFile.fromFile(_fotoFile!.path, filename: _fotoName),
+    });
+
+    // Debugging: Print form data fields
+    print(formData.fields);
+
+    final response = await dio.post(url, data: formData, onSendProgress: (int sent, int total) {
+      print("Total: $total, Sent: $sent");
+    });
+
+    // Check the response status
+    if (response.statusCode == 200) {
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Upload successful!")),
+      );
+    } else {
+      // Show error message based on response
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Upload failed: ${response.statusCode} - ${response.data}")),
+      );
+    }
+  } catch (e) {
+    print(e);
+    // Show error message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Upload failed: $e")),
+    );
+  }
+}
 Future<void> pickFile(String field) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -186,7 +222,7 @@ Future<void> pickFile(String field) async {
         } else if (field == 'certificado') {
           _certificadoFile = File(result.files.single.path!);
           _certificadoFileName = result.files.single.name;
-        } else if (field == 'NUIT') {
+        } else if (field == 'nuit') {
           _nuitFile = File(result.files.single.path!);
           _nuitName = result.files.single.name;
         }else if(field == 'foto'){
@@ -196,6 +232,59 @@ Future<void> pickFile(String field) async {
       });
     }
   }
+  Widget _buildFileContainer(String title, String subtitle, VoidCallback onTap) {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+        color: Color.fromARGB(255, 248, 245, 245),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      child: Row(
+        children: [
+          Expanded(
+            child: ListTile(
+              leading: Icon(Iconsax.card, color: Colors.blue[900]),
+              title: Text(title, style: TextStyle(color: Colors.blue[900])),
+              subtitle: Text(subtitle.isEmpty ? "Selecione o documento" : subtitle),
+              onTap: onTap,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+Widget _textFieldContainer({
+  required String label,
+  required String hint,
+  required TextEditingController controller,
+  TextInputType keyboardType = TextInputType.text,
+  Icon? icon,
+}) {
+  return Container(
+    alignment: Alignment.center,
+    margin: EdgeInsets.symmetric(horizontal: 30),
+    padding: EdgeInsets.symmetric(horizontal: 10),
+    decoration: BoxDecoration(
+      shape: BoxShape.rectangle,
+      color: Color.fromARGB(255, 248, 245, 245),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        label: Text(label, style: TextStyle(color: Colors.blue[900])),
+        icon: icon,
+        hintText: hint,
+      ),
+    ),
+  );
+}
+
 
 
   @override
@@ -221,52 +310,21 @@ Future<void> pickFile(String field) async {
                   )),
             ),
             SizedBox(height: 10),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                controller: _nomeController,
-                //maxLength: 50,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("Nome:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
-                  hintText: "Escreva seu Nome",
-                ),
-                onChanged: (value) {
-                  print("onChanged");
-                },
-              ),
-            ),
-            SizedBox(height: 10),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              child: TextFormField(
-                controller: _apelidoController,
-                decoration: InputDecoration(
-                  //border: OutlineInputBorder(),
-                  border: InputBorder.none,
-                  label: Text("Apelido:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
-                  hintText: "Seu apelido",
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
+          _textFieldContainer(
+            label: "Nome:",
+            hint: "Escreva seu Nome",
+            controller: _nomeController,
+            keyboardType: TextInputType.name,
+            icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
+          ),
+          SizedBox(height: 10),
+          _textFieldContainer(
+            label: "Apelido:",
+            hint: "Seu apelido",
+            controller: _apelidoController,
+            icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
+          ),
+      SizedBox(height: 10),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
@@ -301,26 +359,12 @@ Future<void> pickFile(String field) async {
               ),
             ),
             SizedBox(height: 20),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              child: TextFormField(
-                controller: _docController,
-                keyboardType: TextInputType.number,
-                //maxLength: 13,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("BI:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Iconsax.card, color: Colors.blue[900]),
-                  hintText: "Numero de BI",
-                ),
-              ),
+            _textFieldContainer(
+              label: "BI:",
+              hint: "Número de BI",
+              controller: _docController,
+              keyboardType: TextInputType.number,
+              icon: Icon(Iconsax.card, color: Colors.blue[900]),
             ),
             SizedBox(height: 10,),
             Container(
@@ -678,228 +722,58 @@ Future<void> pickFile(String field) async {
             ),
 
             SizedBox(height: 10,),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                controller: _especialidadeController,
-                keyboardType: TextInputType.text,
-               // maxLength: 25,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("Especialidade:", style: TextStyle(color: Colors.blue[900]),),
-                  //icon: Icon(, color: Colors.blue[900]),
-                  hintText: "Informe a especialidade.",
-                ),
-              ),
+            _textFieldContainer(
+              label: "Especialidade:",
+              hint: "Informe a especialidade.",
+              controller: _especialidadeController,
+            ),
+            SizedBox(height: 20),
+            _textFieldContainer(
+              label: "Naturalidade:",
+              hint: "Natural de...",
+              controller: _naturalidadeController,
+              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Rua:",
+              hint: "Rua",
+              controller: _ruaController,
+              icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 20),
+            _textFieldContainer(
+              label: "Ocupação:",
+              hint: "Sua ocupação",
+              controller: _ocupacaoController,
+              icon: Icon(Iconsax.task, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 20),
+            _textFieldContainer(
+              label: "Celular:",
+              hint: "+258 00000",
+              controller: _telemovelController,
+              keyboardType: TextInputType.number,
+              icon: Icon(Icons.phone_android, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 20),
+            _textFieldContainer(
+              label: "Telefone:",
+              hint: "+258 21 00000",
+              controller: _telefoneController,
+              keyboardType: TextInputType.number,
+              icon: Icon(Icons.phone, color: Colors.blue[900]),
             ),
             SizedBox(height: 20,),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                controller: _naturalidadeController,
-                keyboardType: TextInputType.text,
-               // maxLength: 25,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("Naturalidade:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
-                  hintText: "Natural de...",
-                ),
-              ),
-            ),
-            SizedBox(height: 10,),
-            
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                controller: _ruaController,
-                keyboardType: TextInputType.text,
-                //maxLength: 25,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("Rua:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
-                  hintText: "Rua",
-                ),
-              ),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                controller: _ocupacaoController,
-                keyboardType: TextInputType.text,
-                //maxLength: 25,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("Ocupação:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Iconsax.task, color: Colors.blue[900]),
-                  hintText: "Sua ocupação",
-                ),
-              ),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                controller: _telemovelController,
-                keyboardType: TextInputType.number,
-                //maxLength: 9,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("Celular:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.phone_android, color: Colors.blue[900]),
-                  hintText: "+258 00000",
-                ),
-              ),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                controller: _telefoneController,
-                keyboardType: TextInputType.number,
-                //maxLength: 9,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("Telefone:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.phone, color: Colors.blue[900]),
-                  hintText: "+258 21 00000",
-                ),
-              ),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-              child: Column(
-                
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ListTile(
-                          leading: Icon(Iconsax.card, color: Colors.blue[900]),
-                          title: Text("BI/Passaporte:", style: TextStyle(color: Colors.blue[900])),
-                          subtitle: Text(_biFileName.isEmpty ? "Selecione o documento" : _biFileName),
-                          onTap: () => pickFile('bi'),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                ],
-            )
-            
-          ),
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Color.fromARGB(255, 248, 245, 245),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    leading: Icon(Iconsax.card, color: Colors.blue[900]),
-                    title: Text("NUIT:", style: TextStyle(color: Colors.blue[900])),
-                    subtitle: Text(_nuitName.isEmpty ? "Selecione o documento" : _nuitName),
-                    onTap: () => pickFile('NUIT'),
-                  ),
-                ),
-              ],
-            ),  
-          ),
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Color.fromARGB(255, 248, 245, 245),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    leading: Icon(Iconsax.document, color: Colors.blue[900]),
-                    title: Text("Certificado:", style: TextStyle(color: Colors.blue[900])),
-                    subtitle: Text(_certificadoFileName.isEmpty ? "Selecione o documento" : _certificadoFileName),
-                    onTap: () => pickFile('certificado'),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Color.fromARGB(255, 248, 245, 245),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    leading: Icon(Iconsax.document, color: Colors.blue[900]),
-                    title: Text("Foto tipo passe:", style: TextStyle(color: Colors.blue[900])),
-                    subtitle: Text(_fotoName.isEmpty ? "Selecione o documento" : _fotoName),
-                    onTap: () => pickFile('foto'),
-                  ),
-                ),
-              ],
-            ),
-          ),
+           Column(
+          children: [
+            _buildFileContainer("BI/Passaporte:", _biFileName, () => pickFile('bi')),
+            _buildFileContainer("NUIT:", _nuitName, () => pickFile('nuit')),
+            _buildFileContainer("Certificado:", _certificadoFileName, () => pickFile('certificado')),
+            _buildFileContainer("Foto tipo passe:", _fotoName, () => pickFile('foto')),
+            SizedBox(height: 20),
+          ],
+        ),
           SizedBox(height: 10),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -971,65 +845,100 @@ Future<void> pickFile(String field) async {
               child: ElevatedButton(
                 onPressed: () async {
                   bool erro_validacao = false;
-
                   
+                  if(_biFileName.isEmpty || _biFileName == null){
+                    showErro("Adicione BI");
+                    erro_validacao = true;
+                    return;
+                  }
+                  if(_nuitName.isEmpty || _biFileName == null){
+                    showErro("Adicione nuit");
+                    erro_validacao = true;
+                    return;
+                  }
+                  if(_certificadoFileName.isEmpty || _biFileName == null){
+                    showErro("Adicione certificado");
+                    erro_validacao = true;
+                    return;
+                  }
+
+                  if(_fotoName.isEmpty || _biFileName == null){
+                    showErro("Adicione adicione foto");
+                    erro_validacao = true;
+                    return;
+                  }
+
                   if (_nomeController.text.isEmpty) {
                     showErro("Campo nome Vazio");
                     erro_validacao = true;
+                    return;
                   }
                   if (_apelidoController.text.isEmpty) {
                     showErro("Campo apelido Vazio");
                     erro_validacao = true;
+                    return;
                   }
                   if (_docController.text.isEmpty) {
                     showErro("Campo BI/Passaporte Vazio");
                     erro_validacao = true;
+                    return;
                   }
                   if (_passwordController.text.isEmpty) {
                     showErro("Campo da senha Vazio");
                     erro_validacao = true;
+                    return;
                   }
                   if (_passwordControllerConfirm.text.isEmpty) {
                     showErro("Campo confirmar a senha Vazio");
                     erro_validacao = true;
+                    return;
                   }
                   if (_passwordController.text !=
                       _passwordControllerConfirm.text) {
                     showErro(
                         "A senha informada não é igual a do campo confirmar");
                     erro_validacao = true;
+                    return;
                   }
                   if (_dataController.text.isEmpty) {
                     showErro("Data de nascimento não informada");
                     erro_validacao = true;
+                    return;
                   }
                   if(_especialidadeController.text.isEmpty){
                     showErro("Especialidade não informada");
                     erro_validacao = true;
+                    return;
                   }
                   if(nomeArea!.isEmpty){
                     showErro("Aréa de estudo não selecionada");
                     erro_validacao = true;
+                    return;
                   }
                   if(nomeEdital!.isEmpty){
                     showErro("Edital não selecionado");
                     erro_validacao = true;
+                    return;
                   }
                   if(_naturalidadeController.text.isEmpty){
                     showErro("Naturalidade não informada");
                     erro_validacao = true;
+                    return;
                   }
                   if(_ocupacaoController.text.isEmpty){
                     showErro("Ocupação não informada");
                     erro_validacao = true;
+                    return;
                   }
                   if(_dataEmissaoController.text.isEmpty){
                     showErro("Data de emissão do BI/Passaporte não informada");
                     erro_validacao = true;
+                    return;
                   }
                   if(_dataValidadeController.text.isEmpty){
                     showErro("Data de validade do BI/Passaporte não informada");
                     erro_validacao = true;
+                    return;
                   }
                     RegExp emailRegExp = RegExp(
                       r'^[^@]+@[^@]+\.[^@]+',
@@ -1079,14 +988,10 @@ Future<void> pickFile(String field) async {
                       }catch(e){
                         print(e);
                       }
-                      print(response.message);
-                      /*ScaffoldMessenger.of(this.context).showSnackBar(
-                        SnackBar(
-                          content: Text('Msg: ${response.message} ${response.statuscode}'),
-                          backgroundColor: Color.fromARGB(255, 8, 224, 134),
-                        ),
-                      );*/
-                       PanaraInfoDialog.show(
+                      print(response.message);                       
+                        await ConfirmEnrollment(_emailController.text, _passwordController.text, _nomeController.text);
+                        uploadFiles(_emailController.text);
+                        PanaraInfoDialog.show(
                           context,
                           title: "Olá!!",
                           message: "'Msg: ${response.message} ${response.statuscode}'",
@@ -1096,9 +1001,7 @@ Future<void> pickFile(String field) async {
                             downloadAndOpenFile(_emailController.text);
                           },
                           panaraDialogType: PanaraDialogType.success,
-                        );
-                        await ConfirmEnrollment(_emailController.text, _passwordController.text, _nomeController.text);
-                      
+                        );                    
                     } else {
                       try{
                          print("Erro de conexao.");
@@ -1112,12 +1015,9 @@ Future<void> pickFile(String field) async {
                           },
                           panaraDialogType: PanaraDialogType.error,
                         );
-
                       }catch(e){
                         print(e);
-                      }
-                     
-                      
+                      }                      
                     }
                   }
                 },

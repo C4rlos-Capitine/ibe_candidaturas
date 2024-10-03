@@ -1,14 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ibe_candidaturas/controllers/provinciaController.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
-import 'package:ibe_candidaturas/model/Provincia.dart';
 import 'package:iconsax/iconsax.dart';
 
 class EditarDados extends StatefulWidget {
