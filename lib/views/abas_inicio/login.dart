@@ -3,6 +3,7 @@ import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/controllers/AuthController.dart';
 import 'package:ibe_candidaturas/controllers/EmailSendig.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
+import 'package:ibe_candidaturas/http_response/http_response.dart';
 import 'package:ibe_candidaturas/model/Candidato.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:flutter/gestures.dart';
@@ -22,6 +23,8 @@ class _LoginState extends State<Login> {
   bool _isLoading = false;
   bool _obscureText = true;
 
+
+
   final List<String> images = [
     'assets/images/graduate.png',
     'assets/images/graduados.jpg',
@@ -29,11 +32,32 @@ class _LoginState extends State<Login> {
 
   late PageController _pageController;
   late Timer _timer;
-  int _currentPage = 0;
+    int _seconds = 0;
+    int _currentPage = 0;
 
   void _togglePasswordVisibility() {
     setState(() {
       _obscureText = !_obscureText;
+    });
+  }
+
+   void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _seconds++;
+        print(_seconds);
+      });
+    });
+  }
+
+  void _stopTimer() {
+    _timer?.cancel();
+  }
+
+  void _resetTimer() {
+    _stopTimer();
+    setState(() {
+      _seconds = 0;
     });
   }
 
@@ -49,7 +73,7 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisSize: MainAxisSize.min, // Use min size to wrap content
               children: [
-                Text("Código de autenticação", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("Código de autenticação $_seconds", style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 10), // Space between title and content
                 Form(
                   child: Column(
@@ -81,13 +105,14 @@ class _LoginState extends State<Login> {
                       SizedBox(height: 20), // Space between input and button
                       ElevatedButton(
                         onPressed: () async{
-                          var tryAuth = await SecoundAtuthentication(_email.text, codigo_authController.text);
-                          if(tryAuth){
+                          ResquestResponse response  = await SecoundAtuthentication(_email.text, codigo_authController.text);
+                          if(response.success){
+                            _stopTimer();
                             _finishLogIn(_email.text, _senha.text);
                           }else{
                              ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Código incorecto, tente novamente'),
+                                content: Text('${response.message}'),
                                 backgroundColor: Color.fromARGB(255, 235, 77, 3),
                               ),
                             );
@@ -196,6 +221,7 @@ class _LoginState extends State<Login> {
       internetLoginSuccess = await login(_email.text, _senha.text);
       if(internetLoginSuccess){
         SendAuthRequest(_email.text);
+        _startTimer();
         _showAuthForm(context);
         return;
       }else {
