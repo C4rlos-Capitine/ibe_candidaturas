@@ -32,8 +32,9 @@ class _LoginState extends State<Login> {
 
   late PageController _pageController;
   late Timer _timer;
-    int _seconds = 0;
+    int _seconds = 120;
     int _currentPage = 0;
+    String texto_tempo = "";
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -43,12 +44,16 @@ class _LoginState extends State<Login> {
 
    void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if(_seconds==1){
+        _stopTimer();
+      }
       setState(() {
-        _seconds++;
+        _seconds--;
+        texto_tempo = "faltam $_seconds segundos";
         print(_seconds);
       });
     });
-  }
+    }
 
   void _stopTimer() {
     _timer?.cancel();
@@ -57,11 +62,12 @@ class _LoginState extends State<Login> {
   void _resetTimer() {
     _stopTimer();
     setState(() {
-      _seconds = 0;
+      _seconds = 120;
     });
   }
 
    void _showAuthForm(BuildContext context) {
+    
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -73,7 +79,7 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisSize: MainAxisSize.min, // Use min size to wrap content
               children: [
-                Text("Código de autenticação $_seconds", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("Código de autenticação", style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 10), // Space between title and content
                 Form(
                   child: Column(
@@ -305,6 +311,7 @@ class _LoginState extends State<Login> {
       backgroundColor: Colors.white,
       body: ListView(
         children: [
+          Center(child: Text(texto_tempo),),
           Container(
             margin: EdgeInsets.symmetric(vertical: 20, horizontal: 100),
             padding: EdgeInsets.symmetric(vertical: 1),
