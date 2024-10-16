@@ -1,4 +1,6 @@
+/*
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ibe_candidaturas/controllers/areaController.dart';
@@ -40,6 +42,8 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController _ruaController = TextEditingController();
   TextEditingController _ocupacaoController = TextEditingController();
   TextEditingController _especialidadeController = TextEditingController();
+  TextEditingController _mediaController = TextEditingController();
+  TextEditingController _NUITController = TextEditingController();
   //List<Provincia>? _provincias;
   List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
   List <String> niveis = ["Médio","Téc. Médio","Licenciatura", "Mestrado", "Doutoramento"];
@@ -278,6 +282,28 @@ class _CadastroState extends State<Cadastro> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   label: Text("BI:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Iconsax.card, color: Colors.blue[900]),
+                  hintText: "Numero de BI",
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: TextFormField(
+                controller: _NUITController,
+                keyboardType: TextInputType.number,
+                //maxLength: 13,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  label: Text("NUIT:", style: TextStyle(color: Colors.blue[900]),),
                   icon: Icon(Iconsax.card, color: Colors.blue[900]),
                   hintText: "Numero de BI",
                 ),
@@ -563,6 +589,30 @@ class _CadastroState extends State<Cadastro> {
                 },
               ),
             ),
+            SizedBox(height: 10,),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: TextFormField(
+                //maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                controller: _mediaController,
+                keyboardType: TextInputType.number,
+                //maxLength: 13,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  label: Text("Média global do nivél:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Iconsax.card, color: Colors.blue[900]),
+                  hintText: "Numero de BI",
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
             Container(
               
               alignment: Alignment.center,
@@ -1008,3 +1058,4 @@ class _CadastroState extends State<Cadastro> {
     );
   }
 }
+*/

@@ -16,6 +16,9 @@ import 'package:ibe_candidaturas/model/Edital.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
+import 'package:radio_group_v2/utils/radio_group_decoration.dart';
+import 'package:radio_group_v2/widgets/view_models/radio_group_controller.dart';
+import 'package:radio_group_v2/widgets/views/radio_group.dart';
 
 import '../../controllers/EmailSendig.dart';
 
@@ -45,6 +48,8 @@ class _CadastrarDioState extends State<CadastrarDio> {
   TextEditingController _ruaController = TextEditingController();
   TextEditingController _ocupacaoController = TextEditingController();
   TextEditingController _especialidadeController = TextEditingController();
+    TextEditingController _mediaController = TextEditingController();
+  TextEditingController _NUITController = TextEditingController();
   //List<Provincia>? _provincias;
   List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
   List <String> niveis = ["Médio","Téc. Médio","Licenciatura", "Mestrado", "Doutoramento"];
@@ -91,6 +96,9 @@ class _CadastrarDioState extends State<CadastrarDio> {
   late int selectedIndex;
   late int _codedita;
   late int _codarea;
+
+  
+ RadioGroupController radioController = RadioGroupController();
 
 
 
@@ -358,11 +366,19 @@ Widget _textFieldContainer({
                 },
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             _textFieldContainer(
-              label: "BI:",
+              label: "Bilhete de identidade:",
               hint: "Número de BI",
               controller: _docController,
+              keyboardType: TextInputType.text,
+              icon: Icon(Iconsax.card, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Nuit:",
+              hint: "Número de Nuit",
+              controller: _NUITController,
               keyboardType: TextInputType.number,
               icon: Icon(Iconsax.card, color: Colors.blue[900]),
             ),
@@ -573,6 +589,39 @@ Widget _textFieldContainer({
               ),
             ),
             SizedBox(height: 20,),
+             Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  Text("É orfão?"),
+                  Row(
+                    children: [
+                      RadioGroup(
+                        controller: radioController,
+                        values: ["Sim", "Não"],
+                        indexOfDefault: 0,
+                        orientation: RadioGroupOrientation.horizontal,
+                        decoration: RadioGroupDecoration(
+                          spacing: 10.0,
+                          labelStyle: TextStyle(
+                            //color: Colors.blue,
+                          ),
+                          activeColor: Colors.blueAccent,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )          
+            ),
+            SizedBox(height: 10,),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
@@ -646,11 +695,20 @@ Widget _textFieldContainer({
                 },
               ),
             ),
+            SizedBox(height: 10,),
+            _textFieldContainer(
+              label: "Média global:",
+              hint: "Escreva a média global do último nivel de escolaridade",
+              controller: _mediaController,
+              keyboardType: TextInputType.number,
+              icon: Icon(Icons.maximize, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 10,),
             Container(
               
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(horizontal: 2),
-              margin: EdgeInsets.all(20),
+              margin: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color.fromARGB(255, 248, 245, 245),
@@ -952,6 +1010,16 @@ Widget _textFieldContainer({
                   
                       return;
                     }
+                    if(_NUITController.text.isEmpty){
+                      showErro("O número de NUIT não informada");
+                      erro_validacao = true;
+                      return;
+                    }
+                    if(_mediaController.text.isEmpty){
+                      showErro("O campo da média não informada");
+                      erro_validacao = true;
+                      return;
+                    }
                   if (erro_validacao == false) {
                         ResquestResponse response = await registar2(
                         _nomeController.text,
@@ -981,7 +1049,7 @@ Widget _textFieldContainer({
                         ano_validade,
                         nomeEdital,
                         nomeArea,
-                        _especialidadeController.text, _selectedIndexNivel);
+                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text);
                     if (response.success) {
                       try{
 
