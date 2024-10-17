@@ -202,7 +202,8 @@ Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id,
 
 Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, telefone, id,
     tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc, naturalidade, rua, ocupacao, dataEmissao_doc, 
-    dataValidade_doc, dia_emissao, mes_emissao, ano_emissao, dia_validade, mes_validade, ano_validade, codedita, codarea, especialidade, int nivel, media, nuit) async{
+    dataValidade_doc, dia_emissao, mes_emissao, ano_emissao, dia_validade, mes_validade, 
+    ano_validade, codedita, codarea, especialidade, int nivel, media, nuit, ISorfao, bool pai, bool mae, bairro, posto, localidade) async{
   var level = "";
   var doc = "B";
   if(nivel==0){
@@ -218,6 +219,20 @@ Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, tele
   }
   if(tipo_doc=="Passaport"){
     doc = "P";
+  }
+
+  int IsOrfaoPai = 0;
+  int IsOrfaoMae = 0;
+  if(ISorfao == "Sim"){
+
+    if(pai==true){
+      IsOrfaoPai = 1;
+    }
+    if(mae==true){
+      IsOrfaoMae = 1;
+    }else{
+      ISorfao = "Não";
+    }
   }
   print("level: $level");
   print("Doc: $doc");
@@ -259,7 +274,13 @@ Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, tele
       'nivel':level,
       'tipo_doc': doc,
       'nuit':int.parse(nuit),
-      'media_obt':int.parse(media)
+      'media_obt':int.parse(media),
+      'eorfao': ISorfao[0],
+      'pai': IsOrfaoPai,
+      'mae': IsOrfaoMae,
+      'bairro': bairro,
+      'posto' : posto,
+      //'localidade':localidade
     });
 
     print(requestBody);

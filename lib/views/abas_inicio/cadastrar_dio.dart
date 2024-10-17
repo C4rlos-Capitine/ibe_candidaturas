@@ -9,10 +9,12 @@ import 'package:ibe_candidaturas/controllers/areaController.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ibe_candidaturas/controllers/editalController.dart';
+import 'package:ibe_candidaturas/controllers/postoController.dart';
 import 'package:ibe_candidaturas/controllers/provinciaController.dart';
 import 'package:ibe_candidaturas/http_response/http_response.dart';
 import 'package:ibe_candidaturas/model/Area.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
+import 'package:ibe_candidaturas/model/Posto.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
@@ -50,16 +52,20 @@ class _CadastrarDioState extends State<CadastrarDio> {
   TextEditingController _especialidadeController = TextEditingController();
     TextEditingController _mediaController = TextEditingController();
   TextEditingController _NUITController = TextEditingController();
+  TextEditingController _baiiroController = TextEditingController();
+  TextEditingController _localidadeController = TextEditingController();
   //List<Provincia>? _provincias;
   List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
   List <String> niveis = ["Médio","Téc. Médio","Licenciatura", "Mestrado", "Doutoramento"];
 
   List<Area>? areas;
   List<Provincia>? provincias;
+  List<Posto>? postos;
 
     List<DropdownMenuItem<String>>? _dropdownMenuItems;
 
     List<DropdownMenuItem<String>>? _dropdownMenuItems_provincias;
+    List<DropdownMenuItem<String>>? _dropdownMenuItems_postos;
 
     List<DropdownMenuItem<String>>? _dropdownMenuItems_Areas;
       File? _biFile;
@@ -80,6 +86,7 @@ class _CadastrarDioState extends State<CadastrarDio> {
   String? _selectedNivel;
   String? _selectedEdital;
   String? _selectedArea;
+  String? _selectedPosto;
   String? edital;
   String? nomeEdital;
   String? nomeArea;
@@ -100,7 +107,11 @@ class _CadastrarDioState extends State<CadastrarDio> {
   
  RadioGroupController radioController = RadioGroupController();
 
-
+  bool? isChecked = true;
+  bool? maeIsChecked = false;
+  bool? paiIsChecked = false;
+  bool? isRadioSelectedSim = false;
+  String? radioSelectedValue;
 
   void showErro(String descricao) {
     Fluttertoast.showToast(
@@ -120,9 +131,28 @@ class _CadastrarDioState extends State<CadastrarDio> {
     _loadEditais(); // Call the async method to load data
     _getAreas();
     _getProvincias();
+    _getPostos();
   }
 
-  // Asynchronous method to load data
+Future<void> _getPostos() async {
+  try {
+    List<Posto>? _postos = await getPostos();
+    setState(() {
+      postos = _postos;
+      _dropdownMenuItems_postos = postos?.map((posto) => DropdownMenuItem<String>(
+            child: Text(posto.nome),
+            value: posto.codposto.toString(),
+          )).toList();
+      
+      if (_dropdownMenuItems_postos != null && _dropdownMenuItems_postos!.isNotEmpty) {
+        _selectedPosto = _dropdownMenuItems_postos!.first.value; 
+      }
+    });
+  } catch (e) {
+    print(e);
+  }
+}
+
   Future<void> _loadEditais() async {
     try {
       List<Edital>? editais = await getEditais();
@@ -332,7 +362,7 @@ Widget _textFieldContainer({
             controller: _apelidoController,
             icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
           ),
-      SizedBox(height: 10),
+          SizedBox(height: 10),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
@@ -600,26 +630,53 @@ Widget _textFieldContainer({
               ),
               child: Column(
                 children: [
-                  Text("É orfão?"),
+                  Text("É órfão?"),
                   Row(
                     children: [
                       RadioGroup(
                         controller: radioController,
                         values: ["Sim", "Não"],
-                        indexOfDefault: 0,
+                        indexOfDefault: 1,
                         orientation: RadioGroupOrientation.horizontal,
                         decoration: RadioGroupDecoration(
                           spacing: 10.0,
-                          labelStyle: TextStyle(
-                            //color: Colors.blue,
-                          ),
+                          labelStyle: TextStyle(),
                           activeColor: Colors.blueAccent,
                         ),
+                        onChanged: (value) {
+                          setState(() {
+                            radioSelectedValue = value;
+                          });
+                        },
                       ),
                     ],
-                  )
+                  ),
+                  Row(
+                    children: [
+                      Text("Pai"),
+                      Checkbox(
+                        semanticLabel: "Pai",
+                        value: paiIsChecked,
+                        onChanged: (radioSelectedValue == "Sim") ? (bool? value) {
+                          setState(() {
+                            paiIsChecked = value ?? false;
+                          });
+                        } : null, // Desabilita o checkbox se "Não" for selecionado
+                      ),
+                      Text("Mãe"),
+                      Checkbox(
+                        semanticLabel: "Mãe",
+                        value: maeIsChecked,
+                        onChanged: (radioSelectedValue == "Sim") ? (bool? value) {
+                          setState(() {
+                            maeIsChecked = value ?? false;
+                          });
+                        } : null, // Desabilita o checkbox se "Não" for selecionado
+                      ),
+                    ],
+                  ),
                 ],
-              )          
+              )    
             ),
             SizedBox(height: 10,),
             Container(
@@ -649,6 +706,37 @@ Widget _textFieldContainer({
                     selectedIndex = lista_prov.indexOf(_selectedProvince!);
                     print(
                         "Selected item: $_selectedProvince, Index: $selectedIndex");
+                  });
+                },
+              ),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: DropdownButtonFormField<String>(
+                dropdownColor: Colors.white,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
+                  labelText: "Posto",
+                  hintStyle: TextStyle(color: Colors.blue[900]),
+                  labelStyle: TextStyle(color: Colors.blue[900]),
+                ),
+                value: _selectedPosto, // Altere aqui para _selectedPosto
+                items: _dropdownMenuItems_postos, // Usando os itens dos postos
+                onChanged: (value) {
+                  setState(() {
+                    _selectedPosto = value; // Altere aqui para _selectedPosto
+                    print(_selectedPosto);
+                    //selectedIndex = lista_posto.indexOf(_selectedPosto!); // Altere para lista_posto
+                    print("Selected item: $_selectedPosto");
                   });
                 },
               ),
@@ -708,7 +796,7 @@ Widget _textFieldContainer({
               
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(horizontal: 2),
-              margin: EdgeInsets.all(10),
+              margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color.fromARGB(255, 248, 245, 245),
@@ -745,7 +833,7 @@ Widget _textFieldContainer({
             Container(
               alignment: Alignment.center,
                padding: EdgeInsets.symmetric(horizontal: 2),
-              margin: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color.fromARGB(255, 248, 245, 245),
@@ -790,6 +878,20 @@ Widget _textFieldContainer({
               label: "Naturalidade:",
               hint: "Natural de...",
               controller: _naturalidadeController,
+              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Localidade:",
+              hint: "Localidade",
+              controller: _localidadeController,
+              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Bairro:",
+              hint: "Bairro",
+              controller: _baiiroController,
               icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
             ),
             SizedBox(height: 10),
@@ -1049,7 +1151,7 @@ Widget _textFieldContainer({
                         ano_validade,
                         nomeEdital,
                         nomeArea,
-                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text);
+                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedPosto, _localidadeController.text);
                     if (response.success) {
                       try{
 
