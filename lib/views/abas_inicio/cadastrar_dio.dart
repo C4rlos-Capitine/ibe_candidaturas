@@ -8,11 +8,13 @@ import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/controllers/areaController.dart';
 import 'package:ibe_candidaturas/controllers/candidatoController.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ibe_candidaturas/controllers/distritoController.dart';
 import 'package:ibe_candidaturas/controllers/editalController.dart';
 import 'package:ibe_candidaturas/controllers/postoController.dart';
 import 'package:ibe_candidaturas/controllers/provinciaController.dart';
 import 'package:ibe_candidaturas/http_response/http_response.dart';
 import 'package:ibe_candidaturas/model/Area.dart';
+import 'package:ibe_candidaturas/model/Distrito.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
 import 'package:ibe_candidaturas/model/Posto.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
@@ -61,12 +63,13 @@ class _CadastrarDioState extends State<CadastrarDio> {
   List<Area>? areas;
   List<Provincia>? provincias;
   List<Posto>? postos;
-
+  List<Distrito>? distritos;
+  List<Distrito>? distritos2;
     List<DropdownMenuItem<String>>? _dropdownMenuItems;
 
     List<DropdownMenuItem<String>>? _dropdownMenuItems_provincias;
     List<DropdownMenuItem<String>>? _dropdownMenuItems_postos;
-
+    List<DropdownMenuItem<String>>? _dropdownMenuItems_distritos;
     List<DropdownMenuItem<String>>? _dropdownMenuItems_Areas;
       File? _biFile;
   File? _certificadoFile;
@@ -87,6 +90,7 @@ class _CadastrarDioState extends State<CadastrarDio> {
   String? _selectedEdital;
   String? _selectedArea;
   String? _selectedPosto;
+  String? _selectedDistrito;
   String? edital;
   String? nomeEdital;
   String? nomeArea;
@@ -132,6 +136,7 @@ class _CadastrarDioState extends State<CadastrarDio> {
     _getAreas();
     _getProvincias();
     _getPostos();
+    _getDistritos();
   }
 
 Future<void> _getPostos() async {
@@ -152,6 +157,47 @@ Future<void> _getPostos() async {
     print(e);
   }
 }
+
+  Future<void> _getDistritos() async {
+    try {
+      List<Distrito>? _distritos = await getDistritos();
+      setState(() {
+        distritos2 = _distritos;
+        _dropdownMenuItems_distritos = distritos2?.map((distrito) => DropdownMenuItem<String>(
+              child: Text(distrito.nome),
+              value: distrito.coddistrito.toString(),
+            )).toList();
+
+        if (_dropdownMenuItems_distritos != null && _dropdownMenuItems_distritos!.isNotEmpty) {
+          _selectedDistrito = _dropdownMenuItems_distritos!.first.value; 
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _getDistrito(int codProvinc) async {
+    try {
+      List<Distrito>? _distritos = await getDistrito(codProvinc);
+      setState(() {
+        distritos = _distritos;
+        _dropdownMenuItems_distritos = distritos?.map((distrito) => DropdownMenuItem<String>(
+              child: Text(distrito.nome),
+              value: distrito.coddistrito.toString(),
+            )).toList();
+
+        if (_dropdownMenuItems_distritos != null && _dropdownMenuItems_distritos!.isNotEmpty) {
+          _selectedDistrito = _dropdownMenuItems_distritos!.first.value; 
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
+
 
   Future<void> _loadEditais() async {
     try {
@@ -702,8 +748,9 @@ Widget _textFieldContainer({
                 onChanged: (value) {
                   setState(() {
                     _selectedProvince = value;
-                    print(_selectedProvince);
+                    print(" provincia $_selectedProvince");
                     selectedIndex = lista_prov.indexOf(_selectedProvince!);
+                    _getDistrito(int.parse(_selectedProvince!));
                     print(
                         "Selected item: $_selectedProvince, Index: $selectedIndex");
                   });
@@ -741,6 +788,37 @@ Widget _textFieldContainer({
                 },
               ),
             ),
+            SizedBox(height: 10,),
+            Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 30),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Color.fromARGB(255, 248, 245, 245),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: DropdownButtonFormField<String>(
+                  dropdownColor: Colors.white,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
+                    labelText: "Distrito", // Altere aqui para "Distrito"
+                    hintStyle: TextStyle(color: Colors.blue[900]),
+                    labelStyle: TextStyle(color: Colors.blue[900]),
+                  ),
+                  value: _selectedDistrito, // Altere aqui para _selectedDistrito
+                  items: _dropdownMenuItems_distritos, // Usando os itens dos distritos
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedDistrito = value; // Altere aqui para _selectedDistrito
+                      print(_selectedDistrito);
+                      // selectedIndex = lista_distrito.indexOf(_selectedDistrito!); // Se necessário, altere para lista_distrito
+                      print("Selected item: $_selectedDistrito");
+                    });
+                  },
+                ),
+              ),
             SizedBox(height: 10,),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -1151,7 +1229,7 @@ Widget _textFieldContainer({
                         ano_validade,
                         nomeEdital,
                         nomeArea,
-                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedPosto, _localidadeController.text);
+                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedPosto, _localidadeController.text, _selectedDistrito);
                     if (response.success) {
                       try{
 
