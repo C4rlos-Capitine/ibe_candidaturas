@@ -52,8 +52,9 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
       appBar: AppBar(
         backgroundColor: Colors.white,
         actions: [],
+      
         title: Text(
-          "IBE, IP - Portal do Candidato",
+          "Portal do Candidato",
           style:
               TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,

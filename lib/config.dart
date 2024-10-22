@@ -3,7 +3,7 @@ library config;
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-//final String IP = "192.168.10.104:5287";
+//final String IP = "192.168.10.135:5287";
 final String IP = "5.189.138.20:8999";
 //final String IP = "localhost:5287";
 

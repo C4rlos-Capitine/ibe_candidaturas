@@ -56,6 +56,8 @@ class _CadastrarDioState extends State<CadastrarDio> {
   TextEditingController _NUITController = TextEditingController();
   TextEditingController _baiiroController = TextEditingController();
   TextEditingController _localidadeController = TextEditingController();
+  TextEditingController _nomePaiController = TextEditingController();
+  TextEditingController _nomeMaeController = TextEditingController();
   //List<Provincia>? _provincias;
   List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
   List <String> niveis = ["Médio","Téc. Médio","Licenciatura", "Mestrado", "Doutoramento"];
@@ -110,12 +112,17 @@ class _CadastrarDioState extends State<CadastrarDio> {
 
   
  RadioGroupController radioController = RadioGroupController();
+   
+ RadioGroupController radioController2 = RadioGroupController();
 
   bool? isChecked = true;
   bool? maeIsChecked = false;
   bool? paiIsChecked = false;
+  bool? paiCombatente = false;
+  bool? maeCombatente = false;
   bool? isRadioSelectedSim = false;
-  String? radioSelectedValue;
+  String? radioSelectedValue = "Não";
+  String? radioSelectedValue2 = "Não";
 
   void showErro(String descricao) {
     Fluttertoast.showToast(
@@ -724,6 +731,49 @@ Widget _textFieldContainer({
                 ],
               )    
             ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Nome do Pai:",
+              hint: "Pai",
+              controller: _nomePaiController,
+              keyboardType: TextInputType.text,
+              icon: Icon(Icons.man_2_outlined, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 10),
+
+            _textFieldContainer(
+              label: "Nome da Mãe:",
+              hint: "Mãe",
+              controller: _nomeMaeController,
+              keyboardType: TextInputType.text,
+              icon: Icon(Icons.woman_2_outlined, color: Colors.blue[900]),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("É Filhode antigo combatent?"),
+
+                RadioGroup(
+                  controller: radioController2,
+                  values: ["Sim", "Não"],
+                  indexOfDefault: 1,
+                  orientation: RadioGroupOrientation.horizontal,
+                  decoration: RadioGroupDecoration(
+                    spacing: 0.0,
+                    labelStyle: TextStyle(),
+                    activeColor: Colors.blueAccent,
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      radioSelectedValue2 = value;
+                      print(radioSelectedValue2);
+                    });
+                  },
+                ),
+
+              ],
+            ),
+                
             SizedBox(height: 10,),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -1229,7 +1279,7 @@ Widget _textFieldContainer({
                         ano_validade,
                         nomeEdital,
                         nomeArea,
-                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedPosto, _localidadeController.text, _selectedDistrito);
+                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedPosto, _localidadeController.text, _selectedDistrito, _nomePaiController.text, _nomeMaeController.text, radioSelectedValue2);
                     if (response.success) {
                       try{
 
