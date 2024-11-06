@@ -401,7 +401,10 @@ Widget _textFieldContainer({
                   )),
             ),
             SizedBox(height: 10),
-          _textFieldContainer(
+            Container(
+              child: Center(child: Text("Dados Pessoais"),),
+            ),
+            _textFieldContainer(
             label: "Nome:",
             hint: "Escreva seu Nome",
             controller: _nomeController,
@@ -751,7 +754,7 @@ Widget _textFieldContainer({
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("É Filhode antigo combatent?"),
+                Text("É Filho de antigo combatent?"),
 
                 RadioGroup(
                   controller: radioController2,
@@ -807,37 +810,7 @@ Widget _textFieldContainer({
                 },
               ),
             ),
-            SizedBox(height: 10,),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: DropdownButtonFormField<String>(
-                dropdownColor: Colors.white,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
-                  labelText: "Posto",
-                  hintStyle: TextStyle(color: Colors.blue[900]),
-                  labelStyle: TextStyle(color: Colors.blue[900]),
-                ),
-                value: _selectedPosto, // Altere aqui para _selectedPosto
-                items: _dropdownMenuItems_postos, // Usando os itens dos postos
-                onChanged: (value) {
-                  setState(() {
-                    _selectedPosto = value; // Altere aqui para _selectedPosto
-                    print(_selectedPosto);
-                    //selectedIndex = lista_posto.indexOf(_selectedPosto!); // Altere para lista_posto
-                    print("Selected item: $_selectedPosto");
-                  });
-                },
-              ),
-            ),
+            
             SizedBox(height: 10,),
             Container(
                 padding: EdgeInsets.symmetric(horizontal: 10),
@@ -869,7 +842,70 @@ Widget _textFieldContainer({
                   },
                 ),
               ),
+           SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: DropdownButtonFormField<String>(
+                dropdownColor: Colors.white,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
+                  labelText: "Posto",
+                  hintStyle: TextStyle(color: Colors.blue[900]),
+                  labelStyle: TextStyle(color: Colors.blue[900]),
+                ),
+                value: _selectedPosto, // Altere aqui para _selectedPosto
+                items: _dropdownMenuItems_postos, // Usando os itens dos postos
+                onChanged: (value) {
+                  setState(() {
+                    _selectedPosto = value; // Altere aqui para _selectedPosto
+                    print(_selectedPosto);
+                    //selectedIndex = lista_posto.indexOf(_selectedPosto!); // Altere para lista_posto
+                    print("Selected item: $_selectedPosto");
+                  });
+                },
+              ),
+            ),
+            SizedBox(height: 20,),
+            
+            _textFieldContainer(
+              label: "Naturalidade:",
+              hint: "Natural de...",
+              controller: _naturalidadeController,
+              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Localidade:",
+              hint: "Localidade",
+              controller: _localidadeController,
+              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Bairro:",
+              hint: "Bairro",
+              controller: _baiiroController,
+              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Rua:",
+              hint: "Rua",
+              controller: _ruaController,
+              icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
+            ),
             SizedBox(height: 10,),
+                        Container(
+              child: Center(child: Text("Informação Académica"),),
+            ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
@@ -994,41 +1030,14 @@ Widget _textFieldContainer({
                 },
               ),
             ),
-
+            
             SizedBox(height: 10,),
             _textFieldContainer(
               label: "Especialidade:",
               hint: "Informe a especialidade.",
               controller: _especialidadeController,
             ),
-            SizedBox(height: 20),
-            _textFieldContainer(
-              label: "Naturalidade:",
-              hint: "Natural de...",
-              controller: _naturalidadeController,
-              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
-            ),
-            SizedBox(height: 10),
-            _textFieldContainer(
-              label: "Localidade:",
-              hint: "Localidade",
-              controller: _localidadeController,
-              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
-            ),
-            SizedBox(height: 10),
-            _textFieldContainer(
-              label: "Bairro:",
-              hint: "Bairro",
-              controller: _baiiroController,
-              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
-            ),
-            SizedBox(height: 10),
-            _textFieldContainer(
-              label: "Rua:",
-              hint: "Rua",
-              controller: _ruaController,
-              icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
-            ),
+
             SizedBox(height: 20),
             _textFieldContainer(
               label: "Ocupação:",
@@ -1036,7 +1045,11 @@ Widget _textFieldContainer({
               controller: _ocupacaoController,
               icon: Icon(Iconsax.task, color: Colors.blue[900]),
             ),
+
             SizedBox(height: 20),
+            Container(
+              child: Center(child: Text("Contactos"),),
+            ),
             _textFieldContainer(
               label: "Celular:",
               hint: "+258 00000",
@@ -1052,17 +1065,7 @@ Widget _textFieldContainer({
               keyboardType: TextInputType.number,
               icon: Icon(Icons.phone, color: Colors.blue[900]),
             ),
-            SizedBox(height: 20,),
-           Column(
-          children: [
-            _buildFileContainer("BI/Passaporte:", _biFileName, () => pickFile('bi')),
-            _buildFileContainer("NUIT:", _nuitName, () => pickFile('nuit')),
-            _buildFileContainer("Certificado:", _certificadoFileName, () => pickFile('certificado')),
-            _buildFileContainer("Foto tipo passe:", _fotoName, () => pickFile('foto')),
-            SizedBox(height: 20),
-          ],
-        ),
-          SizedBox(height: 10),
+            SizedBox(height: 10),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
@@ -1083,6 +1086,23 @@ Widget _textFieldContainer({
                 ),
               ),
             ),
+            SizedBox(height: 20,),
+                                    Container(
+              child: Center(child: Text("Documentos"),),
+            ),
+           Column(
+          children: [
+            _buildFileContainer("BI/Passaporte:", _biFileName, () => pickFile('bi')),
+            _buildFileContainer("NUIT:", _nuitName, () => pickFile('nuit')),
+            _buildFileContainer("Certificado:", _certificadoFileName, () => pickFile('certificado')),
+            _buildFileContainer("Foto tipo passe:", _fotoName, () => pickFile('foto')),
+            SizedBox(height: 20),
+          ],
+        ),
+           Container(
+              child: Center(child: Text("Credêncials de acesso"),),
+            ),
+
             SizedBox(height: 25,),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
