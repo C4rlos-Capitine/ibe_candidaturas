@@ -1,6 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.candidatura.ibe_candidaturas">
    <uses-permission android:name="android.permission.INTERNET"/>
+     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <!--
+    Permission to use here depends on the value you picked for foregroundServiceType - see the Android documentation.
+    Eg, if you picked 'location', use 'android.permission.FOREGROUND_SERVICE_LOCATION'
+  -->
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+   
    <application
         android:label="Portal do Candidato"
         android:name="${applicationName}"
@@ -27,6 +34,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+                <!--Add this-->
+        <service
+            android:name="id.flutter.flutter_background_service.BackgroundService"
+            android:foregroundServiceType="dataSync"
+        />
+        <!--end-->
+        
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

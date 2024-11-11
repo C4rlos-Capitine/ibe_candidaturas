@@ -32,7 +32,7 @@ class NotificationController {
       if (response.statusCode == 200) {
         // Decode the response body as a List
         List<dynamic> responseBody = jsonDecode(response.body);
-
+        print(responseBody);
         // Map the response to a List of Mensagens
         mensagens = responseBody.map((data) => Mensagens.fromMap(data)).toList();
         print(mensagens);
