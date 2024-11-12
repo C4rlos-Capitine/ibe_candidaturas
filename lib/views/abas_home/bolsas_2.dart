@@ -74,40 +74,62 @@ class _BolsasState extends State<Bolsas> {
           ),
         ),
       ),
-      body: _edital == null
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _edital!.length,
-              itemBuilder: (context, index) {
-                final edital = _edital![index];
-                return Card(
-                  color: Colors.white,
-                  elevation: 4.0,
-                  child: ListTile(
-                    title: Text(edital.nome),
-                    subtitle:
-                        Text('Ano: ${edital.ano}, Número: ${edital.numero}'),
-                    //leading: Icon(Icons.download, color: Colors.blue[900],),
-                    leading: Image.network(
-                      'http://$IP/api/Images/paises/${edital.codedita}', // Replace with your image URL
-                      width: 20, // Set your desired width
-                      height: 20, // Set your desired height
-                    ),
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Faça o auto - registo na aba de inscrições para se candidatar',
-                            style: TextStyle(color: Colors.blue[900]),
-                          ),
-                          backgroundColor: Color.fromARGB(255, 229, 231, 91),
+      body: Stack(
+        children: [
+          // The body content inside a ListView.builder
+          _edital == null
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: _edital!.length,
+                  itemBuilder: (context, index) {
+                    final edital = _edital![index];
+                    return Card(
+                      color: Colors.white,
+                      elevation: 4.0,
+                      child: ListTile(
+                        title: Text(edital.nome),
+                        subtitle: Text(
+                            'Ano: ${edital.ano}, Número: ${edital.numero}'),
+                        leading: Image.network(
+                          'http://$IP/api/Images/paises/${edital.codedita}',
+                          width: 20,
+                          height: 20,
                         ),
-                      );
-                    },
-                  ),
-                );
-              },
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Faça o auto - registo na aba de inscrições para se candidatar',
+                                style: TextStyle(color: Colors.blue[900]),
+                              ),
+                              backgroundColor:
+                                  Color.fromARGB(255, 229, 231, 91),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+
+          // Fixed Bottom Bar
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: Colors.white,  // Customize the color of the bar
+              height: 20.0,             // Customize the height of the bar
+              child: Center(
+                child: Text(
+                  'Copyright © 2024 | Quidgest',
+                  style: TextStyle(color: Colors.blue[900]),
+                ),
+              )
             ),
+          ),
+        ],
+      ),
     );
   }
 }

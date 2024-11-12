@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ibe_candidaturas/config.dart';
@@ -57,7 +58,8 @@ class _CadastrarDioState extends State<CadastrarDio> {
   TextEditingController _baiiroController = TextEditingController();
   TextEditingController _localidadeController = TextEditingController();
   TextEditingController _nomePaiController = TextEditingController();
-  TextEditingController _nomeMaeController = TextEditingController();
+  TextEditingController _nomeMaeController = TextEditingController();//_agregadoController
+    TextEditingController _agregadoController = TextEditingController();
   //List<Provincia>? _provincias;
   List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
   List <String> niveis = ["Médio","Téc. Médio","Licenciatura", "Mestrado", "Doutoramento"];
@@ -142,10 +144,10 @@ class _CadastrarDioState extends State<CadastrarDio> {
     _loadEditais(); // Call the async method to load data
     _getAreas();
     _getProvincias();
-    _getPostos();
+    //_getPostos();
     _getDistritos();
   }
-
+/*
 Future<void> _getPostos() async {
   try {
     List<Posto>? _postos = await getPostos();
@@ -164,7 +166,7 @@ Future<void> _getPostos() async {
     print(e);
   }
 }
-
+*/
   Future<void> _getDistritos() async {
     try {
       List<Distrito>? _distritos = await getDistritos();
@@ -366,6 +368,11 @@ Widget _textFieldContainer({
     child: TextFormField(
       controller: controller,
       keyboardType: keyboardType,
+       // using a regular expression 
+            inputFormatters: [ 
+              FilteringTextInputFormatter.deny( 
+                  RegExp(r'[!@#$%^&*(),.?":{}|<>]')) 
+            ],
       decoration: InputDecoration(
         border: InputBorder.none,
         label: Text(label, style: TextStyle(color: Colors.blue[900])),
@@ -736,6 +743,14 @@ Widget _textFieldContainer({
             ),
             SizedBox(height: 10),
             _textFieldContainer(
+              label: "Número de agregado familiar:",
+              hint: "Número",
+              controller: _agregadoController,
+              keyboardType: TextInputType.number,
+              icon: Icon(Icons.man_2_outlined, color: Colors.blue[900]),
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
               label: "Nome do Pai:",
               hint: "Pai",
               controller: _nomePaiController,
@@ -842,39 +857,7 @@ Widget _textFieldContainer({
                   },
                 ),
               ),
-           SizedBox(height: 10),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: DropdownButtonFormField<String>(
-                dropdownColor: Colors.white,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
-                  labelText: "Posto",
-                  hintStyle: TextStyle(color: Colors.blue[900]),
-                  labelStyle: TextStyle(color: Colors.blue[900]),
-                ),
-                value: _selectedPosto, // Altere aqui para _selectedPosto
-                items: _dropdownMenuItems_postos, // Usando os itens dos postos
-                onChanged: (value) {
-                  setState(() {
-                    _selectedPosto = value; // Altere aqui para _selectedPosto
-                    print(_selectedPosto);
-                    //selectedIndex = lista_posto.indexOf(_selectedPosto!); // Altere para lista_posto
-                    print("Selected item: $_selectedPosto");
-                  });
-                },
-              ),
-            ),
             SizedBox(height: 20,),
-            
             _textFieldContainer(
               label: "Naturalidade:",
               hint: "Natural de...",
@@ -902,7 +885,13 @@ Widget _textFieldContainer({
               controller: _ruaController,
               icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
             ),
-            SizedBox(height: 10,),
+           /* Row(
+              children: [
+                Text("É residente na provincia de Candidatura?"),
+
+              ],
+            ),
+            SizedBox(height: 10,),*/
                         Container(
               child: Center(child: Text("Informação Académica"),),
             ),
@@ -1270,6 +1259,11 @@ Widget _textFieldContainer({
                       erro_validacao = true;
                       return;
                     }
+                    if(_agregadoController.text.isEmpty){
+                      showErro("O campo do agregado familiar não informado");
+                      erro_validacao = true;
+                      return;
+                    }
                   if (erro_validacao == false) {
                         ResquestResponse response = await registar2(
                         _nomeController.text,
@@ -1299,7 +1293,7 @@ Widget _textFieldContainer({
                         ano_validade,
                         nomeEdital,
                         nomeArea,
-                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedPosto, _localidadeController.text, _selectedDistrito, _nomePaiController.text, _nomeMaeController.text, radioSelectedValue2);
+                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedPosto, _localidadeController.text, _selectedDistrito, _nomePaiController.text, _nomeMaeController.text, radioSelectedValue2, _agregadoController.text);
                     if (response.success) {
                       try{
 

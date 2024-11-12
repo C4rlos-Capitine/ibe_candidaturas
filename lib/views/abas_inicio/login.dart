@@ -309,157 +309,121 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ListView(
-        children: [
-          Center(child: Text(texto_tempo),),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 100),
-            padding: EdgeInsets.symmetric(vertical: 1),
-            child: Image.asset('assets/images/logotipo_header.png'),
-          ),
-          SizedBox(height: 15),
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Color.fromARGB(255, 248, 245, 245),
-              borderRadius: BorderRadius.circular(10),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+              padding: EdgeInsets.symmetric(vertical: 1),
+              child: Image.asset('assets/images/logotipo_header.png'),
             ),
-            margin: EdgeInsets.symmetric(horizontal: 30.0),
-            child: TextField(
-              keyboardType: TextInputType.emailAddress,
-              controller: _email,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                label: Text("Email"),
-                icon: Icon(Icons.mail_outline, color: Colors.blue[900]),
-                hintText: "Email",
-                labelStyle: TextStyle(color: Colors.blue[900]),
+            SizedBox(height: 15),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
               ),
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            margin: EdgeInsets.symmetric(horizontal: 30.0),
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Color.fromARGB(255, 248, 245, 245),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: TextField(
-              controller: _senha,
-              obscureText: _obscureText,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                label: Text("Senha"),
-                icon: Icon(Icons.key_outlined, color: Colors.blue[900]),
-                hintText: "Senha",
-                labelStyle: TextStyle(color: Colors.blue[900]),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscureText ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.blue[900],
-                  ),
-                  onPressed: _togglePasswordVisibility,
+              margin: EdgeInsets.symmetric(horizontal: 30.0),
+              child: TextField(
+                keyboardType: TextInputType.emailAddress,
+                controller: _email,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  label: Text("Email"),
+                  icon: Icon(Icons.mail_outline, color: Colors.blue[900]),
+                  hintText: "Email",
+                  labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _isLoading
-                    ? CircularProgressIndicator()
-                    : ElevatedButton(
-                  onPressed: _handleLogin,
-                  
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue[900],
-                      fixedSize: Size(300, 50)),
-                  child: Text(
-                    "Entrar",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(height: 10),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                  text: 'Perdeu sua senha? ',
-                  style: TextStyle(color: Colors.black),
-                ),
-                TextSpan(
-                    text: 'Recupere clicando aqui',
-                    style: TextStyle(color: Colors.blue),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        PanaraInfoDialog.showAnimatedGrow(
-                          context,
-                          title: "Aviso",
-                          message: "Um email com nova senha será enviado para o ." +
-                              _email.text,
-                          buttonText: "Okay",
-                          color: Colors.white,
-                          onTapDismiss: () async {
-                            bool recovery = await recoverPassword(_email.text);
-                            if (recovery == true) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      'Senha alterada. Verifique sua caixa de emails'),
-                                  backgroundColor: Color.fromARGB(255, 20, 212, 24),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Erro ao alterar a senha'),
-                                  backgroundColor: Color.fromARGB(255, 235, 77, 3),
-                                ),
-                              );
-                            }
-                            Navigator.pop(context);
-                          },
-                          panaraDialogType: PanaraDialogType.normal,
-                        );
-                      }),
-              ]),
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            width: 300,
-            height: 300,
-            padding: EdgeInsets.symmetric(vertical: 1),
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: images.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image: AssetImage(images[index]),
-                      fit: BoxFit.cover,
+            SizedBox(height: 10),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              margin: EdgeInsets.symmetric(horizontal: 30.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextField(
+                controller: _senha,
+                obscureText: _obscureText,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  label: Text("Senha"),
+                  icon: Icon(Icons.key_outlined, color: Colors.blue[900]),
+                  hintText: "Senha",
+                  labelStyle: TextStyle(color: Colors.blue[900]),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: Colors.blue[900],
                     ),
+                    onPressed: _togglePasswordVisibility,
                   ),
-                );
-              },
+                ),
+              ),
             ),
+            SizedBox(height: 10),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _isLoading
+                      ? CircularProgressIndicator()
+                      : ElevatedButton(
+                          onPressed: _handleLogin,
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue[900],
+                              fixedSize: Size(300, 50)),
+                          child: Text(
+                            "Entrar",
+                            style: TextStyle(
+                                color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              child: RichText(
+                text: TextSpan(children: [
+                  TextSpan(
+                    text: 'Perdeu sua senha? ',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  TextSpan(
+                      text: 'Recupere clicando aqui',
+                      style: TextStyle(color: Colors.blue),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          // Recovery process
+                        }),
+                ]),
+              ),
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
+      ),
+
+      // Use the `bottomNavigationBar` property for the bottom bar
+      bottomNavigationBar: Container(
+        color: Colors.white,  // Set any color for the bar
+        height: 30.0,            // Height of the bar
+        child: Center(
+          child: Text(
+            'Copyright © 2024 | Quidgest',
+            style: TextStyle(color: Colors.blue[900]),
           ),
-        ],
+        ),
       ),
     );
   }
