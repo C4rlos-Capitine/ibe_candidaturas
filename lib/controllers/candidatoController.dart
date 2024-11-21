@@ -204,7 +204,7 @@ Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, tele
     tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc, naturalidade, rua, ocupacao, dataEmissao_doc, 
     dataValidade_doc, dia_emissao, mes_emissao, ano_emissao, dia_validade, mes_validade, 
     ano_validade, codedita, codarea, especialidade, int nivel, media, nuit, 
-    ISorfao, bool pai, bool mae, bairro, posto, localidade, distrito,  String nomepai, String nomemae, antigo_combatente, agregado) async{
+    ISorfao, bool pai, bool mae, bairro, distrito,  String nomepai, String nomemae, antigo_combatente, agregado) async{
   var level = "";
   var doc = "B";
   if(nivel==0){
@@ -280,7 +280,6 @@ Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, tele
       'pai': IsOrfaoPai,
       'mae': IsOrfaoMae,
       'bairro': bairro,
-      'posto' : posto,
       'distrito':distrito,
       'nomepai':nomepai,
       'nomemae': nomemae,

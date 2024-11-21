@@ -1,4 +1,4 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+//import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/model/Mensagens.dart';
 import 'dart:async';
@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class NotificationController {
+  /*
   @pragma("vm:entry-point")
   static Future<void> onNotificationCreatedMethod(
       ReceivedNotification receivedNotification) async {}
@@ -17,7 +18,7 @@ class NotificationController {
   @pragma("vm:entry-point")
   static Future<void> onDismissReceivedMethod(
       ReceivedNotification receivedNotification) async {}
-
+*/
   static Future<List<Mensagens>> getMesg(String email) async {
     List<Mensagens> mensagens = [];
     print(email);

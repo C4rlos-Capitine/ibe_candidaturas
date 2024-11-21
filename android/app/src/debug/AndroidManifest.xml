@@ -5,11 +5,12 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
-      <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+     <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />  --> 
   <!--
     Permission to use here depends on the value you picked for foregroundServiceType - see the Android documentation.
     Eg, if you picked 'location', use 'android.permission.FOREGROUND_SERVICE_LOCATION'
   -->
-  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+  <!--   <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" /> -->
+
     
 </manifest>

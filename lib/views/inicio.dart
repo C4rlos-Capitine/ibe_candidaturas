@@ -92,7 +92,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
                 Iconsax.profile_add4,
                 color: Colors.blue[900],
               ),
-              child: Text("Candidatar - se", style: TextStyle(fontSize: 13),),
+              child: Text("Candidatar - se", style: TextStyle(fontSize: 11),),
             ),
           ],
         ),

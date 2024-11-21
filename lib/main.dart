@@ -1,16 +1,17 @@
 import 'dart:async';
-import 'package:awesome_notifications/awesome_notifications.dart';
+//import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:ibe_candidaturas/config.dart';
 import 'package:ibe_candidaturas/local_storage/storageManagment.dart';
 import 'package:ibe_candidaturas/views/abas_inicio/login.dart';
 import 'package:ibe_candidaturas/views/home.dart';
 import 'package:ibe_candidaturas/views/inicio.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
+//import 'package:flutter_background_service/flutter_background_service.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<void> main() async {
+  /*
   WidgetsFlutterBinding.ensureInitialized(); // Necessário para inicializar corretamente
 
   await AwesomeNotifications().initialize(
@@ -36,8 +37,8 @@ Future<void> main() async {
   if (!isAllowedToSendNotification) {
     await AwesomeNotifications().requestPermissionToSendNotifications();
   }
-
-  await initiateService();
+*/
+ // await initiateService();
 
   runApp(
     MaterialApp(
@@ -55,7 +56,7 @@ Future<void> main() async {
     ),
   );
 }
-
+/*
 Future<void> initiateService() async {
   final service = FlutterBackgroundService();
 
@@ -142,5 +143,5 @@ Future<void> sendNotification(dynamic responseBody) async {
 );
 
 }
-
+*/
 

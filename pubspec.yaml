@@ -1,7 +1,7 @@
 name: ibe_candidaturas
 description: App Portal do candidato, IBE-IP.
 publish_to: 'none'
-version: 0.1.0+4
+version: 0.1.0+6
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
@@ -19,8 +19,8 @@ dependencies:
   path: ^1.9.0
   flutter_uploader: ^3.0.0-beta.4
   connectivity_plus: ^6.0.5
-  flutter_background_service: ^5.0.10
-  awesome_notifications: ^0.9.3+1
+  #flutter_background_service: ^5.0.10
+  #awesome_notifications: ^0.9.3+1
 
   #device_preview: ^1.2.0
   flutter_launcher_icons: ^0.13.1

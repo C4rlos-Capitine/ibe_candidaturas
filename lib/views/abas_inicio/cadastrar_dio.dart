@@ -355,6 +355,7 @@ Widget _textFieldContainer({
   required TextEditingController controller,
   TextInputType keyboardType = TextInputType.text,
   Icon? icon,
+  required int max_length
 }) {
   return Container(
     alignment: Alignment.center,
@@ -366,8 +367,10 @@ Widget _textFieldContainer({
       borderRadius: BorderRadius.circular(10),
     ),
     child: TextFormField(
+      maxLength: max_length,
       controller: controller,
       keyboardType: keyboardType,
+
        // using a regular expression 
             inputFormatters: [ 
               FilteringTextInputFormatter.deny( 
@@ -378,6 +381,7 @@ Widget _textFieldContainer({
         label: Text(label, style: TextStyle(color: Colors.blue[900])),
         icon: icon,
         hintText: hint,
+        contentPadding: EdgeInsets.symmetric(vertical: 1),
       ),
     ),
   );
@@ -417,6 +421,7 @@ Widget _textFieldContainer({
             controller: _nomeController,
             keyboardType: TextInputType.name,
             icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
+            max_length: 50,
           ),
           SizedBox(height: 10),
           _textFieldContainer(
@@ -424,6 +429,7 @@ Widget _textFieldContainer({
             hint: "Seu apelido",
             controller: _apelidoController,
             icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
+            max_length: 50
           ),
           SizedBox(height: 10),
             Container(
@@ -466,6 +472,7 @@ Widget _textFieldContainer({
               controller: _docController,
               keyboardType: TextInputType.text,
               icon: Icon(Iconsax.card, color: Colors.blue[900]),
+              max_length: 13
             ),
             SizedBox(height: 10),
             _textFieldContainer(
@@ -474,6 +481,7 @@ Widget _textFieldContainer({
               controller: _NUITController,
               keyboardType: TextInputType.number,
               icon: Icon(Iconsax.card, color: Colors.blue[900]),
+              max_length: 8
             ),
             SizedBox(height: 10,),
             Container(
@@ -748,6 +756,7 @@ Widget _textFieldContainer({
               controller: _agregadoController,
               keyboardType: TextInputType.number,
               icon: Icon(Icons.man_2_outlined, color: Colors.blue[900]),
+              max_length: 2,
             ),
             SizedBox(height: 10),
             _textFieldContainer(
@@ -756,6 +765,7 @@ Widget _textFieldContainer({
               controller: _nomePaiController,
               keyboardType: TextInputType.text,
               icon: Icon(Icons.man_2_outlined, color: Colors.blue[900]),
+              max_length: 80
             ),
             SizedBox(height: 10),
 
@@ -765,6 +775,7 @@ Widget _textFieldContainer({
               controller: _nomeMaeController,
               keyboardType: TextInputType.text,
               icon: Icon(Icons.woman_2_outlined, color: Colors.blue[900]),
+              max_length: 80
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -863,20 +874,23 @@ Widget _textFieldContainer({
               hint: "Natural de...",
               controller: _naturalidadeController,
               icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
+              max_length: 15
             ),
-            SizedBox(height: 10),
+           /* SizedBox(height: 10),
             _textFieldContainer(
               label: "Localidade:",
               hint: "Localidade",
               controller: _localidadeController,
               icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
-            ),
+              max_length: 
+            ),*/
             SizedBox(height: 10),
             _textFieldContainer(
               label: "Bairro:",
               hint: "Bairro",
               controller: _baiiroController,
               icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
+              max_length: 20
             ),
             SizedBox(height: 10),
             _textFieldContainer(
@@ -884,6 +898,7 @@ Widget _textFieldContainer({
               hint: "Rua",
               controller: _ruaController,
               icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
+              max_length: 25
             ),
            /* Row(
               children: [
@@ -943,6 +958,7 @@ Widget _textFieldContainer({
               controller: _mediaController,
               keyboardType: TextInputType.number,
               icon: Icon(Icons.maximize, color: Colors.blue[900]),
+              max_length: 2
             ),
             SizedBox(height: 10,),
             Container(
@@ -1025,6 +1041,7 @@ Widget _textFieldContainer({
               label: "Especialidade:",
               hint: "Informe a especialidade.",
               controller: _especialidadeController,
+              max_length: 30
             ),
 
             SizedBox(height: 20),
@@ -1033,6 +1050,7 @@ Widget _textFieldContainer({
               hint: "Sua ocupação",
               controller: _ocupacaoController,
               icon: Icon(Iconsax.task, color: Colors.blue[900]),
+              max_length:15
             ),
 
             SizedBox(height: 20),
@@ -1045,6 +1063,7 @@ Widget _textFieldContainer({
               controller: _telemovelController,
               keyboardType: TextInputType.number,
               icon: Icon(Icons.phone_android, color: Colors.blue[900]),
+              max_length:9
             ),
             SizedBox(height: 20),
             _textFieldContainer(
@@ -1053,6 +1072,7 @@ Widget _textFieldContainer({
               controller: _telefoneController,
               keyboardType: TextInputType.number,
               icon: Icon(Icons.phone, color: Colors.blue[900]),
+              max_length:9
             ),
             SizedBox(height: 10),
             Container(
@@ -1293,7 +1313,7 @@ Widget _textFieldContainer({
                         ano_validade,
                         nomeEdital,
                         nomeArea,
-                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedPosto, _localidadeController.text, _selectedDistrito, _nomePaiController.text, _nomeMaeController.text, radioSelectedValue2, _agregadoController.text);
+                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedDistrito, _nomePaiController.text, _nomeMaeController.text, radioSelectedValue2, _agregadoController.text);
                     if (response.success) {
                       try{
 
