@@ -3,12 +3,14 @@ class Edital {
   final int numero;
   final int ano;
   final String nome;
+  String? imageUrl;
 
   Edital({
     required this.codedita,
     required this.ano,
     required this.numero,
     required this.nome,
+     this.imageUrl, 
   });
 
   // Factory method to create an Edital instance from a JSON map
@@ -18,6 +20,8 @@ class Edital {
       ano: json['ano'],
       numero: json['numero'],
       nome: json['nome'],
+      imageUrl: json['imageUrl'],
+      
     );
   }
 
@@ -28,6 +32,7 @@ class Edital {
       'ano': ano,
       'numero': numero,
       'nome': nome,
+      'imageUrl': imageUrl
     };
   }
 }

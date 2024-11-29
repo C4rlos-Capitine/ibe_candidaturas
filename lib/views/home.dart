@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   value: Menu.settings,
                   child: ListTile(
                     leading: Icon(Icons.settings),
-                    title: Text('Definições'),
+                    title: Text('Alterar Senha'),
                   ),
                 ),
                 const PopupMenuItem<Menu>(

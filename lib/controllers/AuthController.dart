@@ -16,6 +16,7 @@ Future <bool> SendAuthRequest(String email) async{
       'emailSubject': 'Recuperar senha',
       'password': '',
       'auth': 1,
+      'name': email
     });
 
     // Make the POST request with headers
@@ -35,7 +36,7 @@ Future <bool> SendAuthRequest(String email) async{
     if (response.statusCode == 200) {
       var responseBody = jsonDecode(response.body);
       // Handle successful response
-      print(responseBody);
+      print("res: "+responseBody);
       resp = responseBody;
     } else {
       print('Request failed with status: ${response.statusCode}');

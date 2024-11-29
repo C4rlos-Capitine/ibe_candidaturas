@@ -7,7 +7,8 @@ import 'package:ibe_candidaturas/model/Area.dart';
 Future<List<Area>>? getAreas(int codedita) async {
   List<Area> areas = [];
   try {
-    var url = Uri.http(IP, '/api/Area/codedita', {'codedita': codedita.toString()});
+    //var url = Uri.http(IP, '/api/Area/codedita', {'codedita': codedita.toString()});
+    var url = Uri.http(IP, '/api/Area');
     var response = await http.get(url).timeout(const Duration(seconds: 30));
 
     print('Response status: ${response.statusCode}');

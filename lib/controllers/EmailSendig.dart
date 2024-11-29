@@ -15,6 +15,7 @@ Future<bool> recoverPassword(String email) async {
       'emailSubject': 'Recuperar senha',
       'password': '',
       'auth': 0,
+      'name': email
     });
 
     // Make the POST request with headers
@@ -55,10 +56,11 @@ Future<void> ConfirmEnrollment(String email, String senha, String nome) async{
     // Create the body as a JSON map
     var body = jsonEncode({
       'emailToId': email,
-      'emailToName': nome,
+      'emailToName': email,
       'emailSubject': 'Confirmação da inscrição',
       'password': senha,
       'auth': 0,
+      'name': email
     });
 
     // Make the POST request with headers
