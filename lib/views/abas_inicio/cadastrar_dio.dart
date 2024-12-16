@@ -19,11 +19,13 @@ import 'package:ibe_candidaturas/model/Distrito.dart';
 import 'package:ibe_candidaturas/model/Edital.dart';
 import 'package:ibe_candidaturas/model/Posto.dart';
 import 'package:ibe_candidaturas/model/Provincia.dart';
+import 'package:ibe_candidaturas/views/dialog.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:radio_group_v2/utils/radio_group_decoration.dart';
 import 'package:radio_group_v2/widgets/view_models/radio_group_controller.dart';
 import 'package:radio_group_v2/widgets/views/radio_group.dart';
+import 'package:ibe_candidaturas/views/dialog.dart';
 
 import '../../controllers/EmailSendig.dart';
 
@@ -63,6 +65,7 @@ class _CadastrarDioState extends State<CadastrarDio> {
   //List<Provincia>? _provincias;
   List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
   List <String> niveis = ["Médio","Téc. Médio","Licenciatura", "Mestrado", "Doutoramento"];
+
 
   List<Area>? areas;
   List<Provincia>? provincias;
@@ -135,18 +138,60 @@ class _CadastrarDioState extends State<CadastrarDio> {
       timeInSecForIosWeb: 5
     );
   }
+     void _showForm(BuildContext context) {
+    
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            width: 300, // Set your desired width
+            height: 350, // Set your desired height
+            padding: EdgeInsets.all(16.0), // Add some padding
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Use min size to wrap content
+              children: [
+                Text("Atenção!!!", style: TextStyle(fontWeight: FontWeight.bold)),
+                SizedBox(height: 10), // Space between title and content
+                Text("Caro candidato, preencha todos os campos e certifique-se de que todos os dados foram preenchidos corretamente antes de submeter"),
+                SizedBox(height: 10), // Space between content and actions
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                      child: Text("Close", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+
+      },
+    );
+  }
 
     List<Edital>? _edital;
 
   @override
   void initState() {
+
     super.initState();
     _loadEditais(); // Call the async method to load data
     _getAreas();
     _getProvincias();
     //_getPostos();
     _getDistritos();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+    _showForm(context);
+  });
   }
+
+  
 /*
 Future<void> _getPostos() async {
   try {
@@ -416,7 +461,7 @@ Widget _textFieldContainer({
               child: Center(child: Text("Dados Pessoais"),),
             ),
             _textFieldContainer(
-            label: "Nome:",
+            label: "Nome *:",
             hint: "Escreva seu Nome",
             controller: _nomeController,
             keyboardType: TextInputType.name,
@@ -425,7 +470,7 @@ Widget _textFieldContainer({
           ),
           SizedBox(height: 10),
           _textFieldContainer(
-            label: "Apelido:",
+            label: "Apelido *:",
             hint: "Seu apelido",
             controller: _apelidoController,
             icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
@@ -447,7 +492,7 @@ Widget _textFieldContainer({
                   border: InputBorder.none,
                   icon: Icon(Iconsax.document_1, color: Colors.blue[900]),
                   hintStyle: TextStyle(color: Colors.blue[900]),
-                  labelText: "Tipo de documento.",
+                  labelText: "Tipo de documento *:",
                   labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
                 value: _selectetTipo,
@@ -467,7 +512,7 @@ Widget _textFieldContainer({
             ),
             SizedBox(height: 10),
             _textFieldContainer(
-              label: "Bilhete de identidade:",
+              label: "Bilhete de identidade *: ",
               hint: "Número de BI",
               controller: _docController,
               keyboardType: TextInputType.text,
@@ -476,7 +521,7 @@ Widget _textFieldContainer({
             ),
             SizedBox(height: 10),
             _textFieldContainer(
-              label: "Nuit:",
+              label: "Nuit *:",
               hint: "Número de Nuit",
               controller: _NUITController,
               keyboardType: TextInputType.number,
@@ -497,7 +542,7 @@ Widget _textFieldContainer({
                 controller: _dataEmissaoController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  label: Text("Data de emissão:", style: TextStyle(color: Colors.blue[900]),),
+                  label: Text("Data de emissão *: ", style: TextStyle(color: Colors.blue[900]),),
                   icon: Icon(Iconsax.calendar, color: Colors.blue[900]),
                   hintText: "data dd/mm/aaaa",
                   
@@ -555,7 +600,7 @@ Widget _textFieldContainer({
                 controller: _dataValidadeController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  label: Text("Válido até:", style: TextStyle(color: Colors.blue[900]),),
+                  label: Text("Válido até *:", style: TextStyle(color: Colors.blue[900]),),
                   icon: Icon(Iconsax.calendar, color: Colors.blue[900]),
                   hintText: "data dd/mm/aaaa",
                 ),
@@ -612,7 +657,7 @@ Widget _textFieldContainer({
                 controller: _dataController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  label: Text("Data de nascimento:", style: TextStyle(color: Colors.blue[900]),),
+                  label: Text("Data de nascimento *:", style: TextStyle(color: Colors.blue[900]),),
                   icon: Icon(Iconsax.calendar, color: Colors.blue[900]),
                   hintText: "data dd/mm/aaaa",
                 ),
@@ -670,7 +715,7 @@ Widget _textFieldContainer({
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   icon: Icon(Iconsax.man, color: Colors.blue[900]),
-                  labelText: "Gênero",
+                  labelText: "Gênero *:",
                   hintStyle:TextStyle(color: Colors.blue[900]),
                   labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
@@ -701,7 +746,7 @@ Widget _textFieldContainer({
               ),
               child: Column(
                 children: [
-                  Text("É órfão?"),
+                  Text("É órfão? *:"),
                   Row(
                     children: [
                       RadioGroup(
@@ -751,7 +796,7 @@ Widget _textFieldContainer({
             ),
             SizedBox(height: 10),
             _textFieldContainer(
-              label: "Número de agregado familiar:",
+              label: "Número de agregado familiar *:",
               hint: "Número",
               controller: _agregadoController,
               keyboardType: TextInputType.number,
@@ -760,7 +805,7 @@ Widget _textFieldContainer({
             ),
             SizedBox(height: 10),
             _textFieldContainer(
-              label: "Nome do Pai:",
+              label: "Nome do Pai *:",
               hint: "Pai",
               controller: _nomePaiController,
               keyboardType: TextInputType.text,
@@ -770,7 +815,7 @@ Widget _textFieldContainer({
             SizedBox(height: 10),
 
             _textFieldContainer(
-              label: "Nome da Mãe:",
+              label: "Nome da Mãe *:",
               hint: "Mãe",
               controller: _nomeMaeController,
               keyboardType: TextInputType.text,
@@ -780,7 +825,7 @@ Widget _textFieldContainer({
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("É Filho de antigo combatent?"),
+                Text("É Filho de antigo combatent?* :"),
 
                 RadioGroup(
                   controller: radioController2,
@@ -818,7 +863,7 @@ Widget _textFieldContainer({
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
-                  labelText: "Provincia",
+                  labelText: "Provincia *:",
                   hintStyle:TextStyle(color: Colors.blue[900]),
                   labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
@@ -852,7 +897,7 @@ Widget _textFieldContainer({
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
-                    labelText: "Distrito", // Altere aqui para "Distrito"
+                    labelText: "Distrito *:", // Altere aqui para "Distrito"
                     hintStyle: TextStyle(color: Colors.blue[900]),
                     labelStyle: TextStyle(color: Colors.blue[900]),
                   ),
@@ -870,7 +915,7 @@ Widget _textFieldContainer({
               ),
             SizedBox(height: 20,),
             _textFieldContainer(
-              label: "Naturalidade:",
+              label: "Naturalidade *:",
               hint: "Natural de...",
               controller: _naturalidadeController,
               icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
@@ -886,7 +931,7 @@ Widget _textFieldContainer({
             ),*/
             SizedBox(height: 10),
             _textFieldContainer(
-              label: "Bairro:",
+              label: "Bairro *:",
               hint: "Bairro",
               controller: _baiiroController,
               icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
@@ -894,7 +939,7 @@ Widget _textFieldContainer({
             ),
             SizedBox(height: 10),
             _textFieldContainer(
-              label: "Rua:",
+              label: "Rua *:",
               hint: "Rua",
               controller: _ruaController,
               icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
@@ -924,7 +969,7 @@ Widget _textFieldContainer({
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   icon: Icon(Icons.school, color: Colors.blue[900]),
-                  labelText: "Nível Académico",
+                  labelText: "Nível Académico *:",
                   hintStyle:TextStyle(color: Colors.blue[900]),
                   labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
@@ -953,7 +998,7 @@ Widget _textFieldContainer({
             ),
             SizedBox(height: 10,),
             _textFieldContainer(
-              label: "Média global:",
+              label: "Média global* :",
               hint: "Escreva a média global do último nivel de escolaridade",
               controller: _mediaController,
               keyboardType: TextInputType.number,
@@ -976,7 +1021,7 @@ Widget _textFieldContainer({
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     icon: Icon(Icons.subject, color: Colors.blue[900]),
-                    labelText: "Selecione o Edital",
+                    labelText: "Selecione o Edital *:",
                     hintStyle:TextStyle(color: Colors.blue[900],),
                     labelStyle: TextStyle(color: Colors.blue[900]),
                   ),
@@ -1013,7 +1058,7 @@ Widget _textFieldContainer({
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     icon: Icon(Icons.subject, color: Colors.blue[900]),
-                    labelText: "Selecione a área",
+                    labelText: "Selecione a área *:",
                     hintStyle:TextStyle(color: Colors.blue[900]),
                     labelStyle: TextStyle(color: Colors.blue[900]),
                   ),
@@ -1038,7 +1083,7 @@ Widget _textFieldContainer({
             
             SizedBox(height: 10,),
             _textFieldContainer(
-              label: "Especialidade:",
+              label: "Especialidade *:",
               hint: "Informe a especialidade.",
               controller: _especialidadeController,
               max_length: 30
@@ -1046,7 +1091,7 @@ Widget _textFieldContainer({
 
             SizedBox(height: 20),
             _textFieldContainer(
-              label: "Ocupação:",
+              label: "Ocupação *:",
               hint: "Sua ocupação",
               controller: _ocupacaoController,
               icon: Icon(Iconsax.task, color: Colors.blue[900]),
@@ -1058,7 +1103,7 @@ Widget _textFieldContainer({
               child: Center(child: Text("Contactos"),),
             ),
             _textFieldContainer(
-              label: "Celular:",
+              label: "Celular *:",
               hint: "+258 00000",
               controller: _telemovelController,
               keyboardType: TextInputType.number,
@@ -1067,7 +1112,7 @@ Widget _textFieldContainer({
             ),
             SizedBox(height: 20),
             _textFieldContainer(
-              label: "Telefone:",
+              label: "Telefone *:",
               hint: "+258 21 00000",
               controller: _telefoneController,
               keyboardType: TextInputType.number,
@@ -1101,10 +1146,10 @@ Widget _textFieldContainer({
             ),
            Column(
           children: [
-            _buildFileContainer("BI/Passaporte:", _biFileName, () => pickFile('bi')),
-            _buildFileContainer("NUIT:", _nuitName, () => pickFile('nuit')),
-            _buildFileContainer("Certificado:", _certificadoFileName, () => pickFile('certificado')),
-            _buildFileContainer("Foto tipo passe:", _fotoName, () => pickFile('foto')),
+            _buildFileContainer("BI/Passaporte *:", _biFileName, () => pickFile('bi')),
+            _buildFileContainer("NUIT *:", _nuitName, () => pickFile('nuit')),
+            _buildFileContainer("Certificado *:", _certificadoFileName, () => pickFile('certificado')),
+            _buildFileContainer("Foto tipo passe *:", _fotoName, () => pickFile('foto')),
             SizedBox(height: 20),
           ],
         ),
@@ -1127,7 +1172,7 @@ Widget _textFieldContainer({
                 controller: _passwordController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  label: Text("Senha:", style: TextStyle(color: Colors.blue[900]),),
+                  label: Text("Senha *:", style: TextStyle(color: Colors.blue[900]),),
                   icon: Icon(Icons.password_sharp, color: Colors.blue[900]),
                   hintText: "********",
                 ),
@@ -1148,7 +1193,7 @@ Widget _textFieldContainer({
                 controller: _passwordControllerConfirm,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  label: Text("Confirmar:", style: TextStyle(color: Colors.blue[900]),),
+                  label: Text("Confirmar *:", style: TextStyle(color: Colors.blue[900]),),
                   icon: Icon(Iconsax.password_check, color: Colors.blue[900]),
                   hintText: "********",
                 ),
