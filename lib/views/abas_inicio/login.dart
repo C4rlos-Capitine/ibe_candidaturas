@@ -313,7 +313,7 @@ class _LoginState extends State<Login> {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+              margin: EdgeInsets.symmetric(vertical: 30, horizontal: 100),
               padding: EdgeInsets.symmetric(vertical: 1),
               child: Image.asset('assets/images/logotipo_header.png'),
             ),

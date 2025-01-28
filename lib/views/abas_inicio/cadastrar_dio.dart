@@ -460,6 +460,8 @@ Widget _textFieldContainer({
             Container(
               child: Center(child: Text("Dados Pessoais"),),
             ),
+            _buildFileContainer("Foto tipo passe *:", _fotoName, () => pickFile('foto')),
+            SizedBox(height: 10),
             _textFieldContainer(
             label: "Nome *:",
             hint: "Escreva seu Nome",
@@ -476,7 +478,117 @@ Widget _textFieldContainer({
             icon: Icon(Icons.person_2_outlined, color: Colors.blue[900]),
             max_length: 50
           ),
+                      SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: DropdownButtonFormField<String>(
+                dropdownColor: Colors.white,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: Icon(Iconsax.man, color: Colors.blue[900]),
+                  labelText: "Gênero *:",
+                  hintStyle:TextStyle(color: Colors.blue[900]),
+                  labelStyle: TextStyle(color: Colors.blue[900]),
+                ),
+                value: _selectedGender,
+                items: ["Masculino", "Feminino"]
+                    .map((label) => DropdownMenuItem(
+                          child: Text(label, style: TextStyle(color: Colors.blue[900]),),
+                          value: label,
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedGender = value;
+                    print(_selectedGender);
+                  });
+                },
+              ),
+            ),
+              SizedBox(height: 10),     
+            _textFieldContainer(
+              label: "Ocupação *:",
+              hint: "Sua ocupação",
+              controller: _ocupacaoController,
+              icon: Icon(Iconsax.task, color: Colors.blue[900]),
+              max_length:15
+            ),      
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextFormField(
+                controller: _dataController,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  label: Text("Data de nascimento *:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Iconsax.calendar, color: Colors.blue[900]),
+                  hintText: "data dd/mm/aaaa",
+                ),
+                readOnly: true,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime(2100),
+                    builder: (context, child) {
+                      return Theme(
+                        data: ThemeData.light().copyWith(
+                          primaryColor: Colors.blue[900], // Color for the header and selected date
+                          cardColor: Colors.blue[900],
+                          canvasColor: Colors.blue[900],
+                          dialogBackgroundColor: Colors.blue[900],
+                          colorScheme: ColorScheme(brightness: Brightness.light, primary: Color.fromARGB(255, 5, 85, 233), onPrimary: Colors.black, secondary: Colors.blue, onSecondary: Colors.black, error: Colors.redAccent, onError: Colors.redAccent, surface: Colors.white, onSurface: Colors.black),
+                          buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary), // Button text color
+                          textButtonTheme: TextButtonThemeData(
+                            style: TextButton.styleFrom(foregroundColor: Colors.blue[900]), // Color for text buttons
+                          ),
+                          primaryColorLight: Colors.white, // Background color
+                          //dialogBackgroundColor: Colors.white, // Background color of the dialog
+                        ),
+                        child: child!,
+                      );
+                    },
+                  );
+
+                  if (pickedDate != null) {
+                    setState(() {
+                      _dataController.text =
+                          "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+                      dia = pickedDate.day;
+                      mes = pickedDate.month;
+                      ano = pickedDate.year;
+                    });
+                  }
+                },
+              ),
+            ),
+                      SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Naturalidade *:",
+              hint: "Natural de...",
+              controller: _naturalidadeController,
+              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
+              max_length: 15
+            ),
           SizedBox(height: 10),
+            Container(
+              child: Center(child: Text("Identificação"),),
+            ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
@@ -518,15 +630,6 @@ Widget _textFieldContainer({
               keyboardType: TextInputType.text,
               icon: Icon(Iconsax.card, color: Colors.blue[900]),
               max_length: 13
-            ),
-            SizedBox(height: 10),
-            _textFieldContainer(
-              label: "Nuit *:",
-              hint: "Número de Nuit",
-              controller: _NUITController,
-              keyboardType: TextInputType.number,
-              icon: Icon(Iconsax.card, color: Colors.blue[900]),
-              max_length: 8
             ),
             SizedBox(height: 10,),
             Container(
@@ -586,6 +689,8 @@ Widget _textFieldContainer({
                 },
               ),
             ),
+
+            
             SizedBox(height: 20,),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -643,64 +748,23 @@ Widget _textFieldContainer({
                 },
               ),
             ),
-            SizedBox(height: 20),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                controller: _dataController,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("Data de nascimento *:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Iconsax.calendar, color: Colors.blue[900]),
-                  hintText: "data dd/mm/aaaa",
-                ),
-                readOnly: true,
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime(2100),
-                    builder: (context, child) {
-                      return Theme(
-                        data: ThemeData.light().copyWith(
-                          primaryColor: Colors.blue[900], // Color for the header and selected date
-                          cardColor: Colors.blue[900],
-                          canvasColor: Colors.blue[900],
-                          dialogBackgroundColor: Colors.blue[900],
-                          colorScheme: ColorScheme(brightness: Brightness.light, primary: Color.fromARGB(255, 5, 85, 233), onPrimary: Colors.black, secondary: Colors.blue, onSecondary: Colors.black, error: Colors.redAccent, onError: Colors.redAccent, surface: Colors.white, onSurface: Colors.black),
-                          buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary), // Button text color
-                          textButtonTheme: TextButtonThemeData(
-                            style: TextButton.styleFrom(foregroundColor: Colors.blue[900]), // Color for text buttons
-                          ),
-                          primaryColorLight: Colors.white, // Background color
-                          //dialogBackgroundColor: Colors.white, // Background color of the dialog
-                        ),
-                        child: child!,
-                      );
-                    },
-                  );
-
-                  if (pickedDate != null) {
-                    setState(() {
-                      _dataController.text =
-                          "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                      dia = pickedDate.day;
-                      mes = pickedDate.month;
-                      ano = pickedDate.year;
-                    });
-                  }
-                },
-              ),
+            _buildFileContainer("Anexe BI/Passaporte *:", _biFileName, () => pickFile('bi')),
+            SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Nuit *:",
+              hint: "Número de Nuit",
+              controller: _NUITController,
+              keyboardType: TextInputType.number,
+              icon: Icon(Iconsax.card, color: Colors.blue[900]),
+              max_length: 8
             ),
-            SizedBox(height: 20),
+            _buildFileContainer("Anexe NUIT *:", _nuitName, () => pickFile('nuit')),
+
+            SizedBox(height: 20,),
+            Container(
+              child: Center(child: Text("Morada"),),
+            ),
+
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
@@ -714,27 +778,88 @@ Widget _textFieldContainer({
                 dropdownColor: Colors.white,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  icon: Icon(Iconsax.man, color: Colors.blue[900]),
-                  labelText: "Gênero *:",
+                  icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
+                  labelText: "Provincia *:",
                   hintStyle:TextStyle(color: Colors.blue[900]),
                   labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
-                value: _selectedGender,
-                items: ["Masculino", "Feminino"]
-                    .map((label) => DropdownMenuItem(
-                          child: Text(label, style: TextStyle(color: Colors.blue[900]),),
-                          value: label,
-                        ))
-                    .toList(),
+                //value: _selectedProvince,
+                items: _dropdownMenuItems_provincias,
                 onChanged: (value) {
                   setState(() {
-                    _selectedGender = value;
-                    print(_selectedGender);
+                    _selectedProvince = value;
+                    print(" provincia $_selectedProvince");
+                    selectedIndex = lista_prov.indexOf(_selectedProvince!);
+                    _getDistrito(int.parse(_selectedProvince!));
+                    print(
+                        "Selected item: $_selectedProvince, Index: $selectedIndex");
                   });
                 },
               ),
             ),
+            
+            SizedBox(height: 10,),
+            Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 30),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Color.fromARGB(255, 248, 245, 245),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: DropdownButtonFormField<String>(
+                  dropdownColor: Colors.white,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
+                    labelText: "Distrito *:", // Altere aqui para "Distrito"
+                    hintStyle: TextStyle(color: Colors.blue[900]),
+                    labelStyle: TextStyle(color: Colors.blue[900]),
+                  ),
+                  value: _selectedDistrito, // Altere aqui para _selectedDistrito
+                  items: _dropdownMenuItems_distritos, // Usando os itens dos distritos
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedDistrito = value; // Altere aqui para _selectedDistrito
+                      print(_selectedDistrito);
+                      // selectedIndex = lista_distrito.indexOf(_selectedDistrito!); // Se necessário, altere para lista_distrito
+                      print("Selected item: $_selectedDistrito");
+                    });
+                  },
+                ),
+              ),
             SizedBox(height: 20,),
+
+           /* SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Localidade:",
+              hint: "Localidade",
+              controller: _localidadeController,
+              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
+              max_length: 
+            ),*/
+            SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Bairro *:",
+              hint: "Bairro",
+              controller: _baiiroController,
+              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
+              max_length: 20
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+              label: "Rua *:",
+              hint: "Rua",
+              controller: _ruaController,
+              icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
+              max_length: 25
+            ),
+            SizedBox(height: 10,),
+            Container(
+              child: Center(child: Text("Agregado Familiar"),),
+            ),
+
              Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 30),
@@ -848,7 +973,28 @@ Widget _textFieldContainer({
               ],
             ),
                 
-            SizedBox(height: 10,),
+            SizedBox(height: 20),
+            Container(
+              child: Center(child: Text("Contactos"),),
+            ),
+            _textFieldContainer(
+              label: "Celular *:",
+              hint: "+258 00000",
+              controller: _telemovelController,
+              keyboardType: TextInputType.number,
+              icon: Icon(Icons.phone_android, color: Colors.blue[900]),
+              max_length:9
+            ),
+            SizedBox(height: 20),
+            _textFieldContainer(
+              label: "Telefone *:",
+              hint: "+258 21 00000",
+              controller: _telefoneController,
+              keyboardType: TextInputType.number,
+              icon: Icon(Icons.phone, color: Colors.blue[900]),
+              max_length:9
+            ),
+            SizedBox(height: 10),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               alignment: Alignment.center,
@@ -858,101 +1004,20 @@ Widget _textFieldContainer({
                 color: Color.fromARGB(255, 248, 245, 245),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: DropdownButtonFormField<String>(
-                dropdownColor: Colors.white,
+              child: TextFormField(
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
-                  labelText: "Provincia *:",
-                  hintStyle:TextStyle(color: Colors.blue[900]),
-                  labelStyle: TextStyle(color: Colors.blue[900]),
+                  label: Text("Email:", style: TextStyle(color: Colors.blue[900]),),
+                  icon: Icon(Icons.email_outlined, color: Colors.blue[900]),
+                  hintText: "email_nome@domain",
                 ),
-                //value: _selectedProvince,
-                items: _dropdownMenuItems_provincias,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedProvince = value;
-                    print(" provincia $_selectedProvince");
-                    selectedIndex = lista_prov.indexOf(_selectedProvince!);
-                    _getDistrito(int.parse(_selectedProvince!));
-                    print(
-                        "Selected item: $_selectedProvince, Index: $selectedIndex");
-                  });
-                },
               ),
             ),
-            
+
             SizedBox(height: 10,),
             Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                alignment: Alignment.center,
-                margin: EdgeInsets.symmetric(horizontal: 30),
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Color.fromARGB(255, 248, 245, 245),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: DropdownButtonFormField<String>(
-                  dropdownColor: Colors.white,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
-                    labelText: "Distrito *:", // Altere aqui para "Distrito"
-                    hintStyle: TextStyle(color: Colors.blue[900]),
-                    labelStyle: TextStyle(color: Colors.blue[900]),
-                  ),
-                  value: _selectedDistrito, // Altere aqui para _selectedDistrito
-                  items: _dropdownMenuItems_distritos, // Usando os itens dos distritos
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedDistrito = value; // Altere aqui para _selectedDistrito
-                      print(_selectedDistrito);
-                      // selectedIndex = lista_distrito.indexOf(_selectedDistrito!); // Se necessário, altere para lista_distrito
-                      print("Selected item: $_selectedDistrito");
-                    });
-                  },
-                ),
-              ),
-            SizedBox(height: 20,),
-            _textFieldContainer(
-              label: "Naturalidade *:",
-              hint: "Natural de...",
-              controller: _naturalidadeController,
-              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
-              max_length: 15
-            ),
-           /* SizedBox(height: 10),
-            _textFieldContainer(
-              label: "Localidade:",
-              hint: "Localidade",
-              controller: _localidadeController,
-              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
-              max_length: 
-            ),*/
-            SizedBox(height: 10),
-            _textFieldContainer(
-              label: "Bairro *:",
-              hint: "Bairro",
-              controller: _baiiroController,
-              icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
-              max_length: 20
-            ),
-            SizedBox(height: 10),
-            _textFieldContainer(
-              label: "Rua *:",
-              hint: "Rua",
-              controller: _ruaController,
-              icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
-              max_length: 25
-            ),
-           /* Row(
-              children: [
-                Text("É residente na provincia de Candidatura?"),
-
-              ],
-            ),
-            SizedBox(height: 10,),*/
-                        Container(
               child: Center(child: Text("Informação Académica"),),
             ),
             Container(
@@ -1006,6 +1071,11 @@ Widget _textFieldContainer({
               max_length: 2
             ),
             SizedBox(height: 10,),
+            _buildFileContainer("Anexe o Certificado *:", _certificadoFileName, () => pickFile('certificado')),
+            SizedBox(height: 10,),
+            Container(
+              child: Center(child: Text("Dados da Bolsa"),),
+            ),
             Container(
               
               alignment: Alignment.center,
@@ -1088,71 +1158,7 @@ Widget _textFieldContainer({
               controller: _especialidadeController,
               max_length: 30
             ),
-
-            SizedBox(height: 20),
-            _textFieldContainer(
-              label: "Ocupação *:",
-              hint: "Sua ocupação",
-              controller: _ocupacaoController,
-              icon: Icon(Iconsax.task, color: Colors.blue[900]),
-              max_length:15
-            ),
-
-            SizedBox(height: 20),
-            Container(
-              child: Center(child: Text("Contactos"),),
-            ),
-            _textFieldContainer(
-              label: "Celular *:",
-              hint: "+258 00000",
-              controller: _telemovelController,
-              keyboardType: TextInputType.number,
-              icon: Icon(Icons.phone_android, color: Colors.blue[900]),
-              max_length:9
-            ),
-            SizedBox(height: 20),
-            _textFieldContainer(
-              label: "Telefone *:",
-              hint: "+258 21 00000",
-              controller: _telefoneController,
-              keyboardType: TextInputType.number,
-              icon: Icon(Icons.phone, color: Colors.blue[900]),
-              max_length:9
-            ),
-            SizedBox(height: 10),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Color.fromARGB(255, 248, 245, 245),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  label: Text("Email:", style: TextStyle(color: Colors.blue[900]),),
-                  icon: Icon(Icons.email_outlined, color: Colors.blue[900]),
-                  hintText: "email_nome@domain",
-                ),
-              ),
-            ),
-            SizedBox(height: 20,),
-                                    Container(
-              child: Center(child: Text("Documentos"),),
-            ),
-           Column(
-          children: [
-            _buildFileContainer("BI/Passaporte *:", _biFileName, () => pickFile('bi')),
-            _buildFileContainer("NUIT *:", _nuitName, () => pickFile('nuit')),
-            _buildFileContainer("Certificado *:", _certificadoFileName, () => pickFile('certificado')),
-            _buildFileContainer("Foto tipo passe *:", _fotoName, () => pickFile('foto')),
-            SizedBox(height: 20),
-          ],
-        ),
+            SizedBox(height: 10,),
            Container(
               child: Center(child: Text("Credêncials de acesso"),),
             ),

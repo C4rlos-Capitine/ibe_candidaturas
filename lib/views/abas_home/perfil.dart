@@ -25,9 +25,13 @@ class _PerfilState extends State<Perfil> {
         children: [
           SizedBox(height: 10,),
           Container(
-            //margin: EdgeInsets.symmetric(horizontal: 0,),
-            padding: EdgeInsets.symmetric(vertical: 5),
-            color:Color.fromARGB(255, 34, 88, 236),
+              padding: EdgeInsets.symmetric(vertical: 10),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 34, 88, 236),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+              ),
               child: Row(
                 children: [
                   SizedBox(width: 10,),
@@ -98,8 +102,13 @@ class _PerfilState extends State<Perfil> {
           SizedBox(height: 15),
          Container(
             //margin: EdgeInsets.symmetric(horizontal: 0,),
-            padding: EdgeInsets.symmetric(vertical: 5),
-            color:Color.fromARGB(255, 34, 88, 236),
+             padding: EdgeInsets.symmetric(vertical: 10),
+             alignment: Alignment.center,
+             decoration: BoxDecoration(
+               shape: BoxShape.rectangle,
+               color: Color.fromARGB(255, 34, 88, 236),
+               borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+             ),
               child: Row(
                 children: [
                   SizedBox(width: 10,),
@@ -157,8 +166,13 @@ class _PerfilState extends State<Perfil> {
           SizedBox(height: 15),
           Container(
             //margin: EdgeInsets.symmetric(horizontal: 0,),
-            padding: EdgeInsets.symmetric(vertical: 5),
-            color:Color.fromARGB(255, 34, 88, 236),
+              padding: EdgeInsets.symmetric(vertical: 10),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 34, 88, 236),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+              ),
               child: Row(
                 children: [
                   SizedBox(width: 10,),
@@ -204,37 +218,46 @@ class _PerfilState extends State<Perfil> {
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> EditarDados(candidato: candidato)));
-              },
-              child: Text("Editar dados", style: TextStyle(fontWeight: FontWeight.bold)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[900],
-                foregroundColor: Colors.white,
-              ),
+
+          Padding(
+            padding: EdgeInsets.all(50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Center the buttons
+              children: [
+                Expanded(
+                  child: Container(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditarDados(candidato: candidato)));
+                      },
+                      child: Text("Editar dados", style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue[900],
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20), // Space between buttons
+                Expanded(
+                  child: Container(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        downloadAndOpenFile(candidato.email);
+                      },
+                      child: Text("Baixa Ficha", style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue[900],
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+          )
 
-            
-          ),
 
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            child: ElevatedButton(
-              onPressed: () {
-                downloadAndOpenFile(candidato.email);
-              },
-              child: Text("Baixa comprovativo", style: TextStyle(fontWeight: FontWeight.bold)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[900],
-                foregroundColor: Colors.white,
-              ),
-            ),
-
-            
-          ),
         ],
       ),
     );

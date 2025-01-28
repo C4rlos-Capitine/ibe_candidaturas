@@ -17,6 +17,7 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
+
   late TabController _tabController;
   Candidato? _candidato;
   bool? connectado;
@@ -48,11 +49,14 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         actions: [],
-      
+       // toolbarHeight: *100/,
         title: Text(
           "Portal do Candidato",
           style:

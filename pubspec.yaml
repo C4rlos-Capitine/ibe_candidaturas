@@ -36,22 +36,22 @@ dependencies:
 
 flutter_launcher_icons:
   android: true #"launcher_icon"
-  image_path_android: "assets/images/icon.png"
+  image_path_android: "assets/images/IBE_logo.png"
   ios: true
-  image_path: "assets/images/icon.png"
+  image_path: "assets/images/IBE_logo.png"
   min_sdk_android: 16 # android min sdk min:16, default 21
   web:
     generate: true
-    image_path: "assets/images/icon.png"
+    image_path: "assets/images/IBE_logo.png"
     #background_color: "#hexcode"
     #theme_color: "#hexcode"
   windows:
     generate: true
-    image_path: "assets/images/icon.png"
+    image_path: "assets/images/IBE_logo.png"
     icon_size: 38 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "assets/images/icon.png"
+    image_path: "assets/images/IBE_logo.png"
     
 
 dev_dependencies:
