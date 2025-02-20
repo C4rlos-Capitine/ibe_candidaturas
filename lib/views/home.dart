@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'IBE,IP - Portal do Candidatos',
+      title: 'IBE,IP Candidaturas',
       home: Scaffold(
         appBar: AppBar(
           title: Text(

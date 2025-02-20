@@ -58,7 +58,7 @@ class _InicioState extends State<Inicio> with SingleTickerProviderStateMixin {
         actions: [],
        // toolbarHeight: *100/,
         title: Text(
-          "Portal do Candidato",
+          "IBE,IP Candidaturas",
           style:
               TextStyle(color: Colors.blue[900], fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,

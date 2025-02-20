@@ -1,7 +1,7 @@
 name: ibe_candidaturas
-description: App Portal do candidato, IBE-IP.
+description: IBE-IP Candidaturas.
 publish_to: 'none'
-version: 0.1.0+8
+version: 0.1.0+13
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
@@ -61,7 +61,7 @@ dev_dependencies:
   #build_runner: ^2.4.11
   #flutter_app_name: ^0.1.0
 flutter_app_name:
-  name: "Portal do Candidato"
+  name: "Portal do Candidato - IBE,IP"
 
 flutter:
   uses-material-design: true

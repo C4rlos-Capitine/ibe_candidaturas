@@ -226,9 +226,10 @@ class _LoginState extends State<Login> {
     try {
       internetLoginSuccess = await login(_email.text, _senha.text);
       if(internetLoginSuccess){
-        SendAuthRequest(_email.text);
-        _startTimer();
-        _showAuthForm(context);
+        await _finishLogIn(_email.text, _senha.text);
+        //SendAuthRequest(_email.text);
+        //_startTimer();
+        //_showAuthForm(context);
         return;
       }else {
         candidato = await attemptLocalLogin(_email.text, _senha.text);
