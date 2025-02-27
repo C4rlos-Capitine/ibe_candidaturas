@@ -62,6 +62,8 @@ class _CadastrarDioState extends State<CadastrarDio> {
   TextEditingController _nomePaiController = TextEditingController();
   TextEditingController _nomeMaeController = TextEditingController();//_agregadoController
     TextEditingController _agregadoController = TextEditingController();
+  TextEditingController _profissaoPaiController = TextEditingController();
+  TextEditingController _profissaoMaeController = TextEditingController();
   //List<Provincia>? _provincias;
   List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
   List <String> niveis = ["Médio","Téc. Médio","Licenciatura", "Mestrado", "Doutoramento"];
@@ -82,10 +84,16 @@ class _CadastrarDioState extends State<CadastrarDio> {
   File? _certificadoFile;
   File? _nuitFile;
   File? _fotoFile;
+  File? _bairroFile;
+  File? _agregadoFile;
+  File? _requerimentoFile;
   String _biFileName = "";
   String _certificadoFileName = "";
   String _nuitName = "";
   String _fotoName = "";
+  String _bairroName = "";
+  String _agregadoName = "";
+  String _requerimentoName = "";
   String progress = "0%";
   bool _isUploading = false; // Adicionamos um flag para controle de upload
   Dio dio = Dio();
@@ -184,7 +192,7 @@ class _CadastrarDioState extends State<CadastrarDio> {
     _loadEditais(); // Call the async method to load data
     _getAreas();
     _getProvincias();
-    //_getPostos();
+    _getPostos();
     _getDistritos();
       WidgetsBinding.instance.addPostFrameCallback((_) {
     _showForm(context);
@@ -192,7 +200,7 @@ class _CadastrarDioState extends State<CadastrarDio> {
   }
 
   
-/*
+
 Future<void> _getPostos() async {
   try {
     List<Posto>? _postos = await getPostos();
@@ -211,7 +219,7 @@ Future<void> _getPostos() async {
     print(e);
   }
 }
-*/
+
   Future<void> _getDistritos() async {
     try {
       List<Distrito>? _distritos = await getDistritos();
@@ -243,6 +251,25 @@ Future<void> _getPostos() async {
 
         if (_dropdownMenuItems_distritos != null && _dropdownMenuItems_distritos!.isNotEmpty) {
           _selectedDistrito = _dropdownMenuItems_distritos!.first.value; 
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _getpostos2(int codProvinc) async {
+    try {
+      List<Posto>? _postos = await getPostos2(codProvinc);
+      setState(() {
+        postos = _postos;
+        _dropdownMenuItems_postos = postos?.map((posto) => DropdownMenuItem<String>(
+          child: Text(posto.nome),
+          value: posto.codposto.toString(),
+        )).toList();
+
+        if (_dropdownMenuItems_postos != null && _dropdownMenuItems_postos!.isNotEmpty) {
+          _selectedPosto = _dropdownMenuItems_postos!.first.value;
         }
       });
     } catch (e) {
@@ -311,15 +338,18 @@ Future<void> _getPostos() async {
       }
 }
 
-  void uploadFiles(String email) async {
+  Future <void> uploadFiles(String email) async {
   try {
     String url = 'http://$IP/api/Upload/upload?email=$email'; // Corrected URL construction
-
+//bairro
     FormData formData = FormData.fromMap({
       if (_biFile != null) 'bi': await MultipartFile.fromFile(_biFile!.path, filename: _biFileName),
       if (_nuitFile != null) 'nuit': await MultipartFile.fromFile(_nuitFile!.path, filename: _nuitName),
       if (_certificadoFile != null) 'certificado': await MultipartFile.fromFile(_certificadoFile!.path, filename: _certificadoFileName),
       if (_fotoFile != null) 'foto': await MultipartFile.fromFile(_fotoFile!.path, filename: _fotoName),
+      //if (_bairroFile != null) 'decl_bairro': await MultipartFile.fromFile(_bairroFile!.path, filename: _bairroName),
+      //if (_agregadoFile != null) 'agrregado': await MultipartFile.fromFile(_agregadoFile!.path, filename: _agregadoName),
+    //  if (_requerimentoFile != null) 'requerimento': await MultipartFile.fromFile(_requerimentoFile!.path, filename: _requerimentoName),
     });
 
     // Debugging: Print form data fields
@@ -330,6 +360,7 @@ Future<void> _getPostos() async {
     });
 
     // Check the response status
+    print(response);
     if (response.statusCode == 200) {
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
@@ -349,6 +380,48 @@ Future<void> _getPostos() async {
     );
   }
 }
+  Future <void>uploadFiles2(String email) async {
+    try {
+      String url = 'http://$IP/api/UploadController2/upload?email=$email'; // Corrected URL construction
+//bairro
+      FormData formData = FormData.fromMap({
+        //if (_biFile != null) 'bi': await MultipartFile.fromFile(_biFile!.path, filename: _biFileName),
+       // if (_nuitFile != null) 'nuit': await MultipartFile.fromFile(_nuitFile!.path, filename: _nuitName),
+       // if (_certificadoFile != null) 'certificado': await MultipartFile.fromFile(_certificadoFile!.path, filename: _certificadoFileName),
+       // if (_fotoFile != null) 'foto': await MultipartFile.fromFile(_fotoFile!.path, filename: _fotoName),
+        if (_bairroFile != null) 'decl_bairro': await MultipartFile.fromFile(_bairroFile!.path, filename: _bairroName),
+        if (_agregadoFile != null) 'agrregado': await MultipartFile.fromFile(_agregadoFile!.path, filename: _agregadoName),
+        if (_requerimentoFile != null) 'requerimento': await MultipartFile.fromFile(_requerimentoFile!.path, filename: _requerimentoName),
+      });
+
+      // Debugging: Print form data fields
+      print(formData.fields);
+
+      final response = await dio.post(url, data: formData, onSendProgress: (int sent, int total) {
+        print("Total: $total, Sent: $sent");
+      });
+
+      // Check the response status
+      print(response);
+      if (response.statusCode == 200) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Upload successful!")),
+        );
+      } else {
+        // Show error message based on response
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Upload failed: ${response.statusCode} - ${response.data}")),
+        );
+      }
+    } catch (e) {
+      print(e);
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Upload failed: $e")),
+      );
+    }
+  }
 Future<void> pickFile(String field) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -366,6 +439,18 @@ Future<void> pickFile(String field) async {
         }else if(field == 'foto'){
           _fotoFile = File(result.files.single.path!);
           _fotoName = result.files.single.name;
+        }
+        else if(field == "decl_bairro"){
+          _bairroFile = File(result.files.single.path!);
+          _bairroName = result.files.single.name;
+        }
+        else if(field == "agregado"){
+          _agregadoFile = File(result.files.single.path!);
+          _agregadoName = result.files.single.name;
+        }
+        else if(field == "requerimento"){
+          _requerimentoFile = File(result.files.single.path!);
+          _requerimentoName = result.files.single.name;
         }
       });
     }
@@ -791,6 +876,7 @@ Widget _textFieldContainer({
                     print(" provincia $_selectedProvince");
                     selectedIndex = lista_prov.indexOf(_selectedProvince!);
                     _getDistrito(int.parse(_selectedProvince!));
+                    _getpostos2(int.parse(_selectedProvince!));
                     print(
                         "Selected item: $_selectedProvince, Index: $selectedIndex");
                   });
@@ -823,6 +909,7 @@ Widget _textFieldContainer({
                     setState(() {
                       _selectedDistrito = value; // Altere aqui para _selectedDistrito
                       print(_selectedDistrito);
+                      _getpostos2(int.parse(_selectedProvince!));
                       // selectedIndex = lista_distrito.indexOf(_selectedDistrito!); // Se necessário, altere para lista_distrito
                       print("Selected item: $_selectedDistrito");
                     });
@@ -830,6 +917,36 @@ Widget _textFieldContainer({
                 ),
               ),
             SizedBox(height: 20,),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color.fromARGB(255, 248, 245, 245),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: DropdownButtonFormField<String>(
+                dropdownColor: Colors.white,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
+                  labelText: "posto *:", // Altere aqui para "Distrito"
+                  hintStyle: TextStyle(color: Colors.blue[900]),
+                  labelStyle: TextStyle(color: Colors.blue[900]),
+                ),
+                value: _selectedPosto, // Altere aqui para _selectedDistrito
+                items: _dropdownMenuItems_postos, // Usando os itens dos distritos
+                onChanged: (value) {
+                  setState(() {
+                    _selectedPosto = value; // Altere aqui para _selectedDistrito
+                    print(_selectedPosto);
+                    // selectedIndex = lista_distrito.indexOf(_selectedDistrito!); // Se necessário, altere para lista_distrito
+                    print("Selected item: $_selectedPosto");
+                  });
+                },
+              ),
+            ),
 
            /* SizedBox(height: 10),
             _textFieldContainer(
@@ -855,6 +972,8 @@ Widget _textFieldContainer({
               icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
               max_length: 25
             ),
+            _buildFileContainer("Anexe Declaração do Bairro *:", _bairroName, () => pickFile('decl_bairro')),
+            SizedBox(height: 10),
             SizedBox(height: 10,),
             Container(
               child: Center(child: Text("Agregado Familiar"),),
@@ -921,6 +1040,22 @@ Widget _textFieldContainer({
             ),
             SizedBox(height: 10),
             _textFieldContainer(
+                label: "Profissão do Pai:",
+                hint: "Profissão do Pai",
+                controller: _profissaoPaiController,
+                icon: Icon(Iconsax.task, color: Colors.blue[900]),
+                max_length:15
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+                label: "Profissão da Mãe:",
+                hint: "Profissão da Mãe",
+                controller: _profissaoMaeController,
+                icon: Icon(Iconsax.task, color: Colors.blue[900]),
+                max_length:15
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
               label: "Número de agregado familiar *:",
               hint: "Número",
               controller: _agregadoController,
@@ -972,7 +1107,7 @@ Widget _textFieldContainer({
 
               ],
             ),
-                
+            _buildFileContainer("Comprovativo de agregado *:", _agregadoName, () => pickFile('agregado')),
             SizedBox(height: 20),
             Container(
               child: Center(child: Text("Contactos"),),
@@ -1158,6 +1293,7 @@ Widget _textFieldContainer({
               controller: _especialidadeController,
               max_length: 30
             ),
+            _buildFileContainer("Anexe Requerimento *:", _requerimentoName, () => pickFile('requerimento')),
             SizedBox(height: 10,),
            Container(
               child: Center(child: Text("Credêncials de acesso"),),
@@ -1364,7 +1500,7 @@ Widget _textFieldContainer({
                         ano_validade,
                         nomeEdital,
                         nomeArea,
-                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedDistrito, _nomePaiController.text, _nomeMaeController.text, radioSelectedValue2, _agregadoController.text);
+                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedDistrito, _nomePaiController.text, _nomeMaeController.text, radioSelectedValue2, _agregadoController.text,_selectedPosto);
                     if (response.success) {
                       try{
 
@@ -1373,7 +1509,8 @@ Widget _textFieldContainer({
                       }
                       print(response.message);                       
                         await ConfirmEnrollment(_emailController.text, _passwordController.text, _nomeController.text);
-                        uploadFiles(_emailController.text);
+                        await uploadFiles(_emailController.text);
+                        await uploadFiles2(_emailController.text);
                         PanaraInfoDialog.show(
                           context,
                           title: "Olá!!",

@@ -130,7 +130,7 @@ Future<Candidato> getData(String email, String senha) async {
 
 Future<bool> registar(nome, apelido, email, senha, telemovel, telefone, id,
     tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc, naturalidade, rua, ocupacao, dataEmissao_doc, 
-    dataValidade_doc, dia_emissao, mes_emissao, ano_emissao, dia_validade, mes_validade, ano_validade, codedita, codarea, especialidade) async {
+    dataValidade_doc, dia_emissao, mes_emissao, ano_emissao, dia_validade, mes_validade, ano_validade, codedita, codarea, especialidade, posto) async {
   bool resp = false;
 
   try {
@@ -204,7 +204,7 @@ Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, tele
     tipo_doc, genero, dataNaci, dia, mes, ano, cod_provinc, naturalidade, rua, ocupacao, dataEmissao_doc, 
     dataValidade_doc, dia_emissao, mes_emissao, ano_emissao, dia_validade, mes_validade, 
     ano_validade, codedita, codarea, especialidade, int nivel, media, nuit, 
-    ISorfao, bool pai, bool mae, bairro, distrito,  String nomepai, String nomemae, antigo_combatente, agregado) async{
+    ISorfao, bool pai, bool mae, bairro, distrito,  String nomepai, String nomemae, antigo_combatente, agregado, posto) async{
   var level = "";
   var doc = "B";
   if(nivel==0){
@@ -284,7 +284,8 @@ Future <ResquestResponse> registar2(nome, apelido, email, senha, telemovel, tele
       'nomepai':nomepai,
       'nomemae': nomemae,
       'filho_combatente': antigo_combatente,
-      'agregado_numero': int.parse(agregado)
+      'agregado_numero': int.parse(agregado),
+      'posto': posto
       //'localidade':localidade
     });
 

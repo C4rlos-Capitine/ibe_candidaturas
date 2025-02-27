@@ -4,6 +4,8 @@ import 'package:ibe_candidaturas/model/Distrito.dart'; // Atualize o caminho par
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ibe_candidaturas/config.dart';
 
+import '../model/Posto.dart';
+
 Future<List<Distrito>>? getDistritos() async {
   List<Distrito> distritos = [];
   try {
@@ -59,6 +61,44 @@ Future<List<Distrito>>? getDistrito(int codProvinc) async {
       distritos = responseBody.map((data) {
         print('Mapping data: $data');
         return Distrito.fromJson(data as Map<String, dynamic>);
+      }).toList();
+
+      print("Distritos fetched: ${distritos.length}");
+
+      // Save data to local storage
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('Distritos', jsonEncode(responseBody));
+    } else {
+      print('Request failed with status: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error during HTTP request: $e');
+  }
+  return distritos;
+}
+
+Future<List<Posto>>? getPostos2(int codProvinc) async {
+  List<Posto> distritos = [];
+  print(codProvinc);
+  try {
+    // Construct the URL with query parameters
+    var url = Uri.http(IP, '/api/Posto/$codProvinc');
+    print('Request URL: $url');
+    var response = await http.get(url).timeout(const Duration(seconds: 30));
+
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      // Decode JSON response
+      var responseBody = jsonDecode(response.body) as List<dynamic>;
+      print('Decoded response body: $responseBody');
+
+      // Convert JSON list to list of Distrito objects
+      distritos = responseBody.map((data) {
+        print('Mapping data: $data');
+        return Posto.fromJson(data as Map<String, dynamic>);
       }).toList();
 
       print("Distritos fetched: ${distritos.length}");

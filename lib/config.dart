@@ -4,7 +4,7 @@ library config;
 import 'package:connectivity_plus/connectivity_plus.dart';
 final String IP = "109.123.241.5:8084";
 //final String IP = "5.189.138.20:8999";
-//final String IP = "192.168.10.147:5287";
+//final String IP = "192.168.10.173:5287";
 
 Future<NetworkCheckResponse> isConnected() async {
   try {
@@ -16,7 +16,7 @@ Future<NetworkCheckResponse> isConnected() async {
     if (connectivityResult.contains(ConnectivityResult.none)) {
       return NetworkCheckResponse(
         state: false,
-        mesg: "Não conectado à rede",
+        mesg: "Não conectado à rede"
       );
     } else if (connectivityResult.contains(ConnectivityResult.mobile)) {
       return NetworkCheckResponse(
