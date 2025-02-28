@@ -104,7 +104,7 @@ class _CadastrarDioState extends State<CadastrarDio> {
   String? _selectedNivel;
   String? _selectedEdital;
   String? _selectedArea;
-  String? _selectedPosto;
+  String? _selectedPosto = "0";
   String? _selectedDistrito;
   String? edital;
   String? nomeEdital;
@@ -931,7 +931,7 @@ Widget _textFieldContainer({
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   icon: Icon(Icons.place_outlined, color: Colors.blue[900]),
-                  labelText: "posto *:", // Altere aqui para "Distrito"
+                  labelText: "posto :", // Altere aqui para "Distrito"
                   hintStyle: TextStyle(color: Colors.blue[900]),
                   labelStyle: TextStyle(color: Colors.blue[900]),
                 ),
@@ -966,7 +966,7 @@ Widget _textFieldContainer({
             ),
             SizedBox(height: 10),
             _textFieldContainer(
-              label: "Rua *:",
+              label: "Rua :",
               hint: "Rua",
               controller: _ruaController,
               icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
