@@ -64,6 +64,7 @@ class _CadastrarDioState extends State<CadastrarDio> {
     TextEditingController _agregadoController = TextEditingController();
   TextEditingController _profissaoPaiController = TextEditingController();
   TextEditingController _profissaoMaeController = TextEditingController();
+
   //List<Provincia>? _provincias;
   List<String> lista_prov =  ["Maputo Provincia", "Maputo Cidade", "Inhembane"];
   List <String> niveis = ["Médio","Téc. Médio","Licenciatura", "Mestrado", "Doutoramento"];
@@ -95,6 +96,9 @@ class _CadastrarDioState extends State<CadastrarDio> {
   String _agregadoName = "";
   String _requerimentoName = "";
   String progress = "0%";
+  String _telefone = "";
+  String profMae= "-";
+  String profPai= "-";
   bool _isUploading = false; // Adicionamos um flag para controle de upload
   Dio dio = Dio();
 
@@ -713,7 +717,8 @@ Widget _textFieldContainer({
               hint: "Número de BI",
               controller: _docController,
               keyboardType: TextInputType.text,
-              icon: Icon(Iconsax.card, color: Colors.blue[900]),
+              icon: Icon(Icons.pin_outlined, color: Colors.blue[900]),
+
               max_length: 13
             ),
             SizedBox(height: 10,),
@@ -840,7 +845,8 @@ Widget _textFieldContainer({
               hint: "Número de Nuit",
               controller: _NUITController,
               keyboardType: TextInputType.number,
-              icon: Icon(Iconsax.card, color: Colors.blue[900]),
+                icon: Icon(Icons.pin_outlined, color: Colors.blue[900]),
+               // icon: Icon(Iconsax.document_1, color: Colors.blue[900]),
               max_length: 8
             ),
             _buildFileContainer("Anexe NUIT *:", _nuitName, () => pickFile('nuit')),
@@ -964,14 +970,7 @@ Widget _textFieldContainer({
               icon: Icon(Icons.location_city_outlined, color: Colors.blue[900]),
               max_length: 20
             ),
-            SizedBox(height: 10),
-            _textFieldContainer(
-              label: "Rua :",
-              hint: "Rua",
-              controller: _ruaController,
-              icon: Icon(Icons.streetview_outlined, color: Colors.blue[900]),
-              max_length: 25
-            ),
+
             _buildFileContainer("Anexe Declaração do Bairro *:", _bairroName, () => pickFile('decl_bairro')),
             SizedBox(height: 10),
             SizedBox(height: 10,),
@@ -1038,22 +1037,7 @@ Widget _textFieldContainer({
                 ],
               )    
             ),
-            SizedBox(height: 10),
-            _textFieldContainer(
-                label: "Profissão do Pai:",
-                hint: "Profissão do Pai",
-                controller: _profissaoPaiController,
-                icon: Icon(Iconsax.task, color: Colors.blue[900]),
-                max_length:15
-            ),
-            SizedBox(height: 10),
-            _textFieldContainer(
-                label: "Profissão da Mãe:",
-                hint: "Profissão da Mãe",
-                controller: _profissaoMaeController,
-                icon: Icon(Iconsax.task, color: Colors.blue[900]),
-                max_length:15
-            ),
+
             SizedBox(height: 10),
             _textFieldContainer(
               label: "Número de agregado familiar *:",
@@ -1073,15 +1057,31 @@ Widget _textFieldContainer({
               max_length: 80
             ),
             SizedBox(height: 10),
-
             _textFieldContainer(
-              label: "Nome da Mãe *:",
-              hint: "Mãe",
-              controller: _nomeMaeController,
-              keyboardType: TextInputType.text,
-              icon: Icon(Icons.woman_2_outlined, color: Colors.blue[900]),
-              max_length: 80
+                label: "Nome da Mãe *:",
+                hint: "Mãe",
+                controller: _nomeMaeController,
+                keyboardType: TextInputType.text,
+                icon: Icon(Icons.woman_2_outlined, color: Colors.blue[900]),
+                max_length: 80
             ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+                label: "Profissão do Pai:",
+                hint: "Profissão do Pai",
+                controller: _profissaoPaiController,
+                icon: Icon(Iconsax.task, color: Colors.blue[900]),
+                max_length:15
+            ),
+            SizedBox(height: 10),
+            _textFieldContainer(
+                label: "Profissão da Mãe:",
+                hint: "Profissão da Mãe",
+                controller: _profissaoMaeController,
+                icon: Icon(Iconsax.task, color: Colors.blue[900]),
+                max_length:15
+            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -1122,7 +1122,7 @@ Widget _textFieldContainer({
             ),
             SizedBox(height: 20),
             _textFieldContainer(
-              label: "Telefone *:",
+              label: "Telefone :",
               hint: "+258 21 00000",
               controller: _telefoneController,
               keyboardType: TextInputType.number,
@@ -1471,14 +1471,21 @@ Widget _textFieldContainer({
                       erro_validacao = true;
                       return;
                     }
+                    if(_profissaoPaiController.text != ""){
+                      profPai = _profissaoPaiController.text;
+                    }
+                    if(_profissaoMaeController.text != ""){
+                      profMae = _profissaoMaeController.text;
+                    }
                   if (erro_validacao == false) {
+                    _telefone = _telefoneController.text;
                         ResquestResponse response = await registar2(
                         _nomeController.text,
                         _apelidoController.text,
                         _emailController.text,
                         _passwordController.text,
                         _telemovelController.text,
-                        _telefoneController.text,
+                            _telefone,
                         _docController.text,
                         _selectetTipo,
                         _selectedGender,
@@ -1488,7 +1495,7 @@ Widget _textFieldContainer({
                         ano,
                         _selectedProvince,
                         _naturalidadeController.text,
-                        _ruaController.text,
+                        "",
                         _ocupacaoController.text,
                         _dataEmissaoController.text,
                         _dataValidadeController,
@@ -1500,7 +1507,13 @@ Widget _textFieldContainer({
                         ano_validade,
                         nomeEdital,
                         nomeArea,
-                        _especialidadeController.text, _selectedIndexNivel, _mediaController.text, _NUITController.text, radioSelectedValue, paiIsChecked!, maeIsChecked!, _baiiroController.text, _selectedDistrito, _nomePaiController.text, _nomeMaeController.text, radioSelectedValue2, _agregadoController.text,_selectedPosto);
+                        _especialidadeController.text,
+                            _selectedIndexNivel, _mediaController.text,
+                            _NUITController.text, radioSelectedValue,
+                            paiIsChecked!, maeIsChecked!,
+                            _baiiroController.text, _selectedDistrito, _nomePaiController.text,
+                            _nomeMaeController.text, radioSelectedValue2, _agregadoController.text,
+                            _selectedPosto, profPai, profMae);
                     if (response.success) {
                       try{
 
